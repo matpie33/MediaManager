@@ -1,0 +1,32 @@
+<form *ngIf="!showRegisterForm" class="bordered" [formGroup]= "loginForm" (ngSubmit)="onSubmitLogin()">
+  <h2>Log in</h2>
+  <p [style.color]="loginMessageColor">{{loginMessage}}</p>
+  <div class="grid-parent">
+    <label>Username</label>
+    <input type="text" formControlName="username">
+    <label>Password</label>
+    <input type="password" formControlName="password">
+  </div>
+  <button class="submit btn-main" type ="submit">Login</button>
+  <button class="submit btn-secondary" (click)="openRegister()">Go to register</button>
+</form>
+<form *ngIf="showRegisterForm" class="bordered" [formGroup]= "registerForm" (ngSubmit)="onSubmitRegister()">
+  <h2>Register new account</h2>
+  <p [style.color]="registerMessageColor">{{registerMessage}}</p>
+  <div class="grid-parent">
+    <label>Username</label>
+    <input type="text" formControlName="username">
+    <label>Password</label>
+    <input type="password" formControlName="password">
+    <Label>First name:</Label>
+    <input type="text" formControlName="firstName">
+    <Label>Last name:</Label>
+    <input type="text" formControlName = "lastName">
+    <label>Email:</label>
+    <input type="text" formControlName = "email">
+  </div>
+  <button class="submit btn-main" type="submit">Register</button>
+  <button class="submit btn-secondary" (click)="goToLogin()">Go to login</button>
+
+
+</form>

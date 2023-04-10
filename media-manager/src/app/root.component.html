@@ -1,0 +1,4 @@
+  <div class="horizontal-menu">
+    <a *ngFor = "let item of menuItems"  [routerLink]="item.toString()">{{item}}</a>
+  </div>
+  <router-outlet></router-outlet>

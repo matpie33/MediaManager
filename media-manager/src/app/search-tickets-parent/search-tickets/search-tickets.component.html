@@ -1,0 +1,42 @@
+  <form class="bordered" [formGroup]= "searchForm" (ngSubmit)="onSubmitSearch()">
+    <p *ngIf="searchFormValid" style="color:red">Invalid input</p>
+    <h2>Search connection</h2>
+    <div class="grid-parent">
+      <label>From station:</label>
+      <input type="text" formControlName="fromStation">
+      <label>To station:</label>
+      <input type="text" formControlName="toStation">
+      <label>Date:</label>
+      <input type="date" formControlName="date">
+      <label>From hour:</label>
+      <input type="time" formControlName="time">
+    </div>
+
+    <button class="submit" type ="submit">Submit</button>
+  </form>
+
+  <form *ngIf="searchPerformed" [formGroup]="ticketsForm" (ngSubmit)="onSubmitPersonalData()">
+
+    <div class="bordered">
+      <h2>Connections</h2>
+      <div class="connections-parent">
+        <div *ngFor="let ticket of availableTickets | keyvalue" class="bordered grid-parent">
+          <Label>Time</Label>
+          <Label> {{ticket.value.time.hours}}:{{ticket.value.time.minutes}} </Label>
+          <Label>Free seats:</Label>
+          <Label> {{ticket.value.freeSeats}}</Label>
+          <Label>Ticket type:</Label>
+          <select id="type" formControlName="ticketType">
+            <option *ngFor="let type of ticketTypeEnum |keyvalue" [value]="type.value">{{type.value}}</option>
+          </select>
+          <label>I buy this</label>
+          <input type="radio" [value]="ticket.value.id" formControlName="ticket">
+        </div>
+      </div>
+      <p *ngIf="!personalDataFormValid" style="color:red">Invalid input</p>
+      <button class="submit" type="submit">Submit</button>
+    </div>
+
+
+
+  </form>

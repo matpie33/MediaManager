@@ -1,0 +1,84 @@
+.horizontal-menu {
+  background-color: mediumseagreen;
+  display: flex;
+  padding-left: 60px;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  margin-bottom: 10px;
+  border-bottom: 1px solid black;
+}
+
+
+.horizontal-menu a {
+  background-color: darkseagreen;
+  color: black;
+  text-decoration: none;
+  border: 1px solid black;
+  padding: 5px 10px;
+  border-radius: 6px;
+}
+
+.horizontal-menu a:hover {
+  background-color: dodgerblue;
+}
+
+.horizontal-menu a:active {
+  background-color: #04AA6D;
+  color: white;
+}
+
+label, input {
+  margin-right: 5px;
+}
+
+.submit {
+  margin: 5px;
+  align-self: center;
+  display:inline-block;
+}
+
+
+h2 {
+  padding-left: 5px;
+}
+
+p {
+  margin: 10px 10px 10px 5px;
+}
+
+.bordered {
+  border: 1px solid black;
+  border-radius: 4px;
+  padding: 5px;
+  background-color: mediumseagreen;
+  margin-left: 5px;
+  margin-bottom: 10px;
+  width: 70%;
+  overflow-x: auto;
+
+}
+
+
+html, body{
+  height: 100%;
+  margin:0;
+  background-color: rgb(104,202, 190);
+}
+
+.grid-parent {
+  display: grid;
+  grid-template-columns: max-content max-content;
+}
+
+.grid-parent * {
+  margin: 5px;
+}
+
+.btn-main {
+  background-color: yellowgreen;
+}
+
+.btn-secondary {
+  background-color: lightgoldenrodyellow;
+}
+

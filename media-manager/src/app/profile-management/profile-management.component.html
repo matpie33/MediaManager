@@ -1,0 +1,13 @@
+<form class="bordered" [formGroup]= "profileForm" (ngSubmit)="onSubmitProfile()">
+  <h2>Edit profile</h2>
+  <div class="grid-parent">
+    <label>First name:</label>
+    <input type="text" formControlName="firstName">
+    <label>Last name:</label>
+    <input type="text" formControlName="lastName">
+    <label>Email: </label>
+    <input type="text" formControlName="email">
+  </div>
+  <button class="submit" type ="submit" [disabled]="profileForm.pristine">Submit</button>
+  <p *ngIf="showStatus" style="color:blue">{{saveStatus}}</p>
+</form>
