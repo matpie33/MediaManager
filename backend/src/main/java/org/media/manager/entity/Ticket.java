@@ -1,6 +1,6 @@
-package com.mycompany.app.entity;
+package org.media.manager.entity;
 
-import com.mycompany.app.enums.TicketType;
+import org.media.manager.enums.TicketType;
 
 import javax.persistence.*;
 

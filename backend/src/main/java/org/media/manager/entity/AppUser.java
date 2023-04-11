@@ -1,4 +1,4 @@
-package com.mycompany.app.entity;
+package org.media.manager.entity;
 
 import javax.persistence.*;
 

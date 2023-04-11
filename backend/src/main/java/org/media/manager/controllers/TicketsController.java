@@ -1,10 +1,10 @@
-package com.mycompany.app.controllers;
+package org.media.manager.controllers;
 
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.mycompany.app.dao.ConnectionDAO;
-import com.mycompany.app.entity.Connection;
+import org.media.manager.dao.ConnectionDAO;
+import org.media.manager.entity.Connection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
