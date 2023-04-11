@@ -10,6 +10,7 @@ import org.media.manager.entity.AppUser;
 import org.media.manager.entity.Connection;
 import org.media.manager.mapper.AppUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -43,16 +44,17 @@ public class ApplicationRestController {
         return appUserDAO.existsByUsername(username);
     }
 
+    @ExceptionHandler(value = {DataIntegrityViolationException.class})
+    public ResponseEntity<String> handlePreconditionFailed(DataIntegrityViolationException exception) {
+        exception.printStackTrace();
+        return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
+
     @PostMapping("/addUser")
     public ResponseEntity<Void> addUser(@RequestBody AppUserDTO appUserDTO){
         AppUser appUser = appUserMapper.mapUserDTO(appUserDTO);
-        try {
-            appUserDAO.save(appUser);
-            return ResponseEntity.ok().build();
-        }
-        catch (Exception ex){
-            return ResponseEntity.status(HttpStatus.CONFLICT).build();
-        }
+        appUserDAO.save(appUser);
+        return ResponseEntity.ok().build();
     }
 
 }
