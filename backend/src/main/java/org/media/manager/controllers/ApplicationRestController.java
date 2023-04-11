@@ -10,6 +10,8 @@ import org.media.manager.entity.AppUser;
 import org.media.manager.entity.Connection;
 import org.media.manager.mapper.AppUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Time;
@@ -42,9 +44,15 @@ public class ApplicationRestController {
     }
 
     @PostMapping("/addUser")
-    public void addUser(@RequestBody AppUserDTO appUserDTO){
+    public ResponseEntity<Void> addUser(@RequestBody AppUserDTO appUserDTO){
         AppUser appUser = appUserMapper.mapUserDTO(appUserDTO);
-        appUserDAO.save(appUser);
+        try {
+            appUserDAO.save(appUser);
+            return ResponseEntity.ok().build();
+        }
+        catch (Exception ex){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
 }
