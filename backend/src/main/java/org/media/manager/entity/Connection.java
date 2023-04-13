@@ -21,6 +21,18 @@ public class Connection {
     @Column(nullable = false)
     private int freeSeats;
 
+    public String getFromStation() {
+        return fromStation;
+    }
+
+    public String getToStation() {
+        return toStation;
+    }
+
+    public Time getTime() {
+        return time;
+    }
+
     @Override
     public String toString() {
         return "Connection{" +
