@@ -7,6 +7,7 @@ import org.media.manager.dao.AppUserDAO;
 import org.media.manager.dao.TicketDao;
 import org.media.manager.dao.TravelConnectionDAO;
 import org.media.manager.dto.AppUserDTO;
+import org.media.manager.dto.UserPersonalDTO;
 import org.media.manager.entity.AppUser;
 import org.media.manager.entity.Connection;
 import org.media.manager.entity.Ticket;
@@ -93,10 +94,16 @@ public class ApplicationRestController {
     }
 
     @PostMapping("/addUser")
-    public ResponseEntity<Void> addUser(@RequestBody AppUserDTO appUserDTO){
-        AppUser appUser = appUserMapper.mapUserDTO(appUserDTO);
+    public void addUser(@RequestBody AppUserDTO appUserDTO){
+        AppUser appUser = appUserMapper.mapUser(appUserDTO);
         appUserDAO.save(appUser);
-        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/editUser/{userId}")
+    public void addUser(@PathVariable long userId, @RequestBody UserPersonalDTO userPersonalDTO){
+        AppUser appUser = appUserDAO.findById(userId).orElseThrow(()->new IllegalArgumentException("user not found"));
+        appUserMapper.mapUserPersonalData(appUser, userPersonalDTO);
+        appUserDAO.save(appUser);
     }
 
 }
