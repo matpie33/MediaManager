@@ -28,22 +28,26 @@ import java.util.stream.Collectors;
 @RestController
 public class ApplicationRestController {
 
-    @Autowired
-    private AppUserMapper appUserMapper;
+    private final AppUserMapper appUserMapper;
 
-    @Autowired
-    private TicketMapper ticketMapper;
+    private final TicketMapper ticketMapper;
 
-    @Autowired
-    private TravelConnectionDAO travelConnectionDAO;
+    private final TravelConnectionDAO travelConnectionDAO;
 
-    @Autowired
-    private AppUserDAO appUserDAO;
+    private final AppUserDAO appUserDAO;
 
-    @Autowired
-    private TicketDao ticketDao;
+    private final TicketDao ticketDao;
 
     private Gson gson;
+
+    @Autowired
+    public ApplicationRestController(AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao) {
+        this.appUserMapper = appUserMapper;
+        this.ticketMapper = ticketMapper;
+        this.travelConnectionDAO = travelConnectionDAO;
+        this.appUserDAO = appUserDAO;
+        this.ticketDao = ticketDao;
+    }
 
     @PostConstruct
     public void initialize (){

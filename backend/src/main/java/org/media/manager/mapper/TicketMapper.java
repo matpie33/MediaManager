@@ -8,8 +8,12 @@ import org.springframework.stereotype.Component;
 @Component
 public class TicketMapper {
 
+    private final ConnectionMapper connectionMapper;
+
     @Autowired
-    private ConnectionMapper connectionMapper;
+    public TicketMapper(ConnectionMapper connectionMapper) {
+        this.connectionMapper = connectionMapper;
+    }
 
     public TicketDTO mapTicket (Ticket ticket){
         TicketDTO ticketDTO = new TicketDTO();
