@@ -13,6 +13,7 @@ import org.media.manager.entity.Connection;
 import org.media.manager.entity.Ticket;
 import org.media.manager.enums.TicketType;
 import org.media.manager.mapper.AppUserMapper;
+import org.media.manager.mapper.ConnectionMapper;
 import org.media.manager.mapper.TicketMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -27,6 +28,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @RestController
+@CrossOrigin(origins= "http://localhost:4200")
 public class ApplicationRestController {
 
     private final AppUserMapper appUserMapper;
@@ -41,13 +43,16 @@ public class ApplicationRestController {
 
     private Gson gson;
 
+    private ConnectionMapper connectionMapper;
+
     @Autowired
-    public ApplicationRestController(AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao) {
+    public ApplicationRestController(AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper) {
         this.appUserMapper = appUserMapper;
         this.ticketMapper = ticketMapper;
         this.travelConnectionDAO = travelConnectionDAO;
         this.appUserDAO = appUserDAO;
         this.ticketDao = ticketDao;
+        this.connectionMapper = connectionMapper;
     }
 
     @PostConstruct
@@ -59,19 +64,20 @@ public class ApplicationRestController {
     @GetMapping("/connection/{from}/to/{to}/sinceHour/{time}")
     public String getConnectionsByStationAndTime(@PathVariable String from, @PathVariable String to, @PathVariable Time time){
         Set<Connection> connections = travelConnectionDAO.findConnectionsByTimeGreaterThanEqualAndFromStationAndToStation(time, from, to);
-        return gson.toJson(connections) ;
+        return gson.toJson(connections.stream().map(connectionMapper::mapConnection).collect(Collectors.toSet()));
     }
 
     @GetMapping("/assignTicket/{connectionId}/user/{userId}/ticket_type/{ticketType}/travelDate/{travelDate}")
-    public void assignTicketToUser(@PathVariable long connectionId, @PathVariable long userId, @PathVariable TicketType ticketType, @PathVariable Date travelDate){
+    public boolean assignTicketToUser(@PathVariable long connectionId, @PathVariable long userId, @PathVariable String ticketType, @PathVariable Date travelDate){
         Ticket ticket = new Ticket();
-        ticket.setTicketType(ticketType);
+        ticket.setTicketType(TicketType.fromString(ticketType));
         Connection connection = travelConnectionDAO.findById(connectionId).orElseThrow(() -> new IllegalArgumentException("Travel connection does not exist"));
         AppUser appUser = appUserDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("User does not exist"));
         ticket.setConnection(connection);
         ticket.setAppUser(appUser);
         ticket.setTravelDate(travelDate);
         ticketDao.save(ticket);
+        return true;
 
     }
 

@@ -1,12 +1,11 @@
 import {Component, Input} from '@angular/core';
 import {TicketData} from "../data/ticket-data";
-import {BuyTicketService} from "../buy-ticket.service";
+import {RestHandlerService} from "../../rest-handler.service";
 
 @Component({
   selector: 'app-ticket-summary',
   templateUrl: './ticket-summary.component.html',
-  styleUrls: ['./ticket-summary.component.css'],
-  providers: [BuyTicketService]
+  styleUrls: ['./ticket-summary.component.css']
 })
 export class TicketSummaryComponent {
   @Input() ticketData!: TicketData;
@@ -15,7 +14,7 @@ export class TicketSummaryComponent {
   statusColor: string = "";
   paymentStatusMessage = "";
 
-  constructor(private buyTicketService:BuyTicketService) {
+  constructor(private restHandler: RestHandlerService) {
   }
 
   confirmAndBuy() {
@@ -23,7 +22,8 @@ export class TicketSummaryComponent {
     this.paymentStatusMessage="Please wait for response";
     this.statusColor="blue";
 
-    this.buyTicketService.buyTicket(this.ticketData).subscribe(isSuccess=> {
+    let userId = 1;
+    this.restHandler.assignTicketToUser(userId, this.ticketData).subscribe(isSuccess=> {
       if (isSuccess){
         this.statusColor="rgb(98,251,109)";
         this.paymentStatusMessage = "Payment successfull";
@@ -33,7 +33,6 @@ export class TicketSummaryComponent {
         this.statusColor="red";
         this.paymentStatusMessage = "Payment failed";
         alert("Payment failed");
-
       }
     });
     this.submitButtonEnabled = true;

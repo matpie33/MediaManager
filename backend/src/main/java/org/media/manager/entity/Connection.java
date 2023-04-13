@@ -33,6 +33,14 @@ public class Connection {
         return time;
     }
 
+    public int getFreeSeats() {
+        return freeSeats;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     @Override
     public String toString() {
         return "Connection{" +

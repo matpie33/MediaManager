@@ -16,6 +16,7 @@ import { ProfileManagementComponent } from './profile-management/profile-managem
 import { NewsComponent } from './news/news.component';
 import {AuthenticationGuard} from "./login/AuthenticationGuard";
 import {LoginConstants} from "./login/login-enums";
+import {HttpClientModule} from "@angular/common/http";
 
 const appRoutes: Routes = [
   {path: MenuItems.SEARCH_CONNECTIONS.toString(), component: SearchTicketsParentComponent, canActivate: [AuthenticationGuard]},
@@ -44,7 +45,8 @@ const appRoutes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(
       appRoutes
-    )
+    ),
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [RootComponent]

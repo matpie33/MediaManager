@@ -9,7 +9,7 @@
       <label>Date:</label>
       <input type="date" formControlName="date">
       <label>From hour:</label>
-      <input type="time" formControlName="time">
+      <input type="time" step="1" formControlName="time">
     </div>
 
     <button class="submit" type ="submit">Submit</button>
@@ -22,7 +22,7 @@
       <div class="connections-parent">
         <div *ngFor="let ticket of availableTickets | keyvalue" class="bordered grid-parent">
           <Label>Time</Label>
-          <Label> {{ticket.value.time.hours}}:{{ticket.value.time.minutes}} </Label>
+          <Label> {{ticket.value.time}} </Label>
           <Label>Free seats:</Label>
           <Label> {{ticket.value.freeSeats}}</Label>
           <Label>Ticket type:</Label>

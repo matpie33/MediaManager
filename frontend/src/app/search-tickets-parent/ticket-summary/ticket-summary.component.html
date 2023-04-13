@@ -2,7 +2,7 @@
   <h2>Summary:</h2>
   <p>From station: {{ticketData.fromStation}}</p>
   <p>To station: {{ticketData.toStation}}</p>
-  <p>Date: {{ticketData.date}} {{ticketData.time.hours}}:{{ticketData.time.minutes}}</p>
+  <p>Date: {{ticketData.date}} {{ticketData.time}}</p>
   <p>Ticket type: {{ticketData.ticketType}}</p>
   <button class="submit" (click)="confirmAndBuy()" [disabled]="submitButtonEnabled">Confirm and buy</button>
   <p *ngIf="buyRequestSent" [style.color]="statusColor">{{paymentStatusMessage}}</p>

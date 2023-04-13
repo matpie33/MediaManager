@@ -12,6 +12,8 @@ public class ConnectionMapper {
         connectionDTO.setTime(connection.getTime());
         connectionDTO.setFromStation(connection.getFromStation());
         connectionDTO.setToStation(connection.getToStation());
+        connectionDTO.setFreeSeats(connection.getFreeSeats());
+        connectionDTO.setId(connection.getId());
         return connectionDTO;
     }
 
