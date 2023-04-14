@@ -24,7 +24,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "scripts": ["../node_modules/crypto-js/crypto-js.js"]
+            "scripts": ["node_modules/crypto-js/crypto-js.js"]
           },
           "configurations": {
             "production": {

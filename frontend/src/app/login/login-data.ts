@@ -5,15 +5,14 @@ export interface LoginData {
 }
 export interface RegisterData {
 
-  personalData: {
-    firstName: string;
-    lastName: string;
-    email: string;
-  },
-  userCredentials: {
-    userName: string;
-    password: string;
-  }
+  personalData: PersonalData,
+  userCredentials: LoginData
 
+}
+
+export interface PersonalData {
+  firstName: string;
+  lastName: string;
+  email: string;
 }
 

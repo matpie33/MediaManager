@@ -4,7 +4,7 @@ import {ConnectionData} from "./search-tickets-parent/data/connection-data";
 import {Observable} from "rxjs";
 import {TicketData} from "./search-tickets-parent/data/ticket-data";
 import {UserTicket} from "./tickets-management/data/ticket-of-user";
-import {LoginData, RegisterData} from "./login/login-data";
+import {LoginData, PersonalData, RegisterData} from "./login/login-data";
 
 @Injectable({
   providedIn: 'root'
@@ -36,4 +36,15 @@ export class RestHandlerService {
   registerUser(credentials: RegisterData) {
     return this.httpClient.post<boolean>(`${this.restBaseAddress}/addUser`, credentials );
   }
+
+  editUser(personalData: PersonalData, userId: number) {
+    return this.httpClient.post<boolean>(`${this.restBaseAddress}/editUser/${userId}`, personalData );
+  }
+
+  getUser (userId: number){
+    return this.httpClient.get<PersonalData>(`${this.restBaseAddress}/getUser/${userId}`);
+
+  }
+
+
 }

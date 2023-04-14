@@ -138,4 +138,10 @@ public class ApplicationRestController {
         throw new IllegalArgumentException("User not found");
     }
 
+    @GetMapping("getUser/{userId}")
+    public UserPersonalDTO getUserPersonalData(@PathVariable long userId){
+        AppUser appUser = appUserDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return appUserMapper.getUserPersonalData(appUser);
+    }
+
 }

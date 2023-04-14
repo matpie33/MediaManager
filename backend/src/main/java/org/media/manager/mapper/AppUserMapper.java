@@ -27,6 +27,14 @@ public class AppUserMapper {
         return appUser;
     }
 
+    public UserPersonalDTO getUserPersonalData(AppUser appUser){
+        UserPersonalDTO userPersonalDTO = new UserPersonalDTO();
+        userPersonalDTO.setEmail(appUser.getEmail());
+        userPersonalDTO.setFirstName(appUser.getFirstName());
+        userPersonalDTO.setLastName(appUser.getLastName());
+        return userPersonalDTO;
+    }
+
     public void mapUserPersonalData(AppUser appUser, UserPersonalDTO userPersonalDTO) {
         appUser.setEmail(userPersonalDTO.getEmail());
         appUser.setFirstName(userPersonalDTO.getFirstName());

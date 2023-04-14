@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
-import {MOCKED_PROFILE_DATA} from "./data/profileData";
 import {ProfileSaveService} from "./profile-save.service";
+import {RestHandlerService} from "../rest-handler.service";
+import {LoginConstants} from "../login/login-enums";
 
 @Component({
   selector: 'app-profile-management',
@@ -10,19 +11,25 @@ import {ProfileSaveService} from "./profile-save.service";
   styleUrls: ['./profile-management.component.css']
 })
 export class ProfileManagementComponent {
-  constructor(private formBuilder:FormBuilder, private profileSave: ProfileSaveService) {
-  }
-
-  profileData = MOCKED_PROFILE_DATA;
 
   profileForm: FormGroup = this.formBuilder.group({
-    firstName: this.profileData.firstName,
-    lastName: this.profileData.lastName,
-    email: this.profileData.email,
+    firstName: "",
+    lastName: "",
+    email: "",
   });
 
   showStatus = false;
   saveStatus: string = "";
+
+  constructor(private formBuilder:FormBuilder, private profileSave: ProfileSaveService, private restHandler: RestHandlerService) {
+    restHandler.getUser(Number.parseInt(localStorage.getItem(LoginConstants.USER_ID)!)).subscribe(
+      result => {
+        this.profileForm.controls["firstName"].setValue(result.firstName);
+        this.profileForm.controls["lastName"].setValue(result.lastName);
+        this.profileForm.controls["email"].setValue(result.email);
+      }
+    );
+  }
 
   onSubmitProfile() {
     let profileData = {
@@ -32,14 +39,16 @@ export class ProfileManagementComponent {
     }
     this.saveStatus = "Saving data...";
     this.showStatus = true;
-    this.profileSave.saveUser(profileData).subscribe(isSaved=> {
-      if (isSaved){
-        this.showStatus = true;
-        this.saveStatus = "Data has been successfully saved!";
-        setTimeout(()=> this.showStatus = false, 3000);
-      }
+    this.restHandler.editUser(profileData, Number.parseInt(localStorage.getItem(LoginConstants.USER_ID)!)).subscribe({
+      next: this.handleEditPersonalDataDone.bind(this)
     });
     this.profileForm.markAsPristine();
+  }
+
+  handleEditPersonalDataDone (){
+    this.showStatus = true;
+    this.saveStatus = "Data has been successfully saved!";
+    setTimeout(()=> this.showStatus = false, 3000);
   }
 
 }
