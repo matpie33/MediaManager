@@ -17,8 +17,8 @@ public class TicketMapper {
 
     public TicketDTO mapTicket (Ticket ticket){
         TicketDTO ticketDTO = new TicketDTO();
-        ticketDTO.setTicketType(ticket.getTicketType());
-        ticketDTO.setTravelDate(ticket.getTravelDate());
+        ticketDTO.setTicketType(ticket.getTicketType().getDisplayName());
+        ticketDTO.setTravelDate(ticket.getTravelDate().toString());
         ticketDTO.setConnection(connectionMapper.mapConnection(ticket.getConnection()));
         return ticketDTO;
     }

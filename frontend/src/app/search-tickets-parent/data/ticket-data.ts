@@ -5,7 +5,7 @@ export interface TicketData {
   toStation: string,
   time: string,
   connectionId: number;
-  date: Date;
+  travelDate: Date;
   ticketType: TicketType;
 
 }

@@ -63,7 +63,7 @@ export class SearchTickets {
         toStation: connectionData.toStation,
         time: connectionData.time,
         connectionId: this.ticketsForm.controls["ticket"].value,
-        date: this.searchForm.controls["date"].value,
+        travelDate: this.searchForm.controls["date"].value,
         ticketType: this.ticketsForm.controls["ticketType"].value
       };
       this.ticketData.emit(ticketData);

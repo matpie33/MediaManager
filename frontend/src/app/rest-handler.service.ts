@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {ConnectionData} from "./search-tickets-parent/data/connection-data";
 import {Observable} from "rxjs";
 import {TicketData} from "./search-tickets-parent/data/ticket-data";
-import {TicketType} from "./search-tickets-parent/search-tickets/search-tickets.component";
+import {UserTicket} from "./tickets-management/data/ticket-of-user";
 
 @Injectable({
   providedIn: 'root'
@@ -21,7 +21,12 @@ export class RestHandlerService {
   }
 
   assignTicketToUser(userId: number, ticketData: TicketData) {
-    return this.httpClient.get<boolean>(`${this.restBaseAddress}/assignTicket/${ticketData.connectionId}/user/${userId}/ticket_type/${ticketData.ticketType}/travelDate/${ticketData.date}`);
+    return this.httpClient.get<boolean>(`${this.restBaseAddress}/assignTicket/${ticketData.connectionId}/user/${userId}/ticket_type/${ticketData.ticketType}/travelDate/${ticketData.travelDate}`);
+
+  }
+
+  getTicketsOfUser(userId: number) {
+    return this.httpClient.get<Array<UserTicket>>(`${this.restBaseAddress}/tickets/${userId}`);
 
   }
 }

@@ -7,6 +7,7 @@ import org.media.manager.dao.AppUserDAO;
 import org.media.manager.dao.TicketDao;
 import org.media.manager.dao.TravelConnectionDAO;
 import org.media.manager.dto.AppUserDTO;
+import org.media.manager.dto.TicketDTO;
 import org.media.manager.dto.UserPersonalDTO;
 import org.media.manager.entity.AppUser;
 import org.media.manager.entity.Connection;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -83,8 +85,9 @@ public class ApplicationRestController {
 
     @GetMapping("/tickets/{userId}")
     public String getTicketsOfUser(@PathVariable long userId){
-        Set<Ticket> tickets = ticketDao.findByAppUser_Id(userId);
-        return gson.toJson(tickets.stream().map(ticketMapper::mapTicket).collect(Collectors.toSet()));
+        Set<Ticket> tickets = ticketDao.findByAppUser_IdOrderByTravelDateAsc(userId);
+        LinkedHashSet<TicketDTO> set = tickets.stream().map(ticketMapper::mapTicket).collect(Collectors.toCollection(LinkedHashSet::new));
+        return gson.toJson(set);
 
     }
 

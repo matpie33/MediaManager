@@ -8,5 +8,5 @@ import java.util.Set;
 
 public interface TicketDao extends JpaRepository<Ticket, Long> {
 
-    Set<Ticket> findByAppUser_Id(long userId);
+    Set<Ticket> findByAppUser_IdOrderByTravelDateAsc(long userId);
 }

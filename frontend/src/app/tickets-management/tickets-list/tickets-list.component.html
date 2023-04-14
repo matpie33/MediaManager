@@ -1,8 +1,8 @@
 <div class="bordered" *ngFor="let ticket of tickets">
   <h2>Ticket</h2>
-  <p>From station : {{ticket.fromStation}}</p>
-  <p>To Station: {{ticket.toStation}}</p>
-  <p>Date time: {{ticket.date |date: 'mediumDate'}}. Time: {{ticket.time.hours}}:{{ticket.time.minutes|number}}</p>
+  <p>From station : {{ticket.connection.fromStation}}</p>
+  <p>To Station: {{ticket.connection.toStation}}</p>
+  <p>Date time: {{ticket.travelDate |date: 'mediumDate'}}. Time: {{ticket.connection.time}}</p>
   <p>Ticket type: {{ticket.ticketType}}</p>
   <button class="submit">Open</button>
 </div>

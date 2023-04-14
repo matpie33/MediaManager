@@ -6,17 +6,17 @@ import java.sql.Date;
 
 public class TicketDTO {
 
-    private Date travelDate;
+    private String travelDate;
 
-    private TicketType ticketType;
+    private String ticketType;
 
     private ConnectionDTO connection;
 
-    public void setTravelDate(Date travelDate) {
+    public void setTravelDate(String travelDate) {
         this.travelDate = travelDate;
     }
 
-    public void setTicketType(TicketType ticketType) {
+    public void setTicketType(String ticketType) {
         this.ticketType = ticketType;
     }
 

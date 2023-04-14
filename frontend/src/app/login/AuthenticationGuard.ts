@@ -23,7 +23,7 @@ export class AuthenticationGuard implements CanActivate {
 
   public isLoggedIn(): boolean {
     let status = false;
-    if (localStorage.getItem(LoginConstants.IS_LOGGED_IN.toString()) == "true") {
+    if (localStorage.getItem(LoginConstants.USER_ID.toString())) {
       status = true;
     }
     return status;
