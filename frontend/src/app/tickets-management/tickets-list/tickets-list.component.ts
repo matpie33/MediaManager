@@ -15,7 +15,7 @@ export class TicketsListComponent implements OnInit{
  }
 
   ngOnInit(): void {
-    this.restHandler.getTicketsOfUser(Number.parseInt(localStorage.getItem(LoginConstants.USER_ID)!)).subscribe(tickets => {
+    this.restHandler.getTicketsOfUser(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe(tickets => {
       this.tickets = tickets;
     })
   }

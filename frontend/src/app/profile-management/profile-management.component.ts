@@ -22,7 +22,7 @@ export class ProfileManagementComponent {
   saveStatus: string = "";
 
   constructor(private formBuilder:FormBuilder, private profileSave: ProfileSaveService, private restHandler: RestHandlerService) {
-    restHandler.getUser(Number.parseInt(localStorage.getItem(LoginConstants.USER_ID)!)).subscribe(
+    restHandler.getUser(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe(
       result => {
         this.profileForm.controls["firstName"].setValue(result.firstName);
         this.profileForm.controls["lastName"].setValue(result.lastName);
@@ -39,7 +39,7 @@ export class ProfileManagementComponent {
     }
     this.saveStatus = "Saving data...";
     this.showStatus = true;
-    this.restHandler.editUser(profileData, Number.parseInt(localStorage.getItem(LoginConstants.USER_ID)!)).subscribe({
+    this.restHandler.editUser(profileData, Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe({
       next: this.handleEditPersonalDataDone.bind(this)
     });
     this.profileForm.markAsPristine();

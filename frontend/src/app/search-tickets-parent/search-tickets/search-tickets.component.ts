@@ -3,6 +3,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TicketData} from "../data/ticket-data";
 import { ConnectionData } from '../data/connection-data';
 import {RestHandlerService} from "../../rest-handler.service";
+import {DatePipe} from "@angular/common";
 
 @Component({
   selector: 'app-search-connection',
@@ -15,7 +16,7 @@ export class SearchTickets {
   searchForm: FormGroup  = new FormGroup<any>({
     fromStation:  new FormControl("", Validators.required),
     toStation: new FormControl("", Validators.required),
-    date: new FormControl(""),
+    date: new FormControl(new DatePipe("en").transform(new Date(), "YYYY-MM-dd"), Validators.required),
     time: new FormControl("00:00:00")
   });
   ticketsForm: FormGroup = new FormGroup({

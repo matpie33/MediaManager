@@ -50,7 +50,7 @@ export class LoginComponent {
   handleLoginSuccess(response: number){
     if (response){
       let queryParam = this.route.snapshot.queryParams[LoginConstants.RETURN_URL];
-      localStorage.setItem(LoginConstants.USER_ID, response.toString());
+      sessionStorage.setItem(LoginConstants.USER_ID, response.toString());
       this.loginMessage = "Successfully logged in. Redirecting...";
       this.loginMessageColor = "green";
       this.router.navigateByUrl(queryParam).catch(error=>console.log(error));

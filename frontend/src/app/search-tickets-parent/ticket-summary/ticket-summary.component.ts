@@ -23,7 +23,7 @@ export class TicketSummaryComponent {
     this.paymentStatusMessage="Please wait for response";
     this.statusColor="blue";
 
-    let userId = Number.parseInt(localStorage.getItem(LoginConstants.USER_ID)!);
+    let userId = Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!);
     this.restHandler.assignTicketToUser(userId, this.ticketData).subscribe(isSuccess=> {
       if (isSuccess){
         this.statusColor="rgb(98,251,109)";
