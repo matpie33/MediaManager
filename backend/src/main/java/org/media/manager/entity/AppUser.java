@@ -42,4 +42,12 @@ public class AppUser {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Long getId() {
+        return id;
+    }
 }

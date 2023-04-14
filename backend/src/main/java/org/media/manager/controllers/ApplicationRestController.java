@@ -8,6 +8,7 @@ import org.media.manager.dao.TicketDao;
 import org.media.manager.dao.TravelConnectionDAO;
 import org.media.manager.dto.AppUserDTO;
 import org.media.manager.dto.TicketDTO;
+import org.media.manager.dto.UserCredentialsDTO;
 import org.media.manager.dto.UserPersonalDTO;
 import org.media.manager.entity.AppUser;
 import org.media.manager.entity.Connection;
@@ -20,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
@@ -47,14 +49,19 @@ public class ApplicationRestController {
 
     private ConnectionMapper connectionMapper;
 
+    private PasswordEncoder passwordEncoder;
+
+
+
     @Autowired
-    public ApplicationRestController(AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper) {
+    public ApplicationRestController(AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper, PasswordEncoder passwordEncoder) {
         this.appUserMapper = appUserMapper;
         this.ticketMapper = ticketMapper;
         this.travelConnectionDAO = travelConnectionDAO;
         this.appUserDAO = appUserDAO;
         this.ticketDao = ticketDao;
         this.connectionMapper = connectionMapper;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @PostConstruct
@@ -102,6 +109,12 @@ public class ApplicationRestController {
         return ResponseEntity.status(HttpStatus.CONFLICT).build();
     }
 
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException exception) {
+        exception.printStackTrace();
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+    }
+
     @PostMapping("/addUser")
     public void addUser(@RequestBody AppUserDTO appUserDTO){
         AppUser appUser = appUserMapper.mapUser(appUserDTO);
@@ -109,10 +122,20 @@ public class ApplicationRestController {
     }
 
     @PostMapping("/editUser/{userId}")
-    public void addUser(@PathVariable long userId, @RequestBody UserPersonalDTO userPersonalDTO){
+    public void editUser(@PathVariable long userId, @RequestBody UserPersonalDTO userPersonalDTO){
         AppUser appUser = appUserDAO.findById(userId).orElseThrow(()->new IllegalArgumentException("user not found"));
         appUserMapper.mapUserPersonalData(appUser, userPersonalDTO);
         appUserDAO.save(appUser);
+    }
+
+    @PostMapping("/login")
+    public long login(@RequestBody UserCredentialsDTO userFromFrontend){
+        AppUser userFromDB = appUserDAO.findByUsername(userFromFrontend.getUserName());
+        boolean isPasswordMatch = passwordEncoder.matches(userFromFrontend.getPassword(), userFromDB.getPassword());
+        if (isPasswordMatch){
+            return userFromDB.getId();
+        }
+        throw new IllegalArgumentException("User not found");
     }
 
 }
