@@ -1,26 +1,19 @@
 
 export interface LoginData {
-  username: string;
+  userName: string;
   password: string;
 }
 export interface RegisterData {
-  username: string;
-  password: string;
-  firstName: string;
-  lastName: string;
-  email: string;
+
+  personalData: {
+    firstName: string;
+    lastName: string;
+    email: string;
+  },
+  userCredentials: {
+    userName: string;
+    password: string;
+  }
+
 }
 
-export var LOGIN_DATA_MOCK: LoginData[] = [
-  {
-    username: "testUser",
-    password: "!@#$"
-  },
-  {
-    username: "mateusz",
-    password: "!@#$"
-  },{
-    username: "anżej",
-    password: "!@#$"
-  },
-]

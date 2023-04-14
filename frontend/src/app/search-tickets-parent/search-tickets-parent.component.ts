@@ -1,6 +1,5 @@
 import {Component} from '@angular/core';
 import {TicketData} from "./data/ticket-data";
-import {LoginService} from "../login/login.service";
 
 @Component({
   selector: 'app-search-tickets-parent',
@@ -10,10 +9,6 @@ import {LoginService} from "../login/login.service";
 export class SearchTicketsParentComponent {
   isSubmitted!:boolean;
   ticketData!: TicketData;
-  isLoggedIn = false;
-  constructor(private loginService: LoginService) {
-    this.isLoggedIn = loginService.isLoggedIn;
-  }
 
    onSubmit (data: TicketData){
      this.isSubmitted = true;
@@ -21,7 +16,4 @@ export class SearchTicketsParentComponent {
      console.log(data);
    }
 
-  logIn() {
-    this.isLoggedIn = true;
-  }
 }

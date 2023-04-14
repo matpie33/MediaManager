@@ -4,6 +4,7 @@ import {ConnectionData} from "./search-tickets-parent/data/connection-data";
 import {Observable} from "rxjs";
 import {TicketData} from "./search-tickets-parent/data/ticket-data";
 import {UserTicket} from "./tickets-management/data/ticket-of-user";
+import {LoginData, RegisterData} from "./login/login-data";
 
 @Injectable({
   providedIn: 'root'
@@ -27,6 +28,12 @@ export class RestHandlerService {
 
   getTicketsOfUser(userId: number) {
     return this.httpClient.get<Array<UserTicket>>(`${this.restBaseAddress}/tickets/${userId}`);
+  }
+  loginUser(credentials: LoginData) {
+    return this.httpClient.post<number>(`${this.restBaseAddress}/login`, credentials );
+  }
 
+  registerUser(credentials: RegisterData) {
+    return this.httpClient.post<boolean>(`${this.restBaseAddress}/addUser`, credentials );
   }
 }

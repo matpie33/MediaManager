@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import {LoginService} from "../login/login.service";
 import {FormGroup} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
 import {MOCKED_PROFILE_DATA} from "./data/profileData";
@@ -11,7 +10,7 @@ import {ProfileSaveService} from "./profile-save.service";
   styleUrls: ['./profile-management.component.css']
 })
 export class ProfileManagementComponent {
-  constructor(private loginService: LoginService, private formBuilder:FormBuilder, private profileSave: ProfileSaveService) {
+  constructor(private formBuilder:FormBuilder, private profileSave: ProfileSaveService) {
   }
 
   profileData = MOCKED_PROFILE_DATA;

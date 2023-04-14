@@ -1,6 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {TicketData} from "../data/ticket-data";
 import {RestHandlerService} from "../../rest-handler.service";
+import {LoginConstants} from "../../login/login-enums";
 
 @Component({
   selector: 'app-ticket-summary',
@@ -22,7 +23,7 @@ export class TicketSummaryComponent {
     this.paymentStatusMessage="Please wait for response";
     this.statusColor="blue";
 
-    let userId = 1;
+    let userId = Number.parseInt(localStorage.getItem(LoginConstants.USER_ID)!);
     this.restHandler.assignTicketToUser(userId, this.ticketData).subscribe(isSuccess=> {
       if (isSuccess){
         this.statusColor="rgb(98,251,109)";
