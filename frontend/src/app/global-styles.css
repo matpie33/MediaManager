@@ -1,9 +1,20 @@
 .horizontal-menu {
-  background-color: mediumseagreen;
-  display: flex;
+  display: inline-flex;
   padding-left: 60px;
   padding-bottom: 5px;
   padding-top: 5px;
+}
+
+.login-div {
+  border-left: 1px solid black;
+  display: inline;
+  float: right;
+  padding: 10px 10px 9px;
+
+}
+
+.wrapper-div {
+  background-color: mediumseagreen;
   margin-bottom: 10px;
   border-bottom: 1px solid black;
 }
