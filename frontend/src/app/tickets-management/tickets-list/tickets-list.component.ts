@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {RestHandlerService} from "../../rest-handler.service";
 import {UserTicket} from "../data/ticket-of-user";
 import {LoginConstants} from "../../login/login-enums";
+import {DATE_FORMAT} from "../../constants";
 
 @Component({
   selector: 'app-tickets-list',
@@ -10,6 +11,7 @@ import {LoginConstants} from "../../login/login-enums";
 })
 export class TicketsListComponent implements OnInit{
  tickets: Array<UserTicket> = [];
+  dateFormat = DATE_FORMAT;
 
  constructor(private restHandler: RestHandlerService) {
  }

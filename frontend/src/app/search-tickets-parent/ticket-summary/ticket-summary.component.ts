@@ -2,6 +2,7 @@ import {Component, Input} from '@angular/core';
 import {TicketData} from "../data/ticket-data";
 import {RestHandlerService} from "../../rest-handler.service";
 import {LoginConstants} from "../../login/login-enums";
+import {DATE_FORMAT} from "../../constants";
 
 @Component({
   selector: 'app-ticket-summary',
@@ -14,6 +15,7 @@ export class TicketSummaryComponent {
   buyRequestSent: boolean = false;
   statusColor: string = "";
   paymentStatusMessage = "";
+  dateFormat = DATE_FORMAT;
 
   constructor(private restHandler: RestHandlerService) {
   }
