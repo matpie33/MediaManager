@@ -3,3 +3,7 @@
 /.idea/
 /MediaManager.iml
 /backend/media-manager-backend.iml
+/.github/workflows/
+/frontend/firebase.json
+/frontend/.firebase
+/frontend/.firebaserc
