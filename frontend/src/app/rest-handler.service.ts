@@ -14,7 +14,7 @@ export class RestHandlerService {
   constructor(private httpClient: HttpClient) {
   }
 
-  restBaseAddress = "http://localhost:8080";
+  restBaseAddress = "https://mediamanager-production-aecd.up.railway.app";
 
   getConnections (fromStation: string, toStation: string, time: string) : Observable<Array<ConnectionData>>{
     return this.httpClient.get<Array<ConnectionData>>(`${this.restBaseAddress}/connection/${fromStation}/to/${toStation}/sinceHour/${time}`);
