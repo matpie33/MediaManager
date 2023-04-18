@@ -1,11 +1,15 @@
 <div class="img-block">
   <img class="center" src="/assets/logo.png" width="50%" height="50%" align="center">
 </div>
-<h2>News</h2>
+
 <div class="wrapper">
-  <div class="bordered flex-child" *ngFor="let pieceOfNews of data">
-    <p>{{pieceOfNews.title}}</p>
-    <p>{{pieceOfNews.text}}</p>
+  <h2>News</h2>
+  <div class="flex-parent">
+    <div class="bordered flex-child" *ngFor="let pieceOfNews of data">
+      <p>{{pieceOfNews.title}}</p>
+      <p>{{pieceOfNews.text}}</p>
+    </div>
   </div>
+
 </div>
 

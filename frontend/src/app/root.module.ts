@@ -17,6 +17,7 @@ import { NewsComponent } from './news/news.component';
 import {AuthenticationGuard} from "./login/AuthenticationGuard";
 import {LoginConstants} from "./login/login-enums";
 import {HttpClientModule} from "@angular/common/http";
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
   {path: MenuItems.SEARCH_CONNECTIONS.toString(), component: SearchTicketsParentComponent, canActivate: [AuthenticationGuard]},
@@ -24,7 +25,8 @@ const appRoutes: Routes = [
   {path: MenuItems.PROFILE.toString(), component: ProfileManagementComponent, canActivate: [AuthenticationGuard]},
   {path: MenuItems.NEWS.toString(), component: NewsComponent},
   {path: LoginConstants.LOGIN_URL.toString(), component: LoginComponent},
-  {path: '', component: NewsComponent},
+  {path: '', redirectTo: MenuItems.NEWS, pathMatch: 'full'},
+  {path: '**', component: PageNotFoundComponent},
   ]
 
 @NgModule({
@@ -37,7 +39,8 @@ const appRoutes: Routes = [
     LoginComponent,
     TicketsListComponent,
     ProfileManagementComponent,
-    NewsComponent
+    NewsComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

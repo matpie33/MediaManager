@@ -1,3 +1,4 @@
+
 .horizontal-menu {
   display: inline-flex;
   padding-left: 60px;
@@ -15,7 +16,6 @@
 
 .wrapper-div {
   background-color: mediumseagreen;
-  margin-bottom: 10px;
   border-bottom: 1px solid black;
 }
 
@@ -63,7 +63,8 @@ p {
   padding: 5px;
   background-color: mediumseagreen;
   margin-left: 5px;
-  margin-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
   width: 70%;
   overflow-x: auto;
 
