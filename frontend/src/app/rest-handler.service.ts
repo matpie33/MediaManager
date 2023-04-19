@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {TicketData} from "./search-tickets-parent/data/ticket-data";
 import {UserTicket} from "./tickets-management/data/ticket-of-user";
 import {LoginData, PersonalData, RegisterData} from "./login/login-data";
+import {REST_API_URL} from "./environment/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class RestHandlerService {
   constructor(private httpClient: HttpClient) {
   }
 
-  restBaseAddress = "https://mediamanager-production-aecd.up.railway.app";
+  restBaseAddress = REST_API_URL;
 
   getConnections (fromStation: string, toStation: string, time: string) : Observable<Array<ConnectionData>>{
     return this.httpClient.get<Array<ConnectionData>>(`${this.restBaseAddress}/connection/${fromStation}/to/${toStation}/sinceHour/${time}`);
