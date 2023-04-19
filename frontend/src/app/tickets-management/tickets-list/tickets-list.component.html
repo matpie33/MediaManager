@@ -7,7 +7,8 @@
   <p>Ticket type: {{ticket.ticketType}}</p>
   <button class="submit">Open</button>
 </div>
-<div *ngIf="!tickets.length"><h1 class="center">No tickets bought for this user.</h1></div>
+<div *ngIf="!dataLoaded"><h3 class="center">Loading data...</h3></div>
+<div *ngIf="!tickets.length && dataLoaded"><h1 class="center">No tickets bought for this user.</h1></div>
 
 
 

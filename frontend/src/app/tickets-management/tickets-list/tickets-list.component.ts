@@ -12,6 +12,7 @@ import {DATE_FORMAT} from "../../constants";
 export class TicketsListComponent implements OnInit{
  tickets: Array<UserTicket> = [];
   dateFormat = DATE_FORMAT;
+  dataLoaded = false;
 
  constructor(private restHandler: RestHandlerService) {
  }
@@ -19,6 +20,7 @@ export class TicketsListComponent implements OnInit{
   ngOnInit(): void {
     this.restHandler.getTicketsOfUser(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe(tickets => {
       this.tickets = tickets;
+      this.dataLoaded = true;
     })
   }
 }
