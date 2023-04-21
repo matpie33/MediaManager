@@ -4,6 +4,7 @@ import {TicketData} from "../data/ticket-data";
 import { ConnectionData } from '../data/connection-data';
 import {RestHandlerService} from "../../rest-handler.service";
 import {DatePipe} from "@angular/common";
+import {DATE_FORMAT} from "../../constants";
 
 @Component({
   selector: 'app-search-connection',
@@ -59,12 +60,13 @@ export class SearchTickets {
     if (this.ticketsForm.valid){
       this.personalDataFormValid = true;
       let connectionData: ConnectionData = this.availableTickets.get( this.ticketsForm.controls["ticket"].value)!;
+      let date = this.searchForm.controls["date"].value + " " +connectionData.time;
+      let convertedDate = new DatePipe("en").transform(date, DATE_FORMAT);
       let ticketData: TicketData = {
         fromStation: connectionData.fromStation,
         toStation: connectionData.toStation,
-        time: connectionData.time,
         connectionId: this.ticketsForm.controls["ticket"].value,
-        travelDate: this.searchForm.controls["date"].value,
+        travelDate: convertedDate!,
         ticketType: this.ticketsForm.controls["ticketType"].value
       };
       this.ticketData.emit(ticketData);

@@ -3,32 +3,34 @@ package org.media.manager.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import org.media.manager.dao.AppUserDAO;
-import org.media.manager.dao.TicketDao;
-import org.media.manager.dao.TravelConnectionDAO;
+import org.media.manager.dao.*;
 import org.media.manager.dto.AppUserDTO;
 import org.media.manager.dto.TicketDTO;
 import org.media.manager.dto.UserCredentialsDTO;
 import org.media.manager.dto.UserPersonalDTO;
-import org.media.manager.entity.AppUser;
-import org.media.manager.entity.Connection;
-import org.media.manager.entity.Ticket;
+import org.media.manager.entity.*;
 import org.media.manager.enums.TicketType;
 import org.media.manager.mapper.AppUserMapper;
 import org.media.manager.mapper.ConnectionMapper;
 import org.media.manager.mapper.TicketMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.LinkedHashSet;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 @RestController
@@ -50,10 +52,14 @@ public class ApplicationRestController {
 
     private PasswordEncoder passwordEncoder;
 
+    private SeatsDAO seatsDAO;
+
+    private TrainDAO trainDAO;
+
 
 
     @Autowired
-    public ApplicationRestController(AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper, PasswordEncoder passwordEncoder) {
+    public ApplicationRestController(AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper, PasswordEncoder passwordEncoder, SeatsDAO seatsDAO, TrainDAO trainDAO) {
         this.appUserMapper = appUserMapper;
         this.ticketMapper = ticketMapper;
         this.travelConnectionDAO = travelConnectionDAO;
@@ -61,6 +67,8 @@ public class ApplicationRestController {
         this.ticketDao = ticketDao;
         this.connectionMapper = connectionMapper;
         this.passwordEncoder = passwordEncoder;
+        this.seatsDAO = seatsDAO;
+        this.trainDAO = trainDAO;
     }
 
     @PostConstruct
@@ -75,19 +83,53 @@ public class ApplicationRestController {
         return gson.toJson(connections.stream().map(connectionMapper::mapConnection).collect(Collectors.toSet()));
     }
 
-    @GetMapping("/assignTicket/{connectionId}/user/{userId}/ticket_type/{ticketType}/travelDate/{travelDate}")
-    public boolean assignTicketToUser(@PathVariable long connectionId, @PathVariable long userId, @PathVariable String ticketType, @PathVariable Date travelDate){
-        Ticket ticket = new Ticket();
-        ticket.setTicketType(TicketType.fromString(ticketType));
-        Connection connection = travelConnectionDAO.findById(connectionId).orElseThrow(() -> new IllegalArgumentException("Travel connection does not exist"));
-        AppUser appUser = appUserDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("User does not exist"));
-        ticket.setConnection(connection);
-        ticket.setAppUser(appUser);
-        ticket.setTravelDate(travelDate);
-        ticketDao.save(ticket);
+    @Transactional
+    @GetMapping("/assignTicket/{connectionId}/user/{userId}/ticket_type/{ticketType}/travelDate/{travelDateTime}")
+    public boolean assignTicketToUser(@PathVariable long connectionId, @PathVariable long userId, @PathVariable String ticketType, @PathVariable @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime travelDateTime){
+
+        Connection connection = travelConnectionDAO.findById(connectionId).orElseThrow(createIllegalArgumentException("Travel connection does not exist"));
+        updateSeats(connection, travelDateTime, connectionId);
+        assignTicketToUser(userId, ticketType, travelDateTime, connection);
         return true;
 
     }
+
+    private void assignTicketToUser(long userId, String ticketType, LocalDateTime convertedDateTime, Connection connection) {
+        Ticket ticket = new Ticket();
+        ticket.setTicketType(TicketType.fromString(ticketType));
+        AppUser appUser = appUserDAO.findById(userId).orElseThrow(createIllegalArgumentException("User does not exist"));
+        ticket.setConnection(connection);
+        ticket.setAppUser(appUser);
+        ticket.setTravelDate(convertedDateTime);
+        ticketDao.save(ticket);
+    }
+
+    private void updateSeats (Connection connection, LocalDateTime convertedDateTime, long connectionId){
+        Optional<Seats> optionalSeats = seatsDAO.findByDateTimeOfTravelAndConnection_Id(convertedDateTime, connectionId);
+        Seats seats;
+        if (optionalSeats.isPresent()){
+            seats = optionalSeats.get();
+            if (seats.getFreeSeats()<=0){
+                throw new IllegalArgumentException("No seats available");
+            }
+            else{
+                seats.decreaseFreeSeatAmount();
+            }
+        }
+        else{
+            seats = new Seats();
+            seats.setDateTimeOfTravel(convertedDateTime);
+            seats.setConnection(connection);
+            seats.setFreeSeats(connection.getTrain().getMaxSeats() - 1);
+
+        }
+        seatsDAO.save(seats);
+    }
+
+    private Supplier<IllegalArgumentException> createIllegalArgumentException(String ex){
+        return () -> new IllegalArgumentException(ex);
+    }
+
 
     @GetMapping("/tickets/{userId}")
     public String getTicketsOfUser(@PathVariable long userId){

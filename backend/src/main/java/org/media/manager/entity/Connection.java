@@ -18,8 +18,8 @@ public class Connection {
     @Column(nullable = false)
     private Time time;
 
-    @Column(nullable = false)
-    private int freeSeats;
+    @ManyToOne
+    private Train train;
 
     public String getFromStation() {
         return fromStation;
@@ -33,12 +33,13 @@ public class Connection {
         return time;
     }
 
-    public int getFreeSeats() {
-        return freeSeats;
-    }
 
     public Long getId() {
         return id;
+    }
+
+    public Train getTrain() {
+        return train;
     }
 
     @Override
@@ -48,7 +49,6 @@ public class Connection {
                 ", fromStation='" + fromStation + '\'' +
                 ", toStation='" + toStation + '\'' +
                 ", time=" + time +
-                ", freeSeats=" + freeSeats +
                 '}';
     }
 }
