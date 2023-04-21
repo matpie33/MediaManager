@@ -18,7 +18,7 @@ export class SearchTickets {
     fromStation:  new FormControl("", Validators.required),
     toStation: new FormControl("", Validators.required),
     date: new FormControl(new DatePipe("en").transform(new Date(), "YYYY-MM-dd"), Validators.required),
-    time: new FormControl("00:00:00")
+    time: new FormControl("00:00")
   });
   ticketsForm: FormGroup = new FormGroup({
     ticket: new FormControl("", Validators.required),
@@ -41,12 +41,12 @@ export class SearchTickets {
     if (this.searchForm.valid){
       this.searchPerformed = true;
       this.searchFormValid = false;
+      let dateAndTime = new DatePipe("en").transform(this.searchForm.controls["date"].value, "dd.MM.y") + " "+this.searchForm.controls["time"].value;
       this.restHandler.getConnections(this.searchForm.controls["fromStation"].value,
-        this.searchForm.controls["toStation"].value, this.searchForm.controls["time"].value).subscribe(connections=>{
+        this.searchForm.controls["toStation"].value, dateAndTime).subscribe(connections=>{
           connections.forEach(connection =>{
             this.availableTickets.set(connection.id, connection);
           });
-        console.log(this.availableTickets);
       });
     }
     else{
@@ -60,7 +60,7 @@ export class SearchTickets {
     if (this.ticketsForm.valid){
       this.personalDataFormValid = true;
       let connectionData: ConnectionData = this.availableTickets.get( this.ticketsForm.controls["ticket"].value)!;
-      let date = this.searchForm.controls["date"].value + " " +connectionData.time;
+      let date = this.searchForm.controls["date"].value;
       let convertedDate = new DatePipe("en").transform(date, DATE_FORMAT);
       let ticketData: TicketData = {
         fromStation: connectionData.fromStation,

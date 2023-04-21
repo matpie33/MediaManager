@@ -2,6 +2,7 @@ package org.media.manager.dto;
 
 import javax.persistence.Column;
 import java.sql.Time;
+import java.time.LocalTime;
 
 public class ConnectionDTO {
 
@@ -11,7 +12,7 @@ public class ConnectionDTO {
 
     private String toStation;
 
-    private Time time;
+    private LocalTime time;
 
     private int freeSeats;
 
@@ -27,7 +28,7 @@ public class ConnectionDTO {
         this.toStation = toStation;
     }
 
-    public void setTime(Time time) {
+    public void setTime(LocalTime time) {
         this.time = time;
     }
 

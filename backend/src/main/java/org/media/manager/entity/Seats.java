@@ -1,6 +1,7 @@
 package org.media.manager.entity;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -16,7 +17,7 @@ public class Seats {
     private int freeSeats;
 
     @Column
-    private LocalDateTime dateTimeOfTravel;
+    private LocalDate dateTimeOfTravel;
 
     public void setConnection(Connection connection) {
         this.connection = connection;
@@ -26,7 +27,7 @@ public class Seats {
         this.freeSeats = freeSeats;
     }
 
-    public void setDateTimeOfTravel(LocalDateTime dateOfTravel) {
+    public void setDateTimeOfTravel(LocalDate dateOfTravel) {
         this.dateTimeOfTravel = dateOfTravel;
     }
 
@@ -36,5 +37,13 @@ public class Seats {
 
     public int getFreeSeats() {
         return freeSeats;
+    }
+
+    public LocalDate getDateTimeOfTravel() {
+        return dateTimeOfTravel;
+    }
+
+    public Connection getConnection() {
+        return connection;
     }
 }

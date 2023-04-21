@@ -4,14 +4,12 @@ package org.media.manager.controllers;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import org.media.manager.dao.*;
-import org.media.manager.dto.AppUserDTO;
-import org.media.manager.dto.TicketDTO;
-import org.media.manager.dto.UserCredentialsDTO;
-import org.media.manager.dto.UserPersonalDTO;
+import org.media.manager.dto.*;
 import org.media.manager.entity.*;
 import org.media.manager.enums.TicketType;
 import org.media.manager.mapper.AppUserMapper;
 import org.media.manager.mapper.ConnectionMapper;
+import org.media.manager.mapper.SeatsMapper;
 import org.media.manager.mapper.TicketMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -23,10 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
-import java.sql.Date;
-import java.sql.Time;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
 import java.util.LinkedHashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -56,10 +51,10 @@ public class ApplicationRestController {
 
     private TrainDAO trainDAO;
 
-
+    private SeatsMapper seatsMapper;
 
     @Autowired
-    public ApplicationRestController(AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper, PasswordEncoder passwordEncoder, SeatsDAO seatsDAO, TrainDAO trainDAO) {
+    public ApplicationRestController(SeatsMapper seatsMapper, AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper, PasswordEncoder passwordEncoder, SeatsDAO seatsDAO, TrainDAO trainDAO) {
         this.appUserMapper = appUserMapper;
         this.ticketMapper = ticketMapper;
         this.travelConnectionDAO = travelConnectionDAO;
@@ -69,6 +64,7 @@ public class ApplicationRestController {
         this.passwordEncoder = passwordEncoder;
         this.seatsDAO = seatsDAO;
         this.trainDAO = trainDAO;
+        this.seatsMapper = seatsMapper;
     }
 
     @PostConstruct
@@ -77,10 +73,24 @@ public class ApplicationRestController {
         gson = gsonBuilder.create();
     }
 
-    @GetMapping("/connection/{from}/to/{to}/sinceHour/{time}")
-    public String getConnectionsByStationAndTime(@PathVariable String from, @PathVariable String to, @PathVariable Time time){
-        Set<Connection> connections = travelConnectionDAO.findConnectionsByTimeGreaterThanEqualAndFromStationAndToStation(time, from, to);
-        return gson.toJson(connections.stream().map(connectionMapper::mapConnection).collect(Collectors.toSet()));
+    public static final String format = "dd.MM.yyyy HH:mm";
+
+    @GetMapping("/connection/{from}/to/{to}/sinceHour/{travelDateTime}")
+    public String getConnectionsByStationAndTime(@PathVariable String from, @PathVariable String to, @PathVariable @DateTimeFormat(pattern = format) LocalDateTime travelDateTime){
+        Set<Connection> connections = travelConnectionDAO.findConnectionsByTimeGreaterThanEqualAndFromStationAndToStation(travelDateTime.toLocalTime(), from, to);
+        return gson.toJson(connections.stream().map(connection -> getSeat(travelDateTime, connection, from, to)).collect(Collectors.toSet()));
+    }
+
+
+    private SeatDTO getSeat(LocalDateTime travelDateTime, Connection connection, String from, String to) {
+        Optional<Seats> seats = seatsDAO.findByConnection_IdAndFreeSeatsGreaterThanAndDateTimeOfTravel(connection.getId(), 0, travelDateTime.toLocalDate());
+        if (seats.isPresent()){
+            return seatsMapper.mapSeats(seats.get());
+        }
+        else{
+            Train train = trainDAO.findById(connection.getTrain().getId()).orElseThrow(createIllegalArgumentException("Train not found"));
+            return seatsMapper.mapSeats(connection.getTime(), from, to, train.getMaxSeats(), connection.getId());
+        }
     }
 
     @Transactional
@@ -104,8 +114,8 @@ public class ApplicationRestController {
         ticketDao.save(ticket);
     }
 
-    private void updateSeats (Connection connection, LocalDateTime convertedDateTime, long connectionId){
-        Optional<Seats> optionalSeats = seatsDAO.findByDateTimeOfTravelAndConnection_Id(convertedDateTime, connectionId);
+    private void updateSeats (Connection connection, LocalDateTime travelDateTime, long connectionId){
+        Optional<Seats> optionalSeats = seatsDAO.findByDateTimeOfTravelAndConnection_Id(travelDateTime.toLocalDate(), connectionId);
         Seats seats;
         if (optionalSeats.isPresent()){
             seats = optionalSeats.get();
@@ -118,7 +128,7 @@ public class ApplicationRestController {
         }
         else{
             seats = new Seats();
-            seats.setDateTimeOfTravel(convertedDateTime);
+            seats.setDateTimeOfTravel(travelDateTime.toLocalDate());
             seats.setConnection(connection);
             seats.setFreeSeats(connection.getTrain().getMaxSeats() - 1);
 

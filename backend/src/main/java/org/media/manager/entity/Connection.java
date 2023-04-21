@@ -2,6 +2,7 @@ package org.media.manager.entity;
 
 import javax.persistence.*;
 import java.sql.Time;
+import java.time.LocalTime;
 
 @Entity
 public class Connection {
@@ -16,7 +17,7 @@ public class Connection {
     private String toStation;
 
     @Column(nullable = false)
-    private Time time;
+    private LocalTime time;
 
     @ManyToOne
     private Train train;
@@ -29,7 +30,7 @@ public class Connection {
         return toStation;
     }
 
-    public Time getTime() {
+    public LocalTime getTime() {
         return time;
     }
 
