@@ -3,10 +3,11 @@ package org.media.manager.controllers;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import org.media.manager.constants.DateTimeFormats;
 import org.media.manager.dao.*;
 import org.media.manager.dto.*;
 import org.media.manager.entity.*;
-import org.media.manager.enums.TicketType;
+import org.media.manager.constants.TicketType;
 import org.media.manager.mapper.AppUserMapper;
 import org.media.manager.mapper.ConnectionMapper;
 import org.media.manager.mapper.SeatsMapper;
@@ -53,6 +54,8 @@ public class ApplicationRestController {
 
     private SeatsMapper seatsMapper;
 
+
+
     @Autowired
     public ApplicationRestController(SeatsMapper seatsMapper, AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper, PasswordEncoder passwordEncoder, SeatsDAO seatsDAO, TrainDAO trainDAO) {
         this.appUserMapper = appUserMapper;
@@ -73,17 +76,15 @@ public class ApplicationRestController {
         gson = gsonBuilder.create();
     }
 
-    public static final String format = "dd.MM.yyyy HH:mm";
-
     @GetMapping("/connection/{from}/to/{to}/sinceHour/{travelDateTime}")
-    public String getConnectionsByStationAndTime(@PathVariable String from, @PathVariable String to, @PathVariable @DateTimeFormat(pattern = format) LocalDateTime travelDateTime){
+    public String getConnectionsByStationAndTime(@PathVariable String from, @PathVariable String to, @PathVariable @DateTimeFormat(pattern = DateTimeFormats.DATE_TIME_FORMAT) LocalDateTime travelDateTime){
         Set<Connection> connections = travelConnectionDAO.findConnectionsByTimeGreaterThanEqualAndFromStationAndToStation(travelDateTime.toLocalTime(), from, to);
         return gson.toJson(connections.stream().map(connection -> getSeat(travelDateTime, connection, from, to)).collect(Collectors.toSet()));
     }
 
 
-    private SeatDTO getSeat(LocalDateTime travelDateTime, Connection connection, String from, String to) {
-        Optional<Seats> seats = seatsDAO.findByConnection_IdAndFreeSeatsGreaterThanAndDateTimeOfTravel(connection.getId(), 0, travelDateTime.toLocalDate());
+    private SeatsDTO getSeat(LocalDateTime travelDateTime, Connection connection, String from, String to) {
+        Optional<Seats> seats = seatsDAO.findByConnection_IdAndFreeSeatsGreaterThanAndDate(connection.getId(), 0, travelDateTime.toLocalDate());
         if (seats.isPresent()){
             return seatsMapper.mapSeats(seats.get());
         }
@@ -104,18 +105,18 @@ public class ApplicationRestController {
 
     }
 
-    private void assignTicketToUser(long userId, String ticketType, LocalDateTime convertedDateTime, Connection connection) {
+    private void assignTicketToUser(long userId, String ticketType, LocalDateTime dateTime, Connection connection) {
         Ticket ticket = new Ticket();
         ticket.setTicketType(TicketType.fromString(ticketType));
         AppUser appUser = appUserDAO.findById(userId).orElseThrow(createIllegalArgumentException("User does not exist"));
         ticket.setConnection(connection);
         ticket.setAppUser(appUser);
-        ticket.setTravelDate(convertedDateTime);
+        ticket.setTravelDate(dateTime.toLocalDate());
         ticketDao.save(ticket);
     }
 
     private void updateSeats (Connection connection, LocalDateTime travelDateTime, long connectionId){
-        Optional<Seats> optionalSeats = seatsDAO.findByDateTimeOfTravelAndConnection_Id(travelDateTime.toLocalDate(), connectionId);
+        Optional<Seats> optionalSeats = seatsDAO.findByDateAndConnection_Id(travelDateTime.toLocalDate(), connectionId);
         Seats seats;
         if (optionalSeats.isPresent()){
             seats = optionalSeats.get();
@@ -128,7 +129,7 @@ public class ApplicationRestController {
         }
         else{
             seats = new Seats();
-            seats.setDateTimeOfTravel(travelDateTime.toLocalDate());
+            seats.setDate(travelDateTime.toLocalDate());
             seats.setConnection(connection);
             seats.setFreeSeats(connection.getTrain().getMaxSeats() - 1);
 
@@ -143,7 +144,7 @@ public class ApplicationRestController {
 
     @GetMapping("/tickets/{userId}")
     public String getTicketsOfUser(@PathVariable long userId){
-        Set<Ticket> tickets = ticketDao.findByAppUser_IdOrderByTravelDateAsc(userId);
+        Set<Ticket> tickets = ticketDao.findByAppUser_IdOrderByTravelDateAscConnection_timeAsc(userId);
         LinkedHashSet<TicketDTO> set = tickets.stream().map(ticketMapper::mapTicket).collect(Collectors.toCollection(LinkedHashSet::new));
         return gson.toJson(set);
 

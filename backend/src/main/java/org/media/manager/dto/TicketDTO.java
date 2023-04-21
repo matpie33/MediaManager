@@ -1,9 +1,5 @@
 package org.media.manager.dto;
 
-import org.media.manager.enums.TicketType;
-
-import java.sql.Date;
-
 public class TicketDTO {
 
     private String travelDate;

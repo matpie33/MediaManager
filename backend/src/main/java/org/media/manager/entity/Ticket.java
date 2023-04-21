@@ -1,8 +1,9 @@
 package org.media.manager.entity;
 
-import org.media.manager.enums.TicketType;
+import org.media.manager.constants.TicketType;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -22,9 +23,9 @@ public class Ticket {
     private AppUser appUser;
 
     @Column
-    private LocalDateTime travelDate;
+    private LocalDate travelDate;
 
-    public void setTravelDate(LocalDateTime travelDate) {
+    public void setTravelDate(LocalDate travelDate) {
         this.travelDate = travelDate;
     }
 
@@ -48,7 +49,7 @@ public class Ticket {
         return ticketType;
     }
 
-    public LocalDateTime getTravelDate() {
+    public LocalDate getTravelDate() {
         return travelDate;
     }
 }

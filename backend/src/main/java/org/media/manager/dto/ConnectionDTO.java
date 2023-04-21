@@ -12,7 +12,7 @@ public class ConnectionDTO {
 
     private String toStation;
 
-    private LocalTime time;
+    private String time;
 
     private int freeSeats;
 
@@ -28,7 +28,7 @@ public class ConnectionDTO {
         this.toStation = toStation;
     }
 
-    public void setTime(LocalTime time) {
+    public void setTime(String time) {
         this.time = time;
     }
 

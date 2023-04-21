@@ -1,4 +1,4 @@
-package org.media.manager.enums;
+package org.media.manager.constants;
 
 import java.util.Arrays;
 

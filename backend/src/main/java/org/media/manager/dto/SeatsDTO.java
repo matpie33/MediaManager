@@ -1,6 +1,6 @@
 package org.media.manager.dto;
 
-public class SeatDTO {
+public class SeatsDTO {
 
     private String time;
 
@@ -11,22 +11,22 @@ public class SeatDTO {
 
     private long id;
 
-    public SeatDTO setFromStation(String fromStation) {
+    public SeatsDTO setFromStation(String fromStation) {
         this.fromStation = fromStation;
         return this;
     }
 
-    public SeatDTO setToStation(String toStation) {
+    public SeatsDTO setToStation(String toStation) {
         this.toStation = toStation;
         return this;
     }
 
-    public SeatDTO setTime(String time) {
+    public SeatsDTO setTime(String time) {
         this.time = time;
         return this;
     }
 
-    public SeatDTO setFreeSeats(int freeSeats) {
+    public SeatsDTO setFreeSeats(int freeSeats) {
         this.freeSeats = freeSeats;
         return this;
     }

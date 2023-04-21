@@ -1,40 +1,36 @@
 package org.media.manager.mapper;
 
-import org.media.manager.controllers.ApplicationRestController;
-import org.media.manager.dto.SeatDTO;
+import org.media.manager.constants.DateTimeFormats;
+import org.media.manager.dto.SeatsDTO;
 import org.media.manager.entity.Seats;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
 public class SeatsMapper {
 
-    public static final String TIME_FORMAT = "HH:mm";
-
-    public SeatDTO mapSeats(Seats seats){
-        SeatDTO seatDTO = new SeatDTO();
-        seatDTO.setFreeSeats(seats.getFreeSeats());
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(TIME_FORMAT);
-        seatDTO.setTime(dateTimeFormatter.format(seats.getConnection().getTime()));
-        seatDTO.setFromStation(seats.getConnection().getFromStation());
-        seatDTO.setToStation(seats.getConnection().getToStation());
-        seatDTO.setId(seats.getConnection().getId());
-        return seatDTO;
+    public SeatsDTO mapSeats(Seats seats){
+        SeatsDTO seatsDTO = new SeatsDTO();
+        seatsDTO.setFreeSeats(seats.getFreeSeats());
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.TIME_FORMAT);
+        seatsDTO.setTime(dateTimeFormatter.format(seats.getConnection().getTime()));
+        seatsDTO.setFromStation(seats.getConnection().getFromStation());
+        seatsDTO.setToStation(seats.getConnection().getToStation());
+        seatsDTO.setId(seats.getConnection().getId());
+        return seatsDTO;
     }
 
-    public SeatDTO mapSeats(LocalTime time, String from, String to, int freeSeats, long id){
-        SeatDTO seatDTO = new SeatDTO();
-        seatDTO.setFreeSeats(freeSeats);
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(TIME_FORMAT);
-        seatDTO.setTime(dateTimeFormatter.format(time));
-        seatDTO.setFromStation(from);
-        seatDTO.setToStation(to);
-        seatDTO.setId(id);
-        return seatDTO;
+    public SeatsDTO mapSeats(LocalTime time, String from, String to, int freeSeats, long id){
+        SeatsDTO seatsDTO = new SeatsDTO();
+        seatsDTO.setFreeSeats(freeSeats);
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.TIME_FORMAT);
+        seatsDTO.setTime(dateTimeFormatter.format(time));
+        seatsDTO.setFromStation(from);
+        seatsDTO.setToStation(to);
+        seatsDTO.setId(id);
+        return seatsDTO;
     }
 
 }
