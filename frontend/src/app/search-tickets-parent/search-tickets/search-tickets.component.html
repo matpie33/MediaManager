@@ -7,7 +7,7 @@
       <label>To station:</label>
       <input type="text" formControlName="toStation">
       <label>Date:</label>
-      <input type="date" formControlName="date">
+      <input type="date" [min]="todayDate" formControlName="date">
       <label>From hour:</label>
       <input type="time" step="60" formControlName="time">
     </div>
@@ -20,7 +20,7 @@
     <div class="bordered">
       <h2>Connections</h2>
       <div class="connections-parent">
-        <div *ngFor="let ticket of availableTickets | keyvalue" class="bordered grid-parent">
+        <div *ngFor="let ticket of availableTickets | keyvalue :connectionByTimeComparator" id="tickets" class="bordered grid-parent">
           <Label>Time</Label>
           <Label> {{ticket.value.time}} </Label>
           <Label>Free seats:</Label>

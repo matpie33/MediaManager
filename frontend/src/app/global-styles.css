@@ -57,6 +57,10 @@ p {
   margin: 10px 10px 10px 5px;
 }
 
+#tickets {
+  border: 2px solid lightgreen;
+}
+
 .bordered {
   border: 1px solid black;
   border-radius: 4px;
@@ -78,6 +82,7 @@ html, body{
 }
 
 .grid-parent {
+  flex: 0 0 content;
   display: grid;
   grid-template-columns: max-content max-content;
 }

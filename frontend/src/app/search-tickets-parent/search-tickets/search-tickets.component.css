@@ -3,6 +3,10 @@
 .connections-parent {
   display: flex;
   gap: 20px;
+  overflow-x: scroll;
+  border: 3px solid yellowgreen;
+  padding: 10px;
+  border-radius: 10px;
 }
 
 

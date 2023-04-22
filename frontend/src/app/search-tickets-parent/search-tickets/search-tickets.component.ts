@@ -3,8 +3,8 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TicketData} from "../data/ticket-data";
 import { ConnectionData } from '../data/connection-data';
 import {RestHandlerService} from "../../rest-handler.service";
-import {DatePipe} from "@angular/common";
-import {DATE_FORMAT} from "../../constants";
+import {DatePipe, KeyValue} from "@angular/common";
+import {DATE_FORMAT, HTML_DATE_INPUT_FORMAT} from "../../constants";
 
 @Component({
   selector: 'app-search-connection',
@@ -13,11 +13,13 @@ import {DATE_FORMAT} from "../../constants";
 })
 export class SearchTickets {
 
-  public ticketTypeEnum = TicketType;
+  todayDate: string = new DatePipe("en").transform(new Date(), HTML_DATE_INPUT_FORMAT)!;
+
+  ticketTypeEnum = TicketType;
   searchForm: FormGroup  = new FormGroup<any>({
     fromStation:  new FormControl("", Validators.required),
     toStation: new FormControl("", Validators.required),
-    date: new FormControl(new DatePipe("en").transform(new Date(), "YYYY-MM-dd"), Validators.required),
+    date: new FormControl(this.todayDate, Validators.required),
     time: new FormControl("00:00")
   });
   ticketsForm: FormGroup = new FormGroup({
@@ -32,6 +34,11 @@ export class SearchTickets {
   @Output() ticketData: EventEmitter<TicketData> = new EventEmitter<TicketData>();
 
   availableTickets: Map<number,ConnectionData> = new Map();
+
+  connectionByTimeComparator = (a: KeyValue<number,ConnectionData>, b: KeyValue<number,ConnectionData>): number => {
+    return a.value.time.localeCompare(b.value.time);
+  }
+
 
   constructor(private restHandler: RestHandlerService) {
   }
