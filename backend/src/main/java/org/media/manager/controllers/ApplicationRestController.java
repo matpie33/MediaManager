@@ -194,4 +194,10 @@ public class ApplicationRestController {
         return appUserMapper.getUserPersonalData(appUser);
     }
 
+    @GetMapping("permissions/{userId}")
+    public String getUserPermissions(@PathVariable long userId){
+        AppUser appUser = appUserDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
+        return gson.toJson(appUserMapper.mapPrivileges(appUser));
+    }
+
 }

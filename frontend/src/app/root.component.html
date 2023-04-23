@@ -1,6 +1,6 @@
  <div class="wrapper-div">
    <div class="horizontal-menu">
-     <a *ngFor = "let item of menuItems"  [routerLink]="item.toString()">{{item}}</a>
+     <a *ngFor = "let item of userAccessibleMenu"  [routerLink]="item.toString()">{{item}}</a>
    </div>
    <div class="login-div" *ngIf="username">
      Logged as: {{username}}

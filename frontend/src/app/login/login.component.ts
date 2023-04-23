@@ -58,7 +58,10 @@ export class LoginComponent {
       sessionStorage.setItem(LoginConstants.USER_ID, response.id.toString());
       this.loginMessage = "Successfully logged in. Redirecting...";
       this.loginMessageColor = "green";
-      this.router.navigateByUrl(queryParam).catch(error=>console.log(error));
+      this.router.navigateByUrl(queryParam).catch(error=>console.log(error)).then(success=>{
+
+        window.location.reload();
+      })
     }
   }
 

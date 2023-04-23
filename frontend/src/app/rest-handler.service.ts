@@ -47,5 +47,10 @@ export class RestHandlerService {
 
   }
 
+  getUserPermissions (userId: number){
+    return this.httpClient.get<LoginResponse>(`${this.restBaseAddress}/permissions/${userId}`);
+
+  }
+
 
 }
