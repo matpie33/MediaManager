@@ -7,7 +7,6 @@ export interface RegisterData {
 
   personalData: PersonalData,
   userCredentials: LoginData
-
 }
 
 export interface PersonalData {
@@ -16,3 +15,8 @@ export interface PersonalData {
   email: string;
 }
 
+
+export interface LoginResponse {
+  permissions: Array<string>;
+  id: number;
+}

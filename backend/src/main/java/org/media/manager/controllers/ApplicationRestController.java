@@ -54,8 +54,6 @@ public class ApplicationRestController {
 
     private SeatsMapper seatsMapper;
 
-
-
     @Autowired
     public ApplicationRestController(SeatsMapper seatsMapper, AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper, PasswordEncoder passwordEncoder, SeatsDAO seatsDAO, TrainDAO trainDAO) {
         this.appUserMapper = appUserMapper;
@@ -181,11 +179,11 @@ public class ApplicationRestController {
     }
 
     @PostMapping("/login")
-    public long login(@RequestBody UserCredentialsDTO userFromFrontend){
+    public String login(@RequestBody UserCredentialsDTO userFromFrontend){
         AppUser userFromDB = appUserDAO.findByUsername(userFromFrontend.getUserName());
         boolean isPasswordMatch = passwordEncoder.matches(userFromFrontend.getPassword(), userFromDB.getPassword());
         if (isPasswordMatch){
-            return userFromDB.getId();
+            return gson.toJson(appUserMapper.mapPrivileges(userFromDB));
         }
         throw new IllegalArgumentException("User not found");
     }

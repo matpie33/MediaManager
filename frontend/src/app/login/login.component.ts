@@ -6,6 +6,7 @@ import {LoginConstants} from "./login-enums";
 import * as crypto from 'crypto-js'
 import {RestHandlerService} from "../rest-handler.service";
 import {UserManagementService} from "../user-management-service";
+import {LoginResponse} from "./login-data";
 
 @Component({
   selector: 'app-login',
@@ -48,13 +49,13 @@ export class LoginComponent {
   });
   }
 
-  handleLoginSuccess(response: number){
+  handleLoginSuccess(response: LoginResponse){
     if (response){
       let queryParam = this.route.snapshot.queryParams[LoginConstants.RETURN_URL];
       let username = this.loginForm.controls["username"].value;
       this.userService.userLogin( username);
       sessionStorage.setItem(LoginConstants.USERNAME, username);
-      sessionStorage.setItem(LoginConstants.USER_ID, response.toString());
+      sessionStorage.setItem(LoginConstants.USER_ID, response.id.toString());
       this.loginMessage = "Successfully logged in. Redirecting...";
       this.loginMessageColor = "green";
       this.router.navigateByUrl(queryParam).catch(error=>console.log(error));

@@ -1,6 +1,7 @@
 package org.media.manager.entity;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class AppUser {
@@ -22,6 +23,13 @@ public class AppUser {
 
     @Column(nullable = false)
     private String email;
+
+    @ManyToMany
+    private Set<Role> role;
+
+    public Set<Role> getRoles() {
+        return role;
+    }
 
     public void setUsername(String username) {
         this.username = username;

@@ -2,10 +2,16 @@ package org.media.manager.mapper;
 
 import org.media.manager.dto.AppUserDTO;
 import org.media.manager.dto.UserPersonalDTO;
+import org.media.manager.dto.UserPrivilegesDTO;
 import org.media.manager.entity.AppUser;
+import org.media.manager.entity.Permission;
+import org.media.manager.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Component
 public class AppUserMapper {
@@ -39,6 +45,13 @@ public class AppUserMapper {
         appUser.setEmail(userPersonalDTO.getEmail());
         appUser.setFirstName(userPersonalDTO.getFirstName());
         appUser.setLastName(userPersonalDTO.getLastName());
-
     }
+
+    public UserPrivilegesDTO mapPrivileges (AppUser appUser){
+        UserPrivilegesDTO userPrivilegesDTO = new UserPrivilegesDTO();
+        userPrivilegesDTO.setPermissions(appUser.getRoles().stream().map(Role::getPermissions).flatMap(Collection::stream).map(Permission::getPermissionType).collect(Collectors.toSet()));
+        userPrivilegesDTO.setId(appUser.getId());
+        return userPrivilegesDTO;
+    }
+
 }
