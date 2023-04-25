@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
-import {ProfileSaveService} from "./profile-save.service";
 import {RestHandlerService} from "../rest-handler.service";
 import {LoginConstants} from "../login/login-enums";
 
@@ -21,7 +20,7 @@ export class ProfileManagementComponent {
   showStatus = false;
   saveStatus: string = "";
 
-  constructor(private formBuilder:FormBuilder, private profileSave: ProfileSaveService, private restHandler: RestHandlerService) {
+  constructor(private formBuilder:FormBuilder, private restHandler: RestHandlerService) {
     restHandler.getUser(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe(
       result => {
         this.profileForm.controls["firstName"].setValue(result.firstName);

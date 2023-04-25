@@ -13,7 +13,6 @@ export class SearchTicketsParentComponent {
    onSubmit (data: TicketData){
      this.isSubmitted = true;
      this.ticketData = data;
-     console.log(data);
    }
 
 }
