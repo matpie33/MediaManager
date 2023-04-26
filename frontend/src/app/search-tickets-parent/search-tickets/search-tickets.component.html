@@ -22,9 +22,9 @@
       <div class="connections-parent">
         <div *ngFor="let ticket of availableTickets | keyvalue :connectionByTimeComparator" id="tickets" class="bordered grid-parent">
           <Label>Time</Label>
-          <Label> {{ticket.value.time}} </Label>
+          <Label>{{ticket.value.time}}</Label>
           <Label>Free seats:</Label>
-          <Label> {{ticket.value.freeSeats}}</Label>
+          <Label>{{ticket.value.freeSeats}}</Label>
           <Label>Ticket type:</Label>
           <select id="type" formControlName="ticketType">
             <option *ngFor="let type of ticketTypeEnum |keyvalue" [value]="type.value">{{type.value}}</option>
