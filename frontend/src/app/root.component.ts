@@ -30,7 +30,6 @@ export class RootComponent implements OnInit{
 
     this.menuToPermissionMap.set("USER_ACTIVITIES", defaultMenu);
     this.menuToPermissionMap.set("ADD_TRAVEL_CONNECTION",MenuItems.ADD_CONNECTION);
-
   }
 
 

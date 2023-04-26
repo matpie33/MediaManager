@@ -1,9 +1,16 @@
-import {TestBed} from '@angular/core/testing';
+import {ComponentFixture, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {RootComponent} from './root.component';
+import {RestHandlerService} from "./rest-handler.service";
+import {of} from "rxjs";
+import {MenuItems} from "./menu-items";
 
 describe('RootComponent', () => {
+  let restServiceSpy: any;
+  let fixture: ComponentFixture<RootComponent>;
   beforeEach(async () => {
+    restServiceSpy = jasmine.createSpyObj("RestHandlerService", ["getUserPermissions"]);
+
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule
@@ -11,24 +18,25 @@ describe('RootComponent', () => {
       declarations: [
         RootComponent
       ],
+      providers: [
+        {provide: RestHandlerService, useValue: restServiceSpy}
+      ]
     }).compileComponents();
+     fixture = TestBed.createComponent(RootComponent);
+
   });
 
-  it('should create the app', () => {
-    const fixture = TestBed.createComponent(RootComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
-  });
-
-  it(`should have as title 'media-manager'`, () => {
-    const fixture = TestBed.createComponent(RootComponent);
-    const app = fixture.componentInstance;
-  });
-
-  it('should render title', () => {
-    const fixture = TestBed.createComponent(RootComponent);
+  it('should be able to access menu for normal user', () => {
+    restServiceSpy.getUserPermissions.and.returnValue(of ({
+      permissions: ["USER_ACTIVITIES"],
+      id: 1
+    }));
     fixture.detectChanges();
-    const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('media-manager app is running!');
+
+    expect(fixture.componentInstance.userAccessibleMenu).toContain(MenuItems.NEWS);
+    expect(fixture.componentInstance.userAccessibleMenu).toContain(MenuItems.SEARCH_CONNECTIONS);
+    expect(fixture.componentInstance.userAccessibleMenu).toContain(MenuItems.TICKETS_MANAGEMENT);
+    expect(fixture.componentInstance.userAccessibleMenu).toContain(MenuItems.PROFILE);
   });
+
 });
