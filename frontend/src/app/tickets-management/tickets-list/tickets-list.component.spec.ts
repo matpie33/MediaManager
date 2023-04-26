@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TicketsListComponent } from './tickets-list.component';
 import {of} from "rxjs";
-import {TicketType} from "../../search-tickets-parent/search-tickets/search-tickets.component";
 import {RestHandlerService} from "../../rest-handler.service";
+import {TicketType} from "../../search-tickets-parent/data/ticket-data";
 
 describe('TicketsListComponent', () => {
   let component: TicketsListComponent;

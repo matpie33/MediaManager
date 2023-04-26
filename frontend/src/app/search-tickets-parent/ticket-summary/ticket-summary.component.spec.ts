@@ -1,7 +1,7 @@
 import {TicketSummaryComponent} from './ticket-summary.component';
 import {of} from "rxjs";
 import {LoginConstants} from "../../login/login-enums";
-import {TicketType} from "../search-tickets/search-tickets.component";
+import {TicketType} from "../data/ticket-data";
 
 describe('TicketSummaryComponent', () => {
   let ticketSummaryComponent: TicketSummaryComponent;

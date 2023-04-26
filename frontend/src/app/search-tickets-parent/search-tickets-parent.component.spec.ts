@@ -1,9 +1,8 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SearchTicketsParentComponent} from './search-tickets-parent.component';
-import {TicketType} from "./search-tickets/search-tickets.component";
 import {Component, Input} from "@angular/core";
-import {TicketData} from "./data/ticket-data";
+import {TicketData, TicketType} from "./data/ticket-data";
 
 @Component ({
   selector: 'app-search-connection',

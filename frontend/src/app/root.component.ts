@@ -1,6 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MenuItems} from "./menu-items";
-import {UserManagementService} from "./user-management-service";
 import {LoginConstants} from "./login/login-enums";
 import {RestHandlerService} from "./rest-handler.service";
 
@@ -16,8 +15,7 @@ export class RootComponent implements OnInit{
   menuToPermissionMap : Map<string, Array<MenuItems> | MenuItems> = new Map<string, Array<MenuItems> | MenuItems>();
   userAccessibleMenu: Set<MenuItems> = new Set<MenuItems>();
 
-  constructor(private restService: RestHandlerService, private userManagementService: UserManagementService) {
-    this.userManagementService.username.subscribe(value=>this.username = value);
+  constructor(private restService: RestHandlerService) {
     this.username = sessionStorage.getItem(LoginConstants.USERNAME);
     this.initializeMenuPermissions();
   }

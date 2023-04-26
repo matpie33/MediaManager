@@ -5,7 +5,6 @@ import {ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot} fro
 import {LoginConstants} from "./login-enums";
 import * as crypto from 'crypto-js'
 import {RestHandlerService} from "../rest-handler.service";
-import {UserManagementService} from "../user-management-service";
 import {LoginResponse} from "./login-data";
 
 @Component({
@@ -34,7 +33,7 @@ export class LoginComponent {
   actionDelay = 3;
   encryptionKey = "R0U8T7MFBAXfJe6DpHeM";
 
-  constructor(private restHandler: RestHandlerService, private formBuilder: FormBuilder, private router:Router, private route:ActivatedRoute, private userService: UserManagementService) {
+  constructor(private restHandler: RestHandlerService, private formBuilder: FormBuilder, private router:Router, private route:ActivatedRoute) {
   }
 
   onSubmitLogin (){
@@ -53,7 +52,6 @@ export class LoginComponent {
     if (response){
       let queryParam = this.route.snapshot.queryParams[LoginConstants.RETURN_URL];
       let username = this.loginForm.controls["username"].value;
-      this.userService.userLogin( username);
       sessionStorage.setItem(LoginConstants.USERNAME, username);
       sessionStorage.setItem(LoginConstants.USER_ID, response.id.toString());
       this.loginMessage = "Successfully logged in. Redirecting...";
