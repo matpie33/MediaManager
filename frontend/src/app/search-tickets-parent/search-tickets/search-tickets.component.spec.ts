@@ -1,6 +1,6 @@
 import {ComponentFixture, TestBed} from '@angular/core/testing';
 
-import {SearchTickets, TicketType} from './search-tickets.component';
+import {SearchTicketsComponent, TicketType} from './search-tickets.component';
 import {of} from "rxjs";
 import {RestHandlerService} from "../../rest-handler.service";
 import {CommonModule} from "@angular/common";
@@ -9,8 +9,8 @@ import {ReactiveFormsModule} from "@angular/forms";
 
 describe('SearchConnectionComponent', () => {
   let restHandlerService: any;
-  let searchTickets: SearchTickets;
-  let fixture: ComponentFixture<SearchTickets>;
+  let searchTickets: SearchTicketsComponent;
+  let fixture: ComponentFixture<SearchTicketsComponent>;
   beforeEach(async () => {
     restHandlerService = jasmine.createSpyObj("RestHandlerService", ["getConnections"]);
     TestBed.configureTestingModule({
@@ -21,10 +21,10 @@ describe('SearchConnectionComponent', () => {
         BrowserModule, CommonModule, ReactiveFormsModule
       ],
       declarations: [
-        SearchTickets
+        SearchTicketsComponent
       ]
     });
-    fixture = TestBed.createComponent(SearchTickets);
+    fixture = TestBed.createComponent(SearchTicketsComponent);
     searchTickets = fixture.componentInstance;
 
   });

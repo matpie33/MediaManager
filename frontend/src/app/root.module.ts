@@ -1,9 +1,8 @@
 import {inject, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
-import {AppRoutingModule} from './app-routing.module';
 import {RootComponent} from './root.component';
-import {SearchTickets} from './search-tickets-parent/search-tickets/search-tickets.component';
+import {SearchTicketsComponent} from './search-tickets-parent/search-tickets/search-tickets.component';
 import {RouterModule, Routes} from "@angular/router";
 import {MenuItems} from "./menu-items";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -37,7 +36,7 @@ const appRoutes: Routes = [
 @NgModule({
   declarations: [
     RootComponent,
-    SearchTickets,
+    SearchTicketsComponent,
     TicketSummaryComponent,
     SearchTicketsParentComponent,
     TicketsManagementComponent,
@@ -51,7 +50,6 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     ReactiveFormsModule,
     RouterModule.forRoot(
       appRoutes

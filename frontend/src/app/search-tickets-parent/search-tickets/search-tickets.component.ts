@@ -11,7 +11,7 @@ import {DATE_FORMAT, HTML_DATE_INPUT_FORMAT} from "../../constants";
   templateUrl: './search-tickets.component.html',
   styleUrls: ['./search-tickets.component.css']
 })
-export class SearchTickets {
+export class SearchTicketsComponent {
 
   todayDate: string = new DatePipe("en").transform(new Date(), HTML_DATE_INPUT_FORMAT)!;
 
