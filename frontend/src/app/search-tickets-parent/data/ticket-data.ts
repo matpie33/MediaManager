@@ -1,4 +1,3 @@
-import {TicketType} from "../search-tickets/search-tickets.component";
 
 export interface TicketData {
   fromStation: string,
@@ -6,6 +5,9 @@ export interface TicketData {
   connectionId: number;
   travelDate: string;
   ticketType: TicketType;
+}
 
+export enum TicketType {
+  REDUCED = "reduced", FULL_FARE="full-fare"
 }
 

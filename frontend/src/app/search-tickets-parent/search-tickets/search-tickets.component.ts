@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {TicketData} from "../data/ticket-data";
+import {TicketData, TicketType} from "../data/ticket-data";
 import { ConnectionData } from '../data/connection-data';
 import {RestHandlerService} from "../../rest-handler.service";
 import {DatePipe, KeyValue} from "@angular/common";
@@ -85,6 +85,4 @@ export class SearchTicketsComponent {
 
 }
 
-export enum TicketType {
-  REDUCED = "reduced", FULL_FARE="full-fare"
-}
+

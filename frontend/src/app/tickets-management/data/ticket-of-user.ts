@@ -1,4 +1,4 @@
-import {TicketType} from "../../search-tickets-parent/search-tickets/search-tickets.component";
+import {TicketType} from "../../search-tickets-parent/data/ticket-data";
 
 export interface UserTicket {
   travelDate: Date;
