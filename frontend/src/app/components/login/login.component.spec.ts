@@ -1,13 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginComponent } from './login.component';
-import {RestHandlerService} from "../rest-handler.service";
+import {RestHandlerService} from "../../services/rest-handler.service";
 import {RouterTestingModule} from "@angular/router/testing";
 import {ReactiveFormsModule} from "@angular/forms";
 import {By} from "@angular/platform-browser";
 import {of, throwError} from "rxjs";
 import {ActivatedRoute, Router} from "@angular/router";
-import {LoginConstants} from "./login-enums";
+import {LoginConstants} from "./data/login-enums";
 import {Component} from "@angular/core";
 
 

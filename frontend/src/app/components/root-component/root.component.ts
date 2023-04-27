@@ -1,12 +1,12 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
-import {MenuItems} from "./menu-items";
-import {LoginConstants} from "./login/login-enums";
-import {RestHandlerService} from "./rest-handler.service";
+import {MenuItems} from "../../constants/menu-items";
+import {LoginConstants} from "../login/data/login-enums";
+import {RestHandlerService} from "../../services/rest-handler.service";
 
 @Component({
   selector: 'app-root',
   templateUrl: './root.component.html',
-  styleUrls: ['./global-styles.css'],
+  styleUrls: ['../../global-styles.css'],
   encapsulation: ViewEncapsulation.None
 })
 export class RootComponent implements OnInit{

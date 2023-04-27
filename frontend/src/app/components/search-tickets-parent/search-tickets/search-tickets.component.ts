@@ -2,9 +2,9 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TicketData, TicketType} from "../data/ticket-data";
 import { ConnectionData } from '../data/connection-data';
-import {RestHandlerService} from "../../rest-handler.service";
+import {RestHandlerService} from "../../../services/rest-handler.service";
 import {DatePipe, KeyValue} from "@angular/common";
-import {DATE_FORMAT, HTML_DATE_INPUT_FORMAT} from "../../constants";
+import {DATE_FORMAT, HTML_DATE_INPUT_FORMAT} from "../../../constants/constants";
 
 @Component({
   selector: 'app-search-connection',

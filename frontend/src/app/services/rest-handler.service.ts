@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {ConnectionData} from "./search-tickets-parent/data/connection-data";
+import {ConnectionData} from "../components/search-tickets-parent/data/connection-data";
 import {Observable} from "rxjs";
-import {TicketData} from "./search-tickets-parent/data/ticket-data";
-import {UserTicket} from "./tickets-management/data/ticket-of-user";
-import {LoginData, LoginResponse, PersonalData, RegisterData} from "./login/login-data";
-import {REST_API_URL} from "./environment/environment";
+import {TicketData} from "../components/search-tickets-parent/data/ticket-data";
+import {UserTicket} from "../components/tickets-management/data/ticket-of-user";
+import {LoginData, LoginResponse, PersonalData, RegisterData} from "../components/login/data/login-data";
+import {REST_API_URL} from "../constants/environment/environment";
 
 @Injectable({
   providedIn: 'root'

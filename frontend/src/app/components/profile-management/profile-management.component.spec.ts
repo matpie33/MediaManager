@@ -1,7 +1,7 @@
 
 import { ProfileManagementComponent } from './profile-management.component';
-import {LoginConstants} from "../login/login-enums";
-import {RestHandlerService} from "../rest-handler.service";
+import {LoginConstants} from "../login/data/login-enums";
+import {RestHandlerService} from "../../services/rest-handler.service";
 import {of} from "rxjs";
 import {FormBuilder} from "@angular/forms";
 

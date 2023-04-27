@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SearchTicketsComponent} from './search-tickets.component';
 import {of} from "rxjs";
-import {RestHandlerService} from "../../rest-handler.service";
+import {RestHandlerService} from "../../../services/rest-handler.service";
 import {CommonModule} from "@angular/common";
 import {BrowserModule} from "@angular/platform-browser";
 import {ReactiveFormsModule} from "@angular/forms";

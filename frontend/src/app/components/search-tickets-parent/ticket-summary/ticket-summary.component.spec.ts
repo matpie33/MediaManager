@@ -1,8 +1,8 @@
 import {TicketSummaryComponent} from './ticket-summary.component';
 import {of} from "rxjs";
-import {LoginConstants} from "../../login/login-enums";
+import {LoginConstants} from "../../login/data/login-enums";
 import {TicketType} from "../data/ticket-data";
-import {RestHandlerService} from "../../rest-handler.service";
+import {RestHandlerService} from "../../../services/rest-handler.service";
 
 describe('TicketSummaryComponent', () => {
   let ticketSummaryComponent: TicketSummaryComponent;

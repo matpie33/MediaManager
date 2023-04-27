@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {RestHandlerService} from "../../rest-handler.service";
+import {RestHandlerService} from "../../../services/rest-handler.service";
 import {UserTicket} from "../data/ticket-of-user";
-import {LoginConstants} from "../../login/login-enums";
-import {DATE_FORMAT} from "../../constants";
+import {LoginConstants} from "../../login/data/login-enums";
+import {DATE_FORMAT} from "../../../constants/constants";
 
 @Component({
   selector: 'app-tickets-list',

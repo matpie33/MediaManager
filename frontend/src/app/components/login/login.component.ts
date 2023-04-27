@@ -2,10 +2,10 @@ import {Component, EventEmitter, Output} from '@angular/core';
 import {Form, FormControl, FormGroup, Validators} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
 import {ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot} from "@angular/router";
-import {LoginConstants} from "./login-enums";
+import {LoginConstants} from "./data/login-enums";
 import * as crypto from 'crypto-js'
-import {RestHandlerService} from "../rest-handler.service";
-import {LoginResponse} from "./login-data";
+import {RestHandlerService} from "../../services/rest-handler.service";
+import {LoginResponse} from "./data/login-data";
 
 @Component({
   selector: 'app-login',

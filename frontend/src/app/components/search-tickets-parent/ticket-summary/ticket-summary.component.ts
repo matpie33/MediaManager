@@ -1,8 +1,8 @@
 import {Component, Input} from '@angular/core';
 import {TicketData} from "../data/ticket-data";
-import {RestHandlerService} from "../../rest-handler.service";
-import {LoginConstants} from "../../login/login-enums";
-import {DATE_FORMAT} from "../../constants";
+import {RestHandlerService} from "../../../services/rest-handler.service";
+import {LoginConstants} from "../../login/data/login-enums";
+import {DATE_FORMAT} from "../../../constants/constants";
 
 @Component({
   selector: 'app-ticket-summary',

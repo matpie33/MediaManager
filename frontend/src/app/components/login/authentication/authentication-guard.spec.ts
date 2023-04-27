@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import {AuthenticationGuard} from "./authentication-guard";
 import {ActivatedRouteSnapshot, Router, RouterState, RouterStateSnapshot} from "@angular/router";
-import {LoginConstants} from "./login-enums";
+import {LoginConstants} from "../data/login-enums";
 
 describe('AuthenticationGuard', () => {
 

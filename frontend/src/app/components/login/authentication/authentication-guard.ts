@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable} from 'rxjs';
-import {LoginConstants} from "./login-enums";
+import {LoginConstants} from "../data/login-enums";
 
 @Injectable({
   providedIn: 'root'

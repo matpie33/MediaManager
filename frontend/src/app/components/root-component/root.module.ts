@@ -2,24 +2,24 @@ import {inject, NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {RootComponent} from './root.component';
-import {SearchTicketsComponent} from './search-tickets-parent/search-tickets/search-tickets.component';
+import {SearchTicketsComponent} from '../search-tickets-parent/search-tickets/search-tickets.component';
 import {RouterModule, Routes} from "@angular/router";
-import {MenuItems} from "./menu-items";
+import {MenuItems} from "../../constants/menu-items";
 import {ReactiveFormsModule} from "@angular/forms";
-import {TicketSummaryComponent} from './search-tickets-parent/ticket-summary/ticket-summary.component';
-import {SearchTicketsParentComponent} from './search-tickets-parent/search-tickets-parent.component';
-import { TicketsManagementComponent } from './tickets-management/tickets-management.component';
-import { LoginComponent } from './login/login.component';
-import { TicketsListComponent } from './tickets-management/tickets-list/tickets-list.component';
-import { ProfileManagementComponent } from './profile-management/profile-management.component';
-import { NewsComponent } from './news/news.component';
-import {AuthenticationGuard} from "./login/authentication-guard";
-import {LoginConstants} from "./login/login-enums";
+import {TicketSummaryComponent} from '../search-tickets-parent/ticket-summary/ticket-summary.component';
+import {SearchTicketsParentComponent} from '../search-tickets-parent/search-tickets-parent.component';
+import { TicketsManagementComponent } from '../tickets-management/tickets-management.component';
+import { LoginComponent } from '../login/login.component';
+import { TicketsListComponent } from '../tickets-management/tickets-list/tickets-list.component';
+import { ProfileManagementComponent } from '../profile-management/profile-management.component';
+import { NewsComponent } from '../news/news.component';
+import {AuthenticationGuard} from "../login/authentication/authentication-guard";
+import {LoginConstants} from "../login/data/login-enums";
 import {HttpClientModule} from "@angular/common/http";
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import {AuthenticationGuardAdmin} from "./login/authentication-guard-admin";
-import { AccessDeniedComponent } from './access-denied/access-denied.component';
-import { AddConnectionComponent } from './add-connection/add-connection.component';
+import { PageNotFoundComponent } from '../error-handling/page-not-found/page-not-found.component';
+import {AuthenticationGuardAdmin} from "../login/authentication/authentication-guard-admin";
+import { AccessDeniedComponent } from '../error-handling/access-denied/access-denied.component';
+import { AddConnectionComponent } from '../add-connection/add-connection.component';
 
 const appRoutes: Routes = [
   {path: MenuItems.SEARCH_CONNECTIONS.toString(), component: SearchTicketsParentComponent, canActivate: [AuthenticationGuard]},

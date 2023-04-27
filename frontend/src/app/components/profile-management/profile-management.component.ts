@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
-import {RestHandlerService} from "../rest-handler.service";
-import {LoginConstants} from "../login/login-enums";
+import {RestHandlerService} from "../../services/rest-handler.service";
+import {LoginConstants} from "../login/data/login-enums";
 
 @Component({
   selector: 'app-profile-management',

@@ -1,11 +1,11 @@
 import {inject, Injectable} from '@angular/core';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
 import {Observable, map, catchError, of} from 'rxjs';
-import {MenuItems} from "../menu-items";
-import {LoginConstants} from "./login-enums";
-import {LoginComponent} from "./login.component";
-import {RestHandlerService} from "../rest-handler.service";
-import {LoginResponse} from "./login-data";
+import {MenuItems} from "../../../constants/menu-items";
+import {LoginConstants} from "../data/login-enums";
+import {LoginComponent} from "../login.component";
+import {RestHandlerService} from "../../../services/rest-handler.service";
+import {LoginResponse} from "../data/login-data";
 
 @Injectable({
   providedIn: 'root'
