@@ -1,4 +1,4 @@
-<form *ngIf="!showRegisterForm" class="bordered" [formGroup]= "loginForm" (ngSubmit)="onSubmitLogin()">
+<form id="loginForm" *ngIf="!showRegisterForm" class="bordered" [formGroup]= "loginForm" (ngSubmit)="onSubmitLogin()">
   <h2>Log in</h2>
   <p [style.color]="loginMessageColor">{{loginMessage}}</p>
   <div class="grid-parent">
@@ -10,7 +10,7 @@
   <button class="submit btn-main" type ="submit">Login</button>
   <button class="submit btn-secondary" (click)="openRegister()">Go to register</button>
 </form>
-<form *ngIf="showRegisterForm" class="bordered" [formGroup]= "registerForm" (ngSubmit)="onSubmitRegister()">
+<form id="registerForm" *ngIf="showRegisterForm" class="bordered" [formGroup]= "registerForm" (ngSubmit)="onSubmitRegister()">
   <h2>Register new account</h2>
   <p [style.color]="registerMessageColor">{{registerMessage}}</p>
   <div class="grid-parent">

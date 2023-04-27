@@ -1,23 +1,33 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ProfileManagementComponent } from './profile-management.component';
+import {LoginConstants} from "../login/login-enums";
+import {RestHandlerService} from "../rest-handler.service";
+import {of} from "rxjs";
+import {FormBuilder} from "@angular/forms";
 
 describe('ProfileManagementComponent', () => {
-  let component: ProfileManagementComponent;
-  let fixture: ComponentFixture<ProfileManagementComponent>;
+  let restServiceSpy: any;
+  let profileManagementComponent: ProfileManagementComponent;
+  let userData: any;
 
   beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      declarations: [ ProfileManagementComponent ]
-    })
-    .compileComponents();
-
-    fixture = TestBed.createComponent(ProfileManagementComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
+    restServiceSpy = jasmine.createSpyObj(RestHandlerService.name, ["editUser", "getUser"]);
+    restServiceSpy.editUser.and.returnValue(of(1));
+    sessionStorage.clear();
+    userData = {
+      firstName: "John",
+      lastName: "Connor",
+      email: "john.connor@gmail.com"
+    };
+    restServiceSpy.getUser.and.returnValue(of(userData))
+    profileManagementComponent = new ProfileManagementComponent(new FormBuilder(), restServiceSpy);
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('should edit user data and show success message', () => {
+    sessionStorage.setItem(LoginConstants.USER_ID, "1");
+    profileManagementComponent.onSubmitProfile();
+    expect(restServiceSpy.editUser).toHaveBeenCalledWith(userData, 1);
+    expect( profileManagementComponent.saveStatus ).toBe("Data has been successfully saved!");
+
   });
 });
