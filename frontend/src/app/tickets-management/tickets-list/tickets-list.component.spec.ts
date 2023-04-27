@@ -11,8 +11,8 @@ describe('TicketsListComponent', () => {
 
 
   beforeEach(async () => {
-    const restHandler = jasmine.createSpyObj("RestHandlerService",
-      ["getTicketsOfUser"]);
+    const restHandler = jasmine.createSpyObj(RestHandlerService.name,
+      [RestHandlerService.prototype.getTicketsOfUser.name]);
     await TestBed.configureTestingModule({
       declarations: [ TicketsListComponent ],
       providers: [{provide: RestHandlerService, useValue: restHandler}]

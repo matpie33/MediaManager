@@ -2,6 +2,7 @@ import {TicketSummaryComponent} from './ticket-summary.component';
 import {of} from "rxjs";
 import {LoginConstants} from "../../login/login-enums";
 import {TicketType} from "../data/ticket-data";
+import {RestHandlerService} from "../../rest-handler.service";
 
 describe('TicketSummaryComponent', () => {
   let ticketSummaryComponent: TicketSummaryComponent;
@@ -9,7 +10,7 @@ describe('TicketSummaryComponent', () => {
 
   beforeEach(async () => {
 
-    restHandlerService = jasmine.createSpyObj("RestHandlerService", ["assignTicketToUser"]);
+    restHandlerService = jasmine.createSpyObj(RestHandlerService.name, [RestHandlerService.prototype.assignTicketToUser.name]);
     ticketSummaryComponent = new TicketSummaryComponent(restHandlerService);
     sessionStorage.clear();
 

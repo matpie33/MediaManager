@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
 import {AuthenticationGuard} from "./authentication-guard";
-import {ActivatedRouteSnapshot, RouterStateSnapshot} from "@angular/router";
+import {ActivatedRouteSnapshot, Router, RouterState, RouterStateSnapshot} from "@angular/router";
 import {LoginConstants} from "./login-enums";
 
 describe('AuthenticationGuard', () => {
 
   let routeSnapshot: ActivatedRouteSnapshot;
-  let routerStateSnapshot: RouterStateSnapshot;
+  let routerStateSnapshot: any;
   let authenticationGuard: AuthenticationGuard;
   let router: any;
   let routerNavigateSpy: any;
@@ -15,11 +15,11 @@ describe('AuthenticationGuard', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({});
 
-    router = jasmine.createSpyObj("Router", ["navigate", "routerState"]);
+    router = jasmine.createSpyObj(Router.name, [Router.prototype.navigate.name]);
     authenticationGuard = new AuthenticationGuard(router);
-    let routerStateSpy = jasmine.createSpyObj("RouterState", [""]);
+    let routerStateSpy:any = jasmine.createSpy(RouterState.name);
     router.routerState = routerStateSpy;
-    routerStateSnapshot = jasmine.createSpyObj("RouterStateSnapshot", [""]);
+    routerStateSnapshot = jasmine.createSpy(RouterStateSnapshot.name);
     routerStateSnapshot.url = "testUrl";
     routerStateSpy.routerStateSnapshot = routerStateSnapshot;
     routerNavigateSpy = router.navigate.and.returnValue(new Promise<boolean>((resolve)=>{

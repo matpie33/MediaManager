@@ -13,7 +13,7 @@ describe('SearchConnectionComponent', () => {
   let searchTickets: SearchTicketsComponent;
   let fixture: ComponentFixture<SearchTicketsComponent>;
   beforeEach(async () => {
-    restHandlerService = jasmine.createSpyObj("RestHandlerService", ["getConnections"]);
+    restHandlerService = jasmine.createSpyObj(RestHandlerService.name, [RestHandlerService.prototype.getConnections.name]);
     TestBed.configureTestingModule({
       providers: [
         {provide: RestHandlerService, useValue: restHandlerService}

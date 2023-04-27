@@ -9,7 +9,7 @@ describe('RootComponent', () => {
   let restServiceSpy: any;
   let fixture: ComponentFixture<RootComponent>;
   beforeEach(async () => {
-    restServiceSpy = jasmine.createSpyObj("RestHandlerService", ["getUserPermissions"]);
+    restServiceSpy = jasmine.createSpyObj(RestHandlerService.name, [RestHandlerService.prototype.getUserPermissions.name]);
 
     await TestBed.configureTestingModule({
       imports: [

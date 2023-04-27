@@ -11,7 +11,9 @@ describe('ProfileManagementComponent', () => {
   let userData: any;
 
   beforeEach(async () => {
-    restServiceSpy = jasmine.createSpyObj(RestHandlerService.name, ["editUser", "getUser"]);
+    let restHandlerServicePrototype = RestHandlerService.prototype;
+    restServiceSpy = jasmine.createSpyObj(RestHandlerService.name, [restHandlerServicePrototype.editUser.name,
+      restHandlerServicePrototype.getUser.name]);
     restServiceSpy.editUser.and.returnValue(of(1));
     sessionStorage.clear();
     userData = {
