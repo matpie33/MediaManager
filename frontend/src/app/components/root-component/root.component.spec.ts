@@ -4,6 +4,7 @@ import {RootComponent} from './root.component';
 import {RestHandlerService} from "../../services/rest-handler.service";
 import {of} from "rxjs";
 import {MenuItems} from "../../constants/menu-items";
+import {PermissionTypes} from "../../constants/permission-types";
 
 describe('RootComponent', () => {
   let restServiceSpy: any;
@@ -27,10 +28,12 @@ describe('RootComponent', () => {
   });
 
   it('should be able to access menu for normal user', () => {
-    restServiceSpy.getUserPermissions.and.returnValue(of ({
-      permissions: ["USER_ACTIVITIES"],
+    let value = {
+      permissions: [PermissionTypes.USER_ACTIVITIES],
       id: 1
-    }));
+    };
+    restServiceSpy.getUserPermissions.and.returnValue(of (value));
+    console.log(value);
     fixture.detectChanges();
 
     expect(fixture.componentInstance.userAccessibleMenu).toContain(MenuItems.NEWS);

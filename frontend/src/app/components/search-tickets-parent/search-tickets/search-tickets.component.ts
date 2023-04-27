@@ -4,7 +4,7 @@ import {TicketData, TicketType} from "../data/ticket-data";
 import { ConnectionData } from '../data/connection-data';
 import {RestHandlerService} from "../../../services/rest-handler.service";
 import {DatePipe, KeyValue} from "@angular/common";
-import {DATE_FORMAT, HTML_DATE_INPUT_FORMAT} from "../../../constants/constants";
+import {DATE_FORMAT, HTML_DATE_INPUT_FORMAT} from "../../../constants/date-formats";
 
 @Component({
   selector: 'app-search-connection',

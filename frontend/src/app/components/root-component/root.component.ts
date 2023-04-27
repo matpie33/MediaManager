@@ -2,6 +2,7 @@ import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MenuItems} from "../../constants/menu-items";
 import {LoginConstants} from "../login/data/login-enums";
 import {RestHandlerService} from "../../services/rest-handler.service";
+import {PermissionTypes} from "../../constants/permission-types";
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,6 @@ export class RootComponent implements OnInit{
     this.initializeMenuPermissions();
   }
 
-
   initializeMenuPermissions (){
     this.userAccessibleMenu.add(MenuItems.NEWS);
     this.userAccessibleMenu.add(MenuItems.SEARCH_CONNECTIONS);
@@ -28,10 +28,9 @@ export class RootComponent implements OnInit{
        MenuItems.TICKETS_MANAGEMENT, MenuItems.PROFILE
     ];
 
-    this.menuToPermissionMap.set("USER_ACTIVITIES", defaultMenu);
-    this.menuToPermissionMap.set("ADD_TRAVEL_CONNECTION",MenuItems.ADD_CONNECTION);
+    this.menuToPermissionMap.set(PermissionTypes.USER_ACTIVITIES, defaultMenu);
+    this.menuToPermissionMap.set(PermissionTypes.ADD_TRAVEL_CONNECTION,MenuItems.ADD_CONNECTION);
   }
-
 
   logout() {
     sessionStorage.clear();
