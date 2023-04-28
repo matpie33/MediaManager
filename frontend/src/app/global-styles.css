@@ -1,4 +1,12 @@
 
+.success-message{
+  color:mediumblue;
+}
+
+.error-message{
+  color: rgb(197, 0, 0);
+}
+
 .horizontal-menu {
   display: inline-flex;
   padding-left: 60px;

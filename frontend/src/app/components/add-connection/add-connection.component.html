@@ -1,1 +1,22 @@
-<p>add-connection works!</p>
+
+<form class="bordered" [formGroup]= "form" (ngSubmit)="onSubmit()">
+  <h2>Add new connection</h2>
+  <div class="grid-parent">
+
+    <label>From station</label>
+    <input type="text" formControlName="fromStation">
+    <label>To station</label>
+    <input type="text" formControlName="toStation">
+    <label>Time</label>
+    <input type="time" step="60" formControlName="time">
+    <label>Train</label>
+    <select formControlName="train">
+      <option *ngFor="let train of trains | keyvalue" [ngValue]="train.key">{{train.value}}</option>
+    </select>
+    <button type="submit">Add</button>
+
+  </div>
+  <p [class]="statusClass" *ngIf="showStatus">{{statusMessage}}</p>
+
+
+</form>

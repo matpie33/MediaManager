@@ -3,9 +3,10 @@ package org.media.manager.mapper;
 import org.media.manager.constants.DateTimeFormats;
 import org.media.manager.dto.ConnectionDTO;
 import org.media.manager.entity.Connection;
-import org.springframework.format.annotation.DateTimeFormat;
+import org.media.manager.entity.Train;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 @Component
@@ -19,6 +20,16 @@ public class ConnectionMapper {
         connectionDTO.setToStation(connection.getToStation());
         connectionDTO.setId(connection.getId());
         return connectionDTO;
+    }
+
+    public Connection mapConnection (String fromStation, String toStation, String time, Train train){
+        Connection connection = new Connection();
+        LocalTime localTime = LocalTime.parse(time);
+        connection.setTime(localTime);
+        connection.setFromStation(fromStation);
+        connection.setToStation(toStation);
+        connection.setTrain(train);
+        return connection;
     }
 
 }

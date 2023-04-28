@@ -43,6 +43,22 @@ public class Connection {
         return train;
     }
 
+    public void setFromStation(String fromStation) {
+        this.fromStation = fromStation;
+    }
+
+    public void setToStation(String toStation) {
+        this.toStation = toStation;
+    }
+
+    public void setTime(LocalTime time) {
+        this.time = time;
+    }
+
+    public void setTrain(Train train) {
+        this.train = train;
+    }
+
     @Override
     public String toString() {
         return "Connection{" +

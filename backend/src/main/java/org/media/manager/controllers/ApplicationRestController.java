@@ -8,10 +8,7 @@ import org.media.manager.dao.*;
 import org.media.manager.dto.*;
 import org.media.manager.entity.*;
 import org.media.manager.constants.TicketType;
-import org.media.manager.mapper.AppUserMapper;
-import org.media.manager.mapper.ConnectionMapper;
-import org.media.manager.mapper.SeatsMapper;
-import org.media.manager.mapper.TicketMapper;
+import org.media.manager.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -24,6 +21,7 @@ import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.Supplier;
@@ -54,8 +52,10 @@ public class ApplicationRestController {
 
     private SeatsMapper seatsMapper;
 
+    private TrainMapper trainMapper;
+
     @Autowired
-    public ApplicationRestController(SeatsMapper seatsMapper, AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper, PasswordEncoder passwordEncoder, SeatsDAO seatsDAO, TrainDAO trainDAO) {
+    public ApplicationRestController(TrainMapper trainMapper, SeatsMapper seatsMapper, AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper, PasswordEncoder passwordEncoder, SeatsDAO seatsDAO, TrainDAO trainDAO) {
         this.appUserMapper = appUserMapper;
         this.ticketMapper = ticketMapper;
         this.travelConnectionDAO = travelConnectionDAO;
@@ -66,6 +66,7 @@ public class ApplicationRestController {
         this.seatsDAO = seatsDAO;
         this.trainDAO = trainDAO;
         this.seatsMapper = seatsMapper;
+        this.trainMapper = trainMapper;
     }
 
     @PostConstruct
@@ -199,5 +200,20 @@ public class ApplicationRestController {
         AppUser appUser = appUserDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
         return gson.toJson(appUserMapper.mapPrivileges(appUser));
     }
+
+    @PostMapping("connection/from/{from}/to/{to}/atTime/{time}/trainId/{trainId}")
+    public void addConnection (@PathVariable String from, @PathVariable String to, @PathVariable String time,
+                               @PathVariable long trainId ){
+        Train train = trainDAO.findById(trainId).orElseThrow(createIllegalArgumentException("Train not found"));
+        Connection connection = connectionMapper.mapConnection(from, to, time, train);
+        travelConnectionDAO.save(connection);
+    }
+
+    @GetMapping("trains")
+    public String getTrains (){
+        List<Train> trains = trainDAO.findAll();
+        return gson.toJson(trains.stream().map(trainMapper::mapTrain).collect(Collectors.toSet()));
+    }
+
 
 }
