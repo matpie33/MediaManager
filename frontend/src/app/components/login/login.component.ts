@@ -1,27 +1,24 @@
-import {Component, EventEmitter, Output} from '@angular/core';
-import {Form, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component} from '@angular/core';
+import {FormControl, FormGroup} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
-import {ActivatedRoute, ActivatedRouteSnapshot, Router, RouterStateSnapshot} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {LoginConstants} from "./data/login-enums";
 import * as crypto from 'crypto-js'
 import {RestHandlerService} from "../../services/rest-handler.service";
 import {LoginResponse} from "./data/login-data";
+import {ViewWithStatus} from "../common/view-with-status";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent {
+export class LoginComponent extends ViewWithStatus{
   loginForm: FormGroup = new FormGroup<any>({
     username: new FormControl(""),
     password: new FormControl("")
   });
 
-  loginMessageColor: string = "blue";
-  loginMessage: string = "";
-  registerMessageColor: string = "blue";
-  registerMessage: string = "";
   registerForm: FormGroup = this.formBuilder.group({
     username: "",
     password: "",
@@ -34,11 +31,11 @@ export class LoginComponent {
   encryptionKey = "R0U8T7MFBAXfJe6DpHeM";
 
   constructor(private restHandler: RestHandlerService, private formBuilder: FormBuilder, private router:Router, private route:ActivatedRoute) {
+    super();
   }
 
   onSubmitLogin (){
-    this.loginMessageColor = "blue";
-    this.loginMessage = "Please wait... logging in..."
+    this.showSuccessMessage("Please wait... logging in...");
     this.restHandler.loginUser({
       userName: this.loginForm.controls["username"].value,
       password: crypto.SHA512(this.loginForm.controls["password"].value).toString(),
@@ -54,23 +51,21 @@ export class LoginComponent {
       let username = this.loginForm.controls["username"].value;
       sessionStorage.setItem(LoginConstants.USERNAME, username);
       sessionStorage.setItem(LoginConstants.USER_ID, response.id.toString());
-      this.loginMessage = "Successfully logged in. Redirecting...";
-      this.loginMessageColor = "green";
-      this.router.navigateByUrl(queryParam).catch(error=>console.log(error)).then(success=>{
+      this.showSuccessMessage("Successfully logged in. Redirecting...");
+      this.router.navigateByUrl(queryParam).catch(error=>console.log(error)).then(()=>{
 
         window.location.reload();
+        this.showStatus = false;
       })
     }
   }
 
   handleLoginError(){
-    this.loginMessage = "Failed to log in.";
-    this.loginMessageColor = "red";
+    this.showErrorMessage("Failed to log in.");
   }
 
   onSubmitRegister() {
-    this.registerMessageColor = "blue";
-    this.registerMessage = "Please wait... registering..."
+    this.showSuccessMessage("Please wait... registering...");
     this.restHandler.registerUser({
       userCredentials: {
         userName: this.registerForm.controls["username"].value,
@@ -88,24 +83,21 @@ export class LoginComponent {
   }
 
   handleRegisterSuccess (){
-      this.registerMessage = `Successfully registered. Redirecting to login page in ${this.actionDelay} seconds...`;
-      this.registerMessageColor = "green";
-      setTimeout(()=> {
-        this.showRegisterForm = false;
-        this.registerMessage = "";
-      }, this.actionDelay*1000);
+    this.showSuccessMessage(`Successfully registered. Redirecting to login page in ${this.actionDelay} seconds...`);
+    this.hideStatusAfterDelay(()=>this.showRegisterForm=false, this.actionDelay);
   }
 
   handleRegisterError (){
-    this.registerMessage = "Username already exists.";
-    this.registerMessageColor = "red";
+    this.showErrorMessage("Username already exists.");
   }
 
   openRegister() {
     this.showRegisterForm = true;
+    this.showStatus = false;
   }
 
   goToLogin() {
     this.showRegisterForm = false;
+    this.showStatus = false;
   }
 }

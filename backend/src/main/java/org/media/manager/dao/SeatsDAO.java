@@ -9,5 +9,5 @@ import java.util.Optional;
 public interface SeatsDAO extends JpaRepository<Seats, Long> {
 
     Optional<Seats> findByDateAndConnection_Id(LocalDate dateTime, Long connectionID);
-    Optional<Seats> findByConnection_IdAndFreeSeatsGreaterThanAndDate(long connectionId, int freeSeats, LocalDate date);
+    Optional<Seats> findByConnection_IdAndAndDate(long connectionId, LocalDate date);
 }

@@ -5,13 +5,14 @@ import { ConnectionData } from '../data/connection-data';
 import {RestHandlerService} from "../../../services/rest-handler.service";
 import {DatePipe, KeyValue} from "@angular/common";
 import {DATE_FORMAT, HTML_DATE_INPUT_FORMAT} from "../../../constants/date-formats";
+import {ViewWithStatus} from "../../common/view-with-status";
 
 @Component({
   selector: 'app-search-connection',
   templateUrl: './search-tickets.component.html',
   styleUrls: ['./search-tickets.component.css']
 })
-export class SearchTicketsComponent {
+export class SearchTicketsComponent extends ViewWithStatus{
 
   todayDate: string = new DatePipe("en").transform(new Date(), HTML_DATE_INPUT_FORMAT)!;
 
@@ -29,7 +30,6 @@ export class SearchTicketsComponent {
 
   searchPerformed: boolean = false;
   searchFormValid :boolean = false;
-  personalDataFormValid = true;
 
   @Output() ticketData: EventEmitter<TicketData> = new EventEmitter<TicketData>();
 
@@ -41,6 +41,7 @@ export class SearchTicketsComponent {
 
 
   constructor(private restHandler: RestHandlerService) {
+    super();
   }
 
   onSubmitSearch() {
@@ -65,7 +66,6 @@ export class SearchTicketsComponent {
 
   onSubmitPersonalData (){
     if (this.ticketsForm.valid){
-      this.personalDataFormValid = true;
       let connectionData: ConnectionData = this.availableTickets.get( this.ticketsForm.controls["ticket"].value)!;
       let date = this.searchForm.controls["date"].value;
       let convertedDate = new DatePipe("en").transform(date, DATE_FORMAT);
@@ -79,7 +79,8 @@ export class SearchTicketsComponent {
       this.ticketData.emit(ticketData);
     }
     else{
-      this.personalDataFormValid = false;
+
+        this.showErrorMessage("Please select connection");
     }
   }
 

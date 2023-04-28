@@ -20,10 +20,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.LinkedHashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
@@ -78,14 +75,19 @@ public class ApplicationRestController {
     @GetMapping("/connection/{from}/to/{to}/sinceHour/{travelDateTime}")
     public String getConnectionsByStationAndTime(@PathVariable String from, @PathVariable String to, @PathVariable @DateTimeFormat(pattern = DateTimeFormats.DATE_TIME_FORMAT) LocalDateTime travelDateTime){
         Set<Connection> connections = travelConnectionDAO.findConnectionsByTimeGreaterThanEqualAndFromStationAndToStation(travelDateTime.toLocalTime(), from, to);
-        return gson.toJson(connections.stream().map(connection -> getSeat(travelDateTime, connection, from, to)).collect(Collectors.toSet()));
+        return gson.toJson(connections.stream().map(connection -> getSeat(travelDateTime, connection, from, to)).filter(Objects::nonNull).collect(Collectors.toSet()));
     }
 
 
     private SeatsDTO getSeat(LocalDateTime travelDateTime, Connection connection, String from, String to) {
-        Optional<Seats> seats = seatsDAO.findByConnection_IdAndFreeSeatsGreaterThanAndDate(connection.getId(), 0, travelDateTime.toLocalDate());
+        Optional<Seats> seats = seatsDAO.findByConnection_IdAndAndDate(connection.getId(), travelDateTime.toLocalDate());
         if (seats.isPresent()){
-            return seatsMapper.mapSeats(seats.get());
+            if (seats.get().getFreeSeats()>0){
+                return seatsMapper.mapSeats(seats.get());
+            }
+            else{
+                return null;
+            }
         }
         else{
             Train train = trainDAO.findById(connection.getTrain().getId()).orElseThrow(createIllegalArgumentException("Train not found"));
@@ -95,12 +97,11 @@ public class ApplicationRestController {
 
     @Transactional
     @GetMapping("/assignTicket/{connectionId}/user/{userId}/ticket_type/{ticketType}/travelDate/{travelDateTime}")
-    public boolean assignTicketToUser(@PathVariable long connectionId, @PathVariable long userId, @PathVariable String ticketType, @PathVariable @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime travelDateTime){
+    public void assignTicketToUser(@PathVariable long connectionId, @PathVariable long userId, @PathVariable String ticketType, @PathVariable @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime travelDateTime){
 
         Connection connection = travelConnectionDAO.findById(connectionId).orElseThrow(createIllegalArgumentException("Travel connection does not exist"));
         updateSeats(connection, travelDateTime, connectionId);
         assignTicketToUser(userId, ticketType, travelDateTime, connection);
-        return true;
 
     }
 

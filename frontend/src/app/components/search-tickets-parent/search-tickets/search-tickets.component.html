@@ -33,7 +33,7 @@
           <input type="radio" [value]="ticket.value.id" formControlName="ticket">
         </div>
       </div>
-      <p *ngIf="!personalDataFormValid" style="color:red">Invalid input</p>
+      <p *ngIf="showStatus" [class]="statusClass">{{statusMessage}}</p>
       <button class="submit" type="submit">Submit</button>
     </div>
 

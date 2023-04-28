@@ -29,7 +29,7 @@ describe('ProfileManagementComponent', () => {
     sessionStorage.setItem(LoginConstants.USER_ID, "1");
     profileManagementComponent.onSubmitProfile();
     expect(restServiceSpy.editUser).toHaveBeenCalledWith(userData, 1);
-    expect( profileManagementComponent.saveStatus ).toBe("Data has been successfully saved!");
+    expect( profileManagementComponent.statusMessage ).toBe("Data has been successfully saved!");
 
   });
 });

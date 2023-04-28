@@ -9,5 +9,5 @@
     <input type="text" formControlName="email">
   </div>
   <button class="submit" type ="submit" [disabled]="profileForm.pristine">Submit</button>
-  <p *ngIf="showStatus" style="color:blue">{{saveStatus}}</p>
+  <p *ngIf="showStatus" [class]="statusClass">{{statusMessage}}</p>
 </form>

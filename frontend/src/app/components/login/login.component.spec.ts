@@ -48,7 +48,7 @@ describe('LoginComponent', () => {
 
     loginForm.triggerEventHandler('submit');
 
-    expect(loginComponent.loginMessage).toBe("Successfully logged in. Redirecting...");
+    expect(loginComponent.statusMessage).toBe("Successfully logged in. Redirecting...");
     expect(router.navigateByUrl).toHaveBeenCalledWith("ret");
     expect(sessionStorage.getItem(LoginConstants.USERNAME)).toBe("user123");
     expect(sessionStorage.getItem(LoginConstants.USER_ID)).toBe("1");
@@ -60,7 +60,7 @@ describe('LoginComponent', () => {
     fixture.detectChanges();
     let loginForm = fixture.debugElement.query(By.css("#loginForm"));
     loginForm.triggerEventHandler('submit');
-    expect(loginComponent.loginMessage).toBe("Failed to log in.");
+    expect(loginComponent.statusMessage).toBe("Failed to log in.");
   });
 
 });

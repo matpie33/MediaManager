@@ -5,7 +5,7 @@
   <p>Date: {{ticketData.travelDate}}</p>
   <p>Ticket type: {{ticketData.ticketType}}</p>
   <button class="submit" (click)="confirmAndBuy()" [disabled]="submitButtonEnabled">Confirm and buy</button>
-  <p *ngIf="buyRequestSent" [style.color]="statusColor">{{paymentStatusMessage}}</p>
+  <p *ngIf="buyRequestSent" [class] ="statusClass">{{statusMessage}}</p>
 </div>
 
 
