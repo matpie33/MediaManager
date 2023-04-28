@@ -2,7 +2,7 @@ import {ComponentFixture, TestBed} from '@angular/core/testing';
 
 import {SearchTicketsComponent} from './search-tickets.component';
 import {of} from "rxjs";
-import {RestHandlerService} from "../../../services/rest-handler.service";
+import {RestClientService} from "../../../services/rest-client.service";
 import {CommonModule} from "@angular/common";
 import {BrowserModule} from "@angular/platform-browser";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -13,10 +13,10 @@ describe('SearchConnectionComponent', () => {
   let searchTickets: SearchTicketsComponent;
   let fixture: ComponentFixture<SearchTicketsComponent>;
   beforeEach(async () => {
-    restHandlerService = jasmine.createSpyObj(RestHandlerService.name, [RestHandlerService.prototype.getConnections.name]);
+    restHandlerService = jasmine.createSpyObj(RestClientService.name, [RestClientService.prototype.getConnections.name]);
     TestBed.configureTestingModule({
       providers: [
-        {provide: RestHandlerService, useValue: restHandlerService}
+        {provide: RestClientService, useValue: restHandlerService}
       ],
       imports: [
         BrowserModule, CommonModule, ReactiveFormsModule

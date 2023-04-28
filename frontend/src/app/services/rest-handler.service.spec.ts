@@ -1,14 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
-import { RestHandlerService } from './rest-handler.service';
+import { RestClientService } from './rest-client.service';
 import {provideHttpClient} from "@angular/common/http";
 
 describe('RestHandlerService', () => {
-  let service: RestHandlerService;
+  let service: RestClientService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({providers: [provideHttpClient()]});
-    service = TestBed.inject(RestHandlerService);
+    service = TestBed.inject(RestClientService);
   });
 
   it('should be created', () => {

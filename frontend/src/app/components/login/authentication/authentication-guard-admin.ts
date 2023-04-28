@@ -4,14 +4,14 @@ import {Observable, map, catchError, of} from 'rxjs';
 import {MenuItems} from "../../../constants/menu-items";
 import {LoginConstants} from "../data/login-enums";
 import {LoginComponent} from "../login.component";
-import {RestHandlerService} from "../../../services/rest-handler.service";
+import {RestClientService} from "../../../services/rest-client.service";
 import {LoginResponse} from "../data/login-data";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationGuardAdmin implements CanActivate {
-  constructor(private router: Router, private restHandler: RestHandlerService) {
+  constructor(private router: Router, private restHandler: RestClientService) {
   }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {

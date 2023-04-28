@@ -11,7 +11,7 @@ import {TrainData} from "../components/add-connection/data/train-data";
 @Injectable({
   providedIn: 'root'
 })
-export class RestHandlerService {
+export class RestClientService {
 
   constructor(private httpClient: HttpClient) {
   }

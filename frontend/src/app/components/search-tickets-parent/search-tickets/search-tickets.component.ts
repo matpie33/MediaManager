@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {TicketData, TicketType} from "../data/ticket-data";
 import { ConnectionData } from '../data/connection-data';
-import {RestHandlerService} from "../../../services/rest-handler.service";
+import {RestClientService} from "../../../services/rest-client.service";
 import {DatePipe, KeyValue} from "@angular/common";
 import {DATE_FORMAT, HTML_DATE_INPUT_FORMAT} from "../../../constants/date-formats";
 import {ViewWithStatus} from "../../common/view-with-status";
@@ -40,7 +40,7 @@ export class SearchTicketsComponent extends ViewWithStatus{
   }
 
 
-  constructor(private restHandler: RestHandlerService) {
+  constructor(private restHandler: RestClientService) {
     super();
   }
 

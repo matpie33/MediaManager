@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {RestHandlerService} from "../../../services/rest-handler.service";
+import {RestClientService} from "../../../services/rest-client.service";
 import {UserTicket} from "../data/ticket-of-user";
 import {LoginConstants} from "../../login/data/login-enums";
 import {DATE_FORMAT} from "../../../constants/date-formats";
@@ -14,7 +14,7 @@ export class TicketsListComponent implements OnInit{
   dateFormat = DATE_FORMAT;
   dataLoaded = false;
 
- constructor(private restHandler: RestHandlerService) {
+ constructor(private restHandler: RestClientService) {
  }
 
   ngOnInit(): void {

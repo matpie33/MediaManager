@@ -4,7 +4,7 @@ import {FormBuilder} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoginConstants} from "./data/login-enums";
 import * as crypto from 'crypto-js'
-import {RestHandlerService} from "../../services/rest-handler.service";
+import {RestClientService} from "../../services/rest-client.service";
 import {LoginResponse} from "./data/login-data";
 import {ViewWithStatus} from "../common/view-with-status";
 
@@ -30,7 +30,7 @@ export class LoginComponent extends ViewWithStatus{
   actionDelay = 3;
   encryptionKey = "R0U8T7MFBAXfJe6DpHeM";
 
-  constructor(private restHandler: RestHandlerService, private formBuilder: FormBuilder, private router:Router, private route:ActivatedRoute) {
+  constructor(private restHandler: RestClientService, private formBuilder: FormBuilder, private router:Router, private route:ActivatedRoute) {
     super();
   }
 

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LoginComponent } from './login.component';
-import {RestHandlerService} from "../../services/rest-handler.service";
+import {RestClientService} from "../../services/rest-client.service";
 import {RouterTestingModule} from "@angular/router/testing";
 import {ReactiveFormsModule} from "@angular/forms";
 import {By} from "@angular/platform-browser";
@@ -16,12 +16,12 @@ describe('LoginComponent', () => {
   let fixture: ComponentFixture<LoginComponent>;
   let serviceSpy: any;
   beforeEach(async () => {
-    serviceSpy = jasmine.createSpyObj(RestHandlerService.name, [RestHandlerService.prototype.loginUser.name]);
+    serviceSpy = jasmine.createSpyObj(RestClientService.name, [RestClientService.prototype.loginUser.name]);
     await TestBed.configureTestingModule({
       declarations: [ LoginComponent ],
       imports: [RouterTestingModule, ReactiveFormsModule],
       providers: [{
-        provide: RestHandlerService, useValue: serviceSpy
+        provide: RestClientService, useValue: serviceSpy
       }]
     })
     .compileComponents();

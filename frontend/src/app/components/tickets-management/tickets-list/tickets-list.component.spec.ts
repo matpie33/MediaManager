@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TicketsListComponent } from './tickets-list.component';
 import {of} from "rxjs";
-import {RestHandlerService} from "../../../services/rest-handler.service";
+import {RestClientService} from "../../../services/rest-client.service";
 import {TicketType} from "../../search-tickets-parent/data/ticket-data";
 
 describe('TicketsListComponent', () => {
@@ -11,11 +11,11 @@ describe('TicketsListComponent', () => {
 
 
   beforeEach(async () => {
-    const restHandler = jasmine.createSpyObj(RestHandlerService.name,
-      [RestHandlerService.prototype.getTicketsOfUser.name]);
+    const restHandler = jasmine.createSpyObj(RestClientService.name,
+      [RestClientService.prototype.getTicketsOfUser.name]);
     await TestBed.configureTestingModule({
       declarations: [ TicketsListComponent ],
-      providers: [{provide: RestHandlerService, useValue: restHandler}]
+      providers: [{provide: RestClientService, useValue: restHandler}]
     })
     .compileComponents();
     restHandler.getTicketsOfUser.and.returnValue(of([{

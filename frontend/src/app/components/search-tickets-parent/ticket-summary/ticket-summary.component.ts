@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {TicketData} from "../data/ticket-data";
-import {RestHandlerService} from "../../../services/rest-handler.service";
+import {RestClientService} from "../../../services/rest-client.service";
 import {LoginConstants} from "../../login/data/login-enums";
 import {DATE_FORMAT} from "../../../constants/date-formats";
 import {ViewWithStatus} from "../../common/view-with-status";
@@ -16,7 +16,7 @@ export class TicketSummaryComponent extends ViewWithStatus{
   buyRequestSent: boolean = false;
   dateFormat = DATE_FORMAT;
 
-  constructor(private restHandler: RestHandlerService) {
+  constructor(private restHandler: RestClientService) {
     super();
   }
 

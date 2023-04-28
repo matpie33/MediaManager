@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
-import {RestHandlerService} from "../../services/rest-handler.service";
+import {RestClientService} from "../../services/rest-client.service";
 import {LoginConstants} from "../login/data/login-enums";
 import {StatusCssClass} from "../../constants/status-css-class";
 import {ViewWithStatus} from "../common/view-with-status";
@@ -20,7 +20,7 @@ export class ProfileManagementComponent extends ViewWithStatus{
   });
 
 
-  constructor(private formBuilder:FormBuilder, private restHandler: RestHandlerService) {
+  constructor(private formBuilder:FormBuilder, private restHandler: RestClientService) {
     super();
     restHandler.getUser(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe(
       result => {

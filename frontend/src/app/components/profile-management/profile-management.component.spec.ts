@@ -1,7 +1,7 @@
 
 import { ProfileManagementComponent } from './profile-management.component';
 import {LoginConstants} from "../login/data/login-enums";
-import {RestHandlerService} from "../../services/rest-handler.service";
+import {RestClientService} from "../../services/rest-client.service";
 import {of} from "rxjs";
 import {FormBuilder} from "@angular/forms";
 
@@ -11,8 +11,8 @@ describe('ProfileManagementComponent', () => {
   let userData: any;
 
   beforeEach(async () => {
-    let restHandlerServicePrototype = RestHandlerService.prototype;
-    restServiceSpy = jasmine.createSpyObj(RestHandlerService.name, [restHandlerServicePrototype.editUser.name,
+    let restHandlerServicePrototype = RestClientService.prototype;
+    restServiceSpy = jasmine.createSpyObj(RestClientService.name, [restHandlerServicePrototype.editUser.name,
       restHandlerServicePrototype.getUser.name]);
     restServiceSpy.editUser.and.returnValue(of(1));
     sessionStorage.clear();

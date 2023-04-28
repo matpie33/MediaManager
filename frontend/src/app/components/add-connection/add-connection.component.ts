@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import {FormBuilder, FormGroup} from "@angular/forms";
-import {RestHandlerService} from "../../services/rest-handler.service";
+import {RestClientService} from "../../services/rest-client.service";
 import {ViewWithStatus} from "../common/view-with-status";
 
 @Component({
@@ -22,7 +22,7 @@ export class AddConnectionComponent extends ViewWithStatus{
   ERROR_MESSAGE = "Error while adding travel connection.";
   timeoutId: number = 0;
 
-  constructor(private formBuilder: FormBuilder, private restHandlerService: RestHandlerService) {
+  constructor(private formBuilder: FormBuilder, private restHandlerService: RestClientService) {
     super();
   }
 
