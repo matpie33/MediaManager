@@ -1,7 +1,7 @@
 To run docker container: docker-compose up -d
 -d is optional - it will let you type other commands after starting
 
-# MediaManager
+# Ticketer
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.4.
 
