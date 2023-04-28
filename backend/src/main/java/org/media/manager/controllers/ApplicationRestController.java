@@ -27,13 +27,12 @@ import java.util.stream.Collectors;
 @RestController
 public class ApplicationRestController {
 
-    private final AppUserMapper appUserMapper;
+
 
     private final TicketMapper ticketMapper;
 
     private final TravelConnectionDAO travelConnectionDAO;
 
-    private final AppUserDAO appUserDAO;
 
     private final TicketDao ticketDao;
 
@@ -41,7 +40,8 @@ public class ApplicationRestController {
 
     private ConnectionMapper connectionMapper;
 
-    private PasswordEncoder passwordEncoder;
+    private AppUserDAO appUserDAO;
+
 
     private SeatsDAO seatsDAO;
 
@@ -52,25 +52,19 @@ public class ApplicationRestController {
     private TrainMapper trainMapper;
 
     @Autowired
-    public ApplicationRestController(TrainMapper trainMapper, SeatsMapper seatsMapper, AppUserMapper appUserMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper, PasswordEncoder passwordEncoder, SeatsDAO seatsDAO, TrainDAO trainDAO) {
-        this.appUserMapper = appUserMapper;
+    public ApplicationRestController(Gson gson, TrainMapper trainMapper, SeatsMapper seatsMapper, TicketMapper ticketMapper, TravelConnectionDAO travelConnectionDAO, AppUserDAO appUserDAO, TicketDao ticketDao, ConnectionMapper connectionMapper, SeatsDAO seatsDAO, TrainDAO trainDAO) {
         this.ticketMapper = ticketMapper;
         this.travelConnectionDAO = travelConnectionDAO;
-        this.appUserDAO = appUserDAO;
         this.ticketDao = ticketDao;
         this.connectionMapper = connectionMapper;
-        this.passwordEncoder = passwordEncoder;
         this.seatsDAO = seatsDAO;
         this.trainDAO = trainDAO;
         this.seatsMapper = seatsMapper;
         this.trainMapper = trainMapper;
+        this.appUserDAO = appUserDAO;
+        this.gson = gson;
     }
 
-    @PostConstruct
-    public void initialize (){
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gson = gsonBuilder.create();
-    }
 
     @GetMapping("/connection/{from}/to/{to}/sinceHour/{travelDateTime}")
     public String getConnectionsByStationAndTime(@PathVariable String from, @PathVariable String to, @PathVariable @DateTimeFormat(pattern = DateTimeFormats.DATE_TIME_FORMAT) LocalDateTime travelDateTime){
@@ -148,58 +142,6 @@ public class ApplicationRestController {
         LinkedHashSet<TicketDTO> set = tickets.stream().map(ticketMapper::mapTicket).collect(Collectors.toCollection(LinkedHashSet::new));
         return gson.toJson(set);
 
-    }
-
-    @GetMapping("/checkUser/{username}")
-    public boolean userExists(@PathVariable String username){
-        return appUserDAO.existsByUsername(username);
-    }
-
-    @ExceptionHandler(value = {DataIntegrityViolationException.class})
-    public ResponseEntity<String> handlePreconditionFailed(DataIntegrityViolationException exception) {
-        exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.CONFLICT).build();
-    }
-
-    @ExceptionHandler(value = {IllegalArgumentException.class})
-    public ResponseEntity<String> handleIllegalArgument(IllegalArgumentException exception) {
-        exception.printStackTrace();
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
-
-    @PostMapping("/addUser")
-    public void addUser(@RequestBody AppUserDTO appUserDTO){
-        AppUser appUser = appUserMapper.mapUser(appUserDTO);
-        appUserDAO.save(appUser);
-    }
-
-    @PostMapping("/editUser/{userId}")
-    public void editUser(@PathVariable long userId, @RequestBody UserPersonalDTO userPersonalDTO){
-        AppUser appUser = appUserDAO.findById(userId).orElseThrow(()->new IllegalArgumentException("user not found"));
-        appUserMapper.mapUserPersonalData(appUser, userPersonalDTO);
-        appUserDAO.save(appUser);
-    }
-
-    @PostMapping("/login")
-    public String login(@RequestBody UserCredentialsDTO userFromFrontend){
-        AppUser userFromDB = appUserDAO.findByUsername(userFromFrontend.getUserName());
-        boolean isPasswordMatch = passwordEncoder.matches(userFromFrontend.getPassword(), userFromDB.getPassword());
-        if (isPasswordMatch){
-            return gson.toJson(appUserMapper.mapPrivileges(userFromDB));
-        }
-        throw new IllegalArgumentException("User not found");
-    }
-
-    @GetMapping("getUser/{userId}")
-    public UserPersonalDTO getUserPersonalData(@PathVariable long userId){
-        AppUser appUser = appUserDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return appUserMapper.getUserPersonalData(appUser);
-    }
-
-    @GetMapping("permissions/{userId}")
-    public String getUserPermissions(@PathVariable long userId){
-        AppUser appUser = appUserDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return gson.toJson(appUserMapper.mapPrivileges(appUser));
     }
 
     @PostMapping("connection/from/{from}/to/{to}/atTime/{time}/trainId/{trainId}")
