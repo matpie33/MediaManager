@@ -1,3 +1,4 @@
+import {Role} from "../../../constants/role";
 
 export interface LoginData {
   userName: string;
@@ -5,6 +6,7 @@ export interface LoginData {
 }
 export interface RegisterData {
 
+  roles: Array<String>,
   personalData: PersonalData,
   userCredentials: LoginData
 }

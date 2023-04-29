@@ -25,10 +25,10 @@ public class AppUser {
     private String email;
 
     @ManyToMany
-    private Set<Role> role;
+    private Set<Role> roles;
 
     public Set<Role> getRoles() {
-        return role;
+        return roles;
     }
 
     public void setUsername(String username) {
@@ -49,6 +49,10 @@ public class AppUser {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public void setRoles(Set<Role> role) {
+        this.roles = role;
     }
 
     public String getPassword() {

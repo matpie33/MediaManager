@@ -7,6 +7,7 @@ import * as crypto from 'crypto-js'
 import {RestClientService} from "../../services/rest-client.service";
 import {LoginResponse} from "./data/login-data";
 import {ViewWithStatus} from "../common/view-with-status";
+import {Role} from "../../constants/role";
 
 @Component({
   selector: 'app-login',
@@ -66,7 +67,9 @@ export class LoginComponent extends ViewWithStatus{
 
   onSubmitRegister() {
     this.showSuccessMessage("Please wait... registering...");
+    let rolesSet = [Role.USER];
     this.restHandler.registerUser({
+      roles: rolesSet,
       userCredentials: {
         userName: this.registerForm.controls["username"].value,
         password: crypto.SHA512(this.registerForm.controls["password"].value).toString(),

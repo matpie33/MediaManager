@@ -1,16 +1,22 @@
 package org.travelling.ticketer.business;
 
+import org.travelling.ticketer.constants.RoleType;
 import org.travelling.ticketer.dao.AppUserDAO;
+import org.travelling.ticketer.dao.RoleDAO;
 import org.travelling.ticketer.dto.AppUserDTO;
 import org.travelling.ticketer.dto.UserCredentialsDTO;
 import org.travelling.ticketer.dto.UserPersonalDTO;
 import org.travelling.ticketer.dto.UserPrivilegesDTO;
 import org.travelling.ticketer.entity.AppUser;
+import org.travelling.ticketer.entity.Role;
 import org.travelling.ticketer.mapper.AppUserMapper;
 import org.travelling.ticketer.utility.ExceptionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Component
 public class AppUserManager {
@@ -21,11 +27,14 @@ public class AppUserManager {
 
     private final PasswordEncoder passwordEncoder;
 
+    private final RoleDAO roleDAO;
+
     @Autowired
-    public AppUserManager(AppUserDAO appUserDAO, AppUserMapper appUserMapper, PasswordEncoder passwordEncoder) {
+    public AppUserManager(RoleDAO roleDAO, AppUserDAO appUserDAO, AppUserMapper appUserMapper, PasswordEncoder passwordEncoder) {
         this.appUserDAO = appUserDAO;
         this.appUserMapper = appUserMapper;
         this.passwordEncoder = passwordEncoder;
+        this.roleDAO = roleDAO;
     }
 
     public UserPrivilegesDTO getUserPrivileges(UserCredentialsDTO userFromFrontend){
@@ -42,7 +51,9 @@ public class AppUserManager {
     }
 
     public void addUser(AppUserDTO appUserDTO){
-        AppUser appUser = appUserMapper.mapUser(appUserDTO);
+        Set<RoleType> roles = appUserDTO.getRoles().stream().map(role -> Enum.valueOf(RoleType.class, role)).collect(Collectors.toSet());
+        Set<Role> roleEntities = roleDAO.findByRoleTypeIn(roles);
+        AppUser appUser = appUserMapper.mapUser(appUserDTO, roleEntities);
         appUserDAO.save(appUser);
     }
 

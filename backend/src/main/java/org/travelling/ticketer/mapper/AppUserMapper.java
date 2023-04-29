@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Component
@@ -23,13 +24,14 @@ public class AppUserMapper {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public AppUser mapUser(AppUserDTO appUserDTO){
+    public AppUser mapUser(AppUserDTO appUserDTO, Set<Role> roleEntities){
         AppUser appUser = new AppUser();
         appUser.setUsername(appUserDTO.getUserCredentials().getUserName());
         appUser.setPassword(passwordEncoder.encode(appUserDTO.getUserCredentials().getPassword()));
         appUser.setFirstName(appUserDTO.getPersonalData().getFirstName());
         appUser.setLastName(appUserDTO.getPersonalData().getLastName());
         appUser.setEmail(appUserDTO.getPersonalData().getEmail());
+        appUser.setRoles(roleEntities);
         return appUser;
     }
 
