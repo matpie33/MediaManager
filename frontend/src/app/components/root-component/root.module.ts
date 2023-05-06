@@ -20,6 +20,7 @@ import { PageNotFoundComponent } from '../error-handling/page-not-found/page-not
 import {AuthenticationGuardAdmin} from "../login/authentication/authentication-guard-admin";
 import { AccessDeniedComponent } from '../error-handling/access-denied/access-denied.component';
 import { AddConnectionComponent } from '../add-connection/add-connection.component';
+import {ManageUsersComponent} from "../manage-users/manage-users.component";
 
 const appRoutes: Routes = [
   {path: MenuItems.SEARCH_CONNECTIONS.toString(), component: SearchTicketsParentComponent, canActivate: [AuthenticationGuard]},
@@ -27,6 +28,7 @@ const appRoutes: Routes = [
   {path: MenuItems.PROFILE.toString(), component: ProfileManagementComponent, canActivate: [AuthenticationGuard]},
   {path: MenuItems.NEWS.toString(), component: NewsComponent},
   {path: MenuItems.ADD_CONNECTION.toString(), component: AddConnectionComponent, canActivate: [AuthenticationGuardAdmin]},
+  {path: MenuItems.MANAGE_USERS.toString(), component: ManageUsersComponent, canActivate: [AuthenticationGuardAdmin]},
   {path: LoginConstants.LOGIN_URL.toString(), component: LoginComponent},
   {path: LoginConstants.ACCESS_DENIED.toString(), component: AccessDeniedComponent},
   {path: '', redirectTo: MenuItems.NEWS, pathMatch: 'full'},
@@ -46,7 +48,8 @@ const appRoutes: Routes = [
     NewsComponent,
     PageNotFoundComponent,
     AccessDeniedComponent,
-    AddConnectionComponent
+    AddConnectionComponent,
+    ManageUsersComponent
   ],
   imports: [
     BrowserModule,
