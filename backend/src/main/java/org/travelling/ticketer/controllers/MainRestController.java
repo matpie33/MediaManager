@@ -2,6 +2,7 @@ package org.travelling.ticketer.controllers;
 
 
 import com.google.gson.Gson;
+import net.sf.jasperreports.engine.*;
 import org.travelling.ticketer.business.SeatsManager;
 import org.travelling.ticketer.business.TicketsManager;
 import org.travelling.ticketer.business.TrainsManager;
@@ -10,8 +11,10 @@ import org.travelling.ticketer.constants.DateTimeFormats;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
+import org.travelling.ticketer.dto.PdfTicketInputDTO;
 import org.travelling.ticketer.entity.Connection;
 import org.travelling.ticketer.entity.Train;
+import org.travelling.ticketer.pdfgenerator.PdfExportManager;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -29,13 +32,16 @@ public class MainRestController {
 
     private final TicketsManager ticketsManager;
 
+    private final PdfExportManager pdfExportManager;
+
     @Autowired
-    public MainRestController(Gson gson, SeatsManager seatsManager, TrainsManager trainsManager, TravelConnectionManager travelConnectionManager, TicketsManager ticketsManager) {
+    public MainRestController(PdfExportManager pdfExportManager, Gson gson, SeatsManager seatsManager, TrainsManager trainsManager, TravelConnectionManager travelConnectionManager, TicketsManager ticketsManager) {
         this.gson = gson;
         this.seatsManager = seatsManager;
         this.trainsManager = trainsManager;
         this.travelConnectionManager = travelConnectionManager;
         this.ticketsManager = ticketsManager;
+        this.pdfExportManager = pdfExportManager;
     }
 
     @GetMapping("/connection/{from}/to/{to}/sinceHour/{travelDateTime}")
@@ -67,6 +73,11 @@ public class MainRestController {
     @GetMapping("trains")
     public String getTrains (){
         return gson.toJson(trainsManager.getTrainsInformation());
+    }
+
+    @PostMapping("ticket/pdf")
+    public byte[] getTicketAsPdf (@RequestBody PdfTicketInputDTO pdfTicketInputDTO) throws JRException {
+        return pdfExportManager.exportToPdf(pdfTicketInputDTO);
     }
 
 

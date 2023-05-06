@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {ConnectionData} from "../components/search-tickets-parent/data/connection-data";
 import {Observable} from "rxjs";
 import {TicketData} from "../components/search-tickets-parent/data/ticket-data";
-import {UserTicket} from "../components/tickets-management/data/ticket-of-user";
+import {TicketPdfData, UserTicket} from "../components/tickets-management/data/ticket-of-user";
 import {LoginData, LoginResponse, PersonalData, RegisterData} from "../components/login/data/login-data";
 import {REST_API_URL} from "../constants/environment/environment";
 import {TrainData} from "../components/add-connection/data/train-data";
@@ -60,7 +60,10 @@ export class RestClientService {
 
   addConnection (from: string, to: string, time:string, trainId: number){
     return this.httpClient.post(`${this.restBaseAddress}/connection/from/${from}/to/${to}/atTime/${time}/trainId/${trainId}`, "");
+  }
 
+  getTicketAsPdf (ticketData: TicketPdfData, options: any){
+    return this.httpClient.post(`${this.restBaseAddress}/ticket/pdf`, ticketData, options);
   }
 
 

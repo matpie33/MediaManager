@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.20.3.final using JasperReports Library version 6.20.3-415f9428cffdb6805c6f85bbb29ebaf18813a2ab  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Tickets" pageWidth="595" pageHeight="842" columnWidth="595" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="13acf49e-4913-4d1b-bccc-113817ad15d1">
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="Name" class="java.lang.String"/>
+	<parameter name="Email" class="java.lang.String"/>
+	<parameter name="TravelDate" class="java.lang.String"/>
+	<parameter name="FromStation" class="java.lang.String"/>
+	<parameter name="ToStation" class="java.lang.String"/>
+	<parameter name="TicketType" class="java.lang.String"/>
+	<parameter name="Train" class="java.lang.String"/>
+	<parameter name="TrainTime" class="java.lang.String"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band height="842" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<image scaleImage="FillFrame">
+				<reportElement stretchType="ContainerHeight" mode="Transparent" x="0" y="0" width="595" height="842" uuid="5e264291-9cd8-4477-bf80-5b88a4342f2c">
+					<property name="com.jaspersoft.studio.unit.x" value="px"/>
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<imageExpression><![CDATA["logo.png"]]></imageExpression>
+			</image>
+		</band>
+	</background>
+	<title>
+		<band height="96" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="10" y="16" width="543" height="32" forecolor="#FFFFFF" uuid="5c3301e7-a737-4c59-8a2f-a6c79fd1adb8">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Date of travel: " + $P{TravelDate}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="10" y="48" width="543" height="32" forecolor="#FFFFFF" uuid="37f9450a-ef53-4933-8310-e6a69a612f25">
+					<property name="com.jaspersoft.studio.unit.y" value="px"/>
+				</reportElement>
+				<textElement textAlignment="Left">
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Time: "+$P{TrainTime}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<detail>
+		<band height="200" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="px"/>
+			<textField>
+				<reportElement x="10" y="10" width="545" height="32" forecolor="#FFFFFF" uuid="d7cba5fe-5f92-460d-95b6-085b37f8f813">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Name: " + $P{Name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="40" width="545" height="32" forecolor="#FFFFFF" uuid="f7f307cd-b38e-48ff-bd87-a7751720c9f5">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Email: " + $P{Email}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="70" width="543" height="32" forecolor="#FFFFFF" uuid="e6fb7afc-cddd-4829-ab03-b8239b6163eb">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Relation: "+ $P{FromStation} + "-" + $P{ToStation}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="100" width="260" height="32" forecolor="#FFFFFF" uuid="69904dcb-c682-47f8-9224-851a1b586295">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Ticket type: "+ $P{TicketType}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="10" y="130" width="260" height="32" forecolor="#FFFFFF" uuid="85144eec-ec23-4bcf-a634-c6aea9a5ae29">
+					<property name="com.jaspersoft.studio.unit.height" value="px"/>
+				</reportElement>
+				<textElement>
+					<font size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Train: " + $P{Train}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+</jasperReport>

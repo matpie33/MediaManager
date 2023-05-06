@@ -6,7 +6,13 @@ public class TicketDTO {
 
     private String ticketType;
 
+    private String trainName;
+
     private ConnectionDTO connection;
+
+    public void setTrainName(String trainName) {
+        this.trainName = trainName;
+    }
 
     public void setTravelDate(String travelDate) {
         this.travelDate = travelDate;

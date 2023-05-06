@@ -43,8 +43,7 @@ public class TicketsManager {
 
     public LinkedHashSet<TicketDTO> getTicketsOfUser(long userId){
         Set<Ticket> tickets = ticketDao.findByAppUser_IdOrderByTravelDateAscConnection_timeAsc(userId);
-        LinkedHashSet<TicketDTO> ticketsOfUser = tickets.stream().map(ticketMapper::mapTicket).collect(Collectors.toCollection(LinkedHashSet::new));
-        return ticketsOfUser;
+        return tickets.stream().map(ticketMapper::mapTicket).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
 }

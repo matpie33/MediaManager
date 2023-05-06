@@ -20,6 +20,7 @@ public class TicketMapper {
         ticketDTO.setTicketType(ticket.getTicketType().getDisplayName());
         ticketDTO.setTravelDate(ticket.getTravelDate().toString());
         ticketDTO.setConnection(connectionMapper.mapConnection(ticket.getConnection()));
+        ticketDTO.setTrainName(ticket.getConnection().getTrain().getName());
         return ticketDTO;
     }
 

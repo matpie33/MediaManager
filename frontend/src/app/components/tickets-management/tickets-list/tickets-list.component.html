@@ -5,7 +5,7 @@
   <p>To Station: {{ticket.connection.toStation}}</p>
   <p>Date time: {{ticket.travelDate |date: dateFormat}} {{ticket.connection.time}}</p>
   <p>Ticket type: {{ticket.ticketType}}</p>
-  <button class="submit">Open</button>
+  <button class="submit" (click)="openTicket(ticket)">Open</button>
 </div>
 <div *ngIf="!dataLoaded"><h3 class="center">Loading data...</h3></div>
 <div *ngIf="!tickets.length && dataLoaded"><h1 class="center">No tickets bought for this user.</h1></div>
