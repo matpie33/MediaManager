@@ -19,6 +19,10 @@ public class Role {
     @ManyToMany
     private Set<Permission> permissions;
 
+    public RoleType getRoleType() {
+        return roleType;
+    }
+
     public Set<Permission> getPermissions() {
         return permissions;
     }

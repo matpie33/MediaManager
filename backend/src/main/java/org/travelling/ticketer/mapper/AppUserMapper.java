@@ -3,6 +3,7 @@ package org.travelling.ticketer.mapper;
 import org.travelling.ticketer.dto.AppUserDTO;
 import org.travelling.ticketer.dto.UserPersonalDTO;
 import org.travelling.ticketer.dto.UserPrivilegesDTO;
+import org.travelling.ticketer.dto.UserRolesDTO;
 import org.travelling.ticketer.entity.AppUser;
 import org.travelling.ticketer.entity.Permission;
 import org.travelling.ticketer.entity.Role;
@@ -11,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -54,6 +57,17 @@ public class AppUserMapper {
         userPrivilegesDTO.setPermissions(appUser.getRoles().stream().map(Role::getPermissions).flatMap(Collection::stream).map(Permission::getPermissionType).collect(Collectors.toSet()));
         userPrivilegesDTO.setId(appUser.getId());
         return userPrivilegesDTO;
+    }
+
+    public Set<UserRolesDTO> mapRoles (Collection<AppUser> appUsers){
+        Set<UserRolesDTO> roles = new LinkedHashSet<>();
+        for (AppUser user: appUsers){
+            UserRolesDTO userRolesDTO = new UserRolesDTO();
+            userRolesDTO.setRoles(user.getRoles().stream().map(Role::getRoleType).collect(Collectors.toSet()));
+            userRolesDTO.setUserName(user.getUsername());
+            roles.add(userRolesDTO);
+        }
+        return roles;
     }
 
 }

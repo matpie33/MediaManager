@@ -7,6 +7,7 @@ import {TicketPdfData, UserTicket} from "../components/tickets-management/data/t
 import {LoginData, LoginResponse, PersonalData, RegisterData} from "../components/login/data/login-data";
 import {REST_API_URL} from "../constants/environment/environment";
 import {TrainData} from "../components/add-connection/data/train-data";
+import {UserRoles} from "../components/manage-users/data/user-roles";
 
 @Injectable({
   providedIn: 'root'
@@ -66,5 +67,8 @@ export class RestClientService {
     return this.httpClient.post(`${this.restBaseAddress}/ticket/pdf`, ticketData, options);
   }
 
+  getUsersRoles (){
+    return this.httpClient.get<Array<UserRoles>>(`${this.restBaseAddress}/users/roles`);
+  }
 
 }

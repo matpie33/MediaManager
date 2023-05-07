@@ -58,5 +58,10 @@ public class AppUserController {
        return gson.toJson(appUserManager.getUserPermissions(userId));
     }
 
+    @GetMapping("users/roles")
+    public String getUsersRoles(){
+        return gson.toJson(appUserManager.getUsersWithRoles());
+    }
+
 
 }

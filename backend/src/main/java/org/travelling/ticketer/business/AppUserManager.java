@@ -1,12 +1,10 @@
 package org.travelling.ticketer.business;
 
+import org.springframework.data.domain.Sort;
 import org.travelling.ticketer.constants.RoleType;
 import org.travelling.ticketer.dao.AppUserDAO;
 import org.travelling.ticketer.dao.RoleDAO;
-import org.travelling.ticketer.dto.AppUserDTO;
-import org.travelling.ticketer.dto.UserCredentialsDTO;
-import org.travelling.ticketer.dto.UserPersonalDTO;
-import org.travelling.ticketer.dto.UserPrivilegesDTO;
+import org.travelling.ticketer.dto.*;
 import org.travelling.ticketer.entity.AppUser;
 import org.travelling.ticketer.entity.Role;
 import org.travelling.ticketer.mapper.AppUserMapper;
@@ -15,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -75,6 +74,11 @@ public class AppUserManager {
 
     public AppUser getUserById (long userId){
        return  appUserDAO.findById(userId).orElseThrow(ExceptionBuilder.createIllegalArgumentException("User does not exist"));
+    }
+
+    public Set<UserRolesDTO> getUsersWithRoles (){
+        List<AppUser> users = appUserDAO.findAll(Sort.by("username"));
+        return appUserMapper.mapRoles(users);
     }
 
 

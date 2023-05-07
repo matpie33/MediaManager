@@ -1,1 +1,36 @@
-<p>manage-users works!</p>
+
+<div class="bordered">
+<h2>Edit user roles</h2>
+  <div class="grid-parent">
+    <datalist id="suggestions">
+      <option *ngFor="let user of userRoles|keyvalue">{{user.key}}</option>
+    </datalist>
+
+    <label>User:</label>
+    <input #input (click)="clear(input)" autoComplete="on" list="suggestions" placeholder="type to search" (input)="inputChanged(input)"/>
+    <label>Permissions:</label>
+    <div *ngIf="currentUserRoles.size>0">
+        <ng-container *ngFor="let currentRole of currentUserRoles">
+          <input type="checkbox" [id]="currentRole" [name]="currentRole" [value]="currentRole" checked>
+          <label [for]="currentRole"> {{currentRole|lowercase}}</label><br>
+        </ng-container>
+    </div>
+    <ng-container *ngIf="currentUserRoles.size>0 && userNotPossessedRoles().size>0">
+      <label>Add role</label>
+      <div>
+        <select #selectedRole>
+          <option *ngFor="let role of userNotPossessedRoles()" [value]="role">{{role.toLowerCase()}}</option>
+        </select>
+        <button type="submit" (click)="addRole(selectedRole)">Add</button>
+      </div>
+
+    </ng-container>
+
+    <ng-container *ngIf="currentUserRoles.size==0">
+      <p class="error-message">{{status}}</p>
+    </ng-container>
+  </div>
+  <button type="submit" (click)="saveChanges()">Save</button>
+
+</div>
+
