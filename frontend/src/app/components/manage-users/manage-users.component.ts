@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RestClientService} from "../../services/rest-client.service";
-import {UserRoles} from "./data/user-roles";
+import {Roles, UserRoles} from "./data/user-roles";
 import {Role} from "../../constants/role";
 
 @Component({
@@ -14,6 +14,7 @@ export class ManageUsersComponent implements OnInit{
   currentUserRoles = new Set<string>();
   status = "";
   roleTypes = Role;
+  userName = "";
 
 
   constructor(private restClient: RestClientService) {
@@ -31,6 +32,8 @@ export class ManageUsersComponent implements OnInit{
 
   inputChanged(input: any) {
     let roles = this.userRoles.get(input.value);
+    this.userName = input.value;
+    this.currentUserRoles.clear();
     if (roles){
       if (roles.length >0){
         roles.forEach(role=>this.currentUserRoles.add(role));
@@ -59,7 +62,10 @@ export class ManageUsersComponent implements OnInit{
   }
 
   saveChanges() {
-
+    let roles: Roles = {
+      roles: Array.from(this.currentUserRoles)
+    }
+    this.restClient.editUserRoles(this.userName, roles).subscribe();
   }
 
   clear(input: HTMLInputElement) {

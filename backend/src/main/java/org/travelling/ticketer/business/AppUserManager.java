@@ -82,4 +82,11 @@ public class AppUserManager {
     }
 
 
+    public void addUserRoles(String username, Set<String> roles) {
+        AppUser user = appUserDAO.findByUsername(username);
+        Set<RoleType> roleTypes = roles.stream().map(RoleType::valueOf).collect(Collectors.toSet());
+        Set<Role> rolesEntities = roleDAO.findByRoleTypeIn(roleTypes);
+        user.getRoles().addAll(rolesEntities);
+        appUserDAO.save(user);
+    }
 }

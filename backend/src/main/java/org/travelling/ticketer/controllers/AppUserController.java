@@ -2,10 +2,7 @@ package org.travelling.ticketer.controllers;
 
 import com.google.gson.Gson;
 import org.travelling.ticketer.business.AppUserManager;
-import org.travelling.ticketer.dto.AppUserDTO;
-import org.travelling.ticketer.dto.UserCredentialsDTO;
-import org.travelling.ticketer.dto.UserPersonalDTO;
-import org.travelling.ticketer.dto.UserPrivilegesDTO;
+import org.travelling.ticketer.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,6 +58,11 @@ public class AppUserController {
     @GetMapping("users/roles")
     public String getUsersRoles(){
         return gson.toJson(appUserManager.getUsersWithRoles());
+    }
+
+    @PostMapping("user/{username}")
+    public void addUserRoles(@PathVariable String username, @RequestBody RolesDTO roles){
+        appUserManager.addUserRoles(username, roles.getRoles());
     }
 
 
