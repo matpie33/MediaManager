@@ -72,7 +72,7 @@ export class RestClientService {
   }
 
   editUserRoles(username: string, roles: Roles){
-    return this.httpClient.post(`${this.restBaseAddress}/user/${username}`, roles);
+    return this.httpClient.post(`${this.restBaseAddress}/user/${username}/roles`, roles);
   }
 
 }

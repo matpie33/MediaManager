@@ -60,9 +60,9 @@ public class AppUserController {
         return gson.toJson(appUserManager.getUsersWithRoles());
     }
 
-    @PostMapping("user/{username}")
-    public void addUserRoles(@PathVariable String username, @RequestBody RolesDTO roles){
-        appUserManager.addUserRoles(username, roles.getRoles());
+    @PostMapping("user/{username}/roles")
+    public void editUserRoles(@PathVariable String username, @RequestBody RolesDTO roles){
+        appUserManager.editUserRoles(username, roles.getRoles());
     }
 
 

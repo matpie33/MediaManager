@@ -11,7 +11,7 @@
     <label>Permissions:</label>
     <div *ngIf="currentUserRoles.size>0">
         <ng-container *ngFor="let currentRole of currentUserRoles">
-          <input type="checkbox" [id]="currentRole" [name]="currentRole" [value]="currentRole" checked>
+          <input #roleCheckbox type="checkbox" [id]="currentRole" [name]="currentRole" [value]="currentRole" checked (click)="addOrRemove(currentRole, roleCheckbox, buttonSave)">
           <label [for]="currentRole"> {{currentRole|lowercase}}</label><br>
         </ng-container>
     </div>
@@ -21,7 +21,7 @@
         <select #selectedRole>
           <option *ngFor="let role of userNotPossessedRoles()" [value]="role">{{role.toLowerCase()}}</option>
         </select>
-        <button type="submit" (click)="addRole(selectedRole)">Add</button>
+        <button type="submit" (click)="addRole(selectedRole, buttonSave)">Add</button>
       </div>
 
     </ng-container>
@@ -30,7 +30,9 @@
       <p class="error-message">{{status}}</p>
     </ng-container>
   </div>
-  <button type="submit" (click)="saveChanges()">Save</button>
+  <button #buttonSave type="submit" (click)="saveChanges(buttonSave)" disabled>Save</button>
+  <p *ngIf="showStatus" [class]="statusClass">{{statusMessage}}</p>
+
 
 </div>
 
