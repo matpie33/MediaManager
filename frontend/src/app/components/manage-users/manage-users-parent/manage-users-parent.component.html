@@ -1,0 +1,6 @@
+<ng-container [ngSwitch]="manageUsersEnum">
+  <button #editButton data-chosen class="tab-header" (click)="switchToEdit(addButton, editButton)">Edit users</button>
+  <button #addButton class="tab-header" (click)="switchToAdd(addButton, editButton)">Add user</button>
+  <app-edit-users *ngSwitchCase="'edit'"></app-edit-users>
+  <app-add-user *ngSwitchCase="'add'"></app-add-user>
+</ng-container>

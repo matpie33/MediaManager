@@ -1,16 +1,16 @@
 import {Component, OnInit} from '@angular/core';
-import {RestClientService} from "../../services/rest-client.service";
-import {Roles, UserRoles} from "./data/user-roles";
-import {Role} from "../../constants/role";
-import {ViewWithStatus} from "../common/view-with-status";
-import {StatusCssClass} from "../../constants/status-css-class";
+import {RestClientService} from "../../../services/rest-client.service";
+import {Roles, UserRoles} from "../data/user-roles";
+import {Role} from "../../../constants/role";
+import {ViewWithStatus} from "../../common/view-with-status";
+import {StatusCssClass} from "../../../constants/status-css-class";
 
 @Component({
-  selector: 'app-manage-users',
-  templateUrl: './manage-users.component.html',
-  styleUrls: ['./manage-users.component.css']
+  selector: 'app-edit-users',
+  templateUrl: './edit-users.component.html',
+  styleUrls: ['./edit-users.component.css']
 })
-export class ManageUsersComponent extends ViewWithStatus implements OnInit{
+export class EditUsersComponent extends ViewWithStatus implements OnInit{
 
   userRoles: Map<string, Array<string>> = new Map<string, Array<string>>();
   currentUserRoles = new Set<string>();
