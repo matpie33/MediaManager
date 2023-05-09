@@ -37,7 +37,7 @@ export class RestClientService {
   }
 
   registerUser(credentials: RegisterData) {
-    return this.httpClient.post<boolean>(`${this.restBaseAddress}/addUser`, credentials );
+    return this.httpClient.post(`${this.restBaseAddress}/addUser`, credentials );
   }
 
   editUser(personalData: PersonalData, userId: number) {

@@ -1,4 +1,3 @@
-import {Role} from "../../../constants/role";
 
 export interface LoginData {
   userName: string;

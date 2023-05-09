@@ -1,1 +1,33 @@
-<div class="bordered">Todo</div>
+<div class="bordered">
+  <form [formGroup]="addUserForm" (ngSubmit)="onSubmit()">
+    <h2>Add user</h2>
+    <div class="grid-parent">
+      <label>Username:</label>
+      <input type="text" formControlName="username">
+      <label>Password:</label>
+      <input type="password" formControlName="password">
+      <label>Confirm password:</label>
+      <input type="password" formControlName="passwordConfirm">
+      <label>Permissions:</label>
+      <div>
+        <ng-container *ngFor="let currentRole of currentUserRoles">
+          <input #roleCheckbox type="checkbox" [id]="currentRole" [name]="currentRole" [value]="currentRole" checked (click)="remove(currentRole, roleCheckbox)">
+          <label [for]="currentRole"> {{currentRole|lowercase}}</label><br>
+        </ng-container>
+      </div>
+
+      <ng-container *ngIf="userNotPossessedRoles().size>0">
+        <label>Add role</label>
+        <div>
+          <select #selectedRole>
+            <option *ngFor="let role of userNotPossessedRoles()" [value]="role">{{role.toLowerCase()}}</option>
+          </select>
+          <button type="button" (click)="addRole(selectedRole)">Add</button>
+        </div>
+      </ng-container>
+
+    </div>
+    <button type="submit">Save</button>
+    <p [class]="statusClass">{{statusMessage}}</p>
+  </form>
+</div>
