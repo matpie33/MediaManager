@@ -5,6 +5,7 @@ import {ViewWithStatus} from "../../common/view-with-status";
 import {StatusCssClass} from "../../../constants/status-css-class";
 import {RestClientService} from "../../../services/rest-client.service";
 import * as crypto from "crypto-js";
+import {UserAuthenticationService} from "../../../services/user-authentication.service";
 
 @Component({
   selector: 'app-add-user',
@@ -14,45 +15,25 @@ import * as crypto from "crypto-js";
 export class AddUserComponent extends ViewWithStatus{
   roleTypes = Role;
   currentUserRoles = new Set<string>();
-  addUserForm: FormGroup = this.formBuilder.group({
-    username: "",
-    password: "",
-    passwordConfirm: ""
-  })
-  encryptionKey = "R0U8T7MFBAXfJe6DpHeM";
+  addUserForm = this.passwordService.registerForm;
 
-  constructor(private formBuilder: FormBuilder, private restClientService: RestClientService) {
+  constructor(private passwordService: UserAuthenticationService) {
     super();
     this.currentUserRoles.add("none");
   }
 
   onSubmit() {
-    if (this.addUserForm.value["password"] !== this.addUserForm.value["passwordConfirm"]){
-
-      this.statusMessage = "Passwords do not match";
-      this.statusClass = StatusCssClass.ERROR;
+    if (this.passwordService.passwordsMatch()){
+      this.showErrorMessage("Passwords do not match");
     }
     else{
-      let registerData = {
-        roles: Array.from(this.currentUserRoles),
-        personalData: {
-          firstName: "",
-          lastName: "",
-          email: ""
-        },
-        userCredentials: {
-          password: crypto.SHA512(this.addUserForm.value["password"]).toString(),
-          userName: this.addUserForm.value["username"]
-        }
-      }
-      this.restClientService.registerUser(registerData).subscribe({
+      let roles = Array.from(this.currentUserRoles);
+      this.passwordService.register(roles).subscribe({
         complete: ()=>{
-            this.statusMessage = "Successfully saved data";
-            this.statusClass = StatusCssClass.SUCCESS;
+            this.showSuccessMessage("Successfully saved data");
         },
         error: () => {
-          this.statusMessage = "Error registering user";
-          this.statusClass = StatusCssClass.ERROR;
+          this.showErrorMessage("Error registering user");
         }
       });
     }

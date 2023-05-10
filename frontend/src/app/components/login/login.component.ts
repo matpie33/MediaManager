@@ -8,39 +8,27 @@ import {RestClientService} from "../../services/rest-client.service";
 import {LoginResponse} from "./data/login-data";
 import {ViewWithStatus} from "../common/view-with-status";
 import {Role} from "../../constants/role";
+import {UserAuthenticationService} from "../../services/user-authentication.service";
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent extends ViewWithStatus{
-  loginForm: FormGroup = new FormGroup<any>({
-    username: new FormControl(""),
-    password: new FormControl("")
-  });
 
-  registerForm: FormGroup = this.formBuilder.group({
-    username: "",
-    password: "",
-    firstName: "",
-    lastName: "",
-    email: "",
-  });
   showRegisterForm = false;
   actionDelay = 3;
-  encryptionKey = "R0U8T7MFBAXfJe6DpHeM";
+  registerForm = this.userAuthenticationService.registerForm;
+  loginForm = this.userAuthenticationService.loginForm;
 
-  constructor(private restHandler: RestClientService, private formBuilder: FormBuilder, private router:Router, private route:ActivatedRoute) {
+  constructor(private router:Router, private route:ActivatedRoute, private userAuthenticationService: UserAuthenticationService) {
     super();
   }
 
   onSubmitLogin (){
     this.showSuccessMessage("Please wait... logging in...");
-    this.restHandler.loginUser({
-      userName: this.loginForm.controls["username"].value,
-      password: crypto.SHA512(this.loginForm.controls["password"].value).toString(),
-    }).subscribe({
+    this.userAuthenticationService.login().subscribe({
       next: this.handleLoginSuccess.bind(this),
       error: this.handleLoginError.bind(this)
   });
@@ -49,7 +37,7 @@ export class LoginComponent extends ViewWithStatus{
   handleLoginSuccess(response: LoginResponse){
     if (response){
       let queryParam = this.route.snapshot.queryParams[LoginConstants.RETURN_URL];
-      let username = this.loginForm.controls["username"].value;
+      let username = this.userAuthenticationService.getUserName();
       sessionStorage.setItem(LoginConstants.USERNAME, username);
       sessionStorage.setItem(LoginConstants.USER_ID, response.id.toString());
       this.showSuccessMessage("Successfully logged in. Redirecting...");
@@ -68,18 +56,7 @@ export class LoginComponent extends ViewWithStatus{
   onSubmitRegister() {
     this.showSuccessMessage("Please wait... registering...");
     let rolesSet = [Role.USER];
-    this.restHandler.registerUser({
-      roles: rolesSet,
-      userCredentials: {
-        userName: this.registerForm.controls["username"].value,
-        password: crypto.SHA512(this.registerForm.controls["password"].value).toString(),
-      },
-      personalData: {
-        firstName: this.registerForm.controls["firstName"].value,
-        lastName: this.registerForm.controls["lastName"].value,
-        email: this.registerForm.controls["email"].value
-      }
-    }).subscribe({
+    this.userAuthenticationService.register(rolesSet).subscribe({
       next: this.handleRegisterSuccess.bind(this),
       error: this.handleRegisterError.bind(this)
     });
