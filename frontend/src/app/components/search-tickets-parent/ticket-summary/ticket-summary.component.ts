@@ -22,7 +22,7 @@ export class TicketSummaryComponent extends ViewWithStatus{
 
   confirmAndBuy() {
     this.buyRequestSent = true;
-    this.showSuccessMessage("Please wait for response");
+    this.showInfoMessage("Please wait for response");
 
     let userId = Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!);
     this.restHandler.assignTicketToUser(userId, this.ticketData).subscribe({

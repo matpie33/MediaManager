@@ -7,6 +7,12 @@ export class ViewWithStatus {
   showStatus = false;
   defaultDelay = 3;
 
+  showInfoMessage (message: string){
+    this.statusMessage = message;
+    this.statusClass = StatusCssClass.INFORMATION;
+    this.showStatus = true;
+  }
+
   showSuccessMessage (message: string){
     this.statusMessage = message;
     this.statusClass = StatusCssClass.SUCCESS;

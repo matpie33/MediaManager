@@ -24,6 +24,7 @@ import {EditUsersComponent} from "./manage-users/edit-users/edit-users.component
 import { ManageUsersParentComponent } from './manage-users/manage-users-parent/manage-users-parent.component';
 import { AddUserComponent } from './manage-users/add-user/add-user.component';
 
+
 const appRoutes: Routes = [
   {path: MenuItems.SEARCH_CONNECTIONS.toString(), component: SearchTicketsParentComponent, canActivate: [AuthenticationGuard]},
   {path: MenuItems.TICKETS_MANAGEMENT.toString(), component: TicketsManagementComponent, canActivate: [AuthenticationGuard]},

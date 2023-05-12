@@ -54,7 +54,7 @@ export class LoginComponent extends ViewWithStatus{
   }
 
   onSubmitRegister() {
-    this.showSuccessMessage("Please wait... registering...");
+    this.showInfoMessage("Please wait... registering...");
     let rolesSet = [Role.USER];
     this.userAuthenticationService.register(rolesSet).subscribe({
       next: this.handleRegisterSuccess.bind(this),

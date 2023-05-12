@@ -37,7 +37,7 @@ public class AppUserManager {
     }
 
     public UserPrivilegesDTO getUserPrivileges(UserCredentialsDTO userFromFrontend){
-        AppUser userFromDB = appUserDAO.findByUsername(userFromFrontend.getUserName());
+        AppUser userFromDB = appUserDAO.findByUsername(userFromFrontend.getUserName()).orElseThrow(ExceptionBuilder.createIllegalArgumentException("User not found"));
         boolean isPasswordMatch = passwordEncoder.matches(userFromFrontend.getPassword(), userFromDB.getPassword());
         if (isPasswordMatch){
             return appUserMapper.mapPrivileges(userFromDB);
@@ -83,7 +83,7 @@ public class AppUserManager {
 
 
     public void editUserRoles(String username, Set<String> roles) {
-        AppUser user = appUserDAO.findByUsername(username);
+        AppUser user = appUserDAO.findByUsername(username).orElseThrow(ExceptionBuilder.createIllegalArgumentException("User not found"));
         Set<RoleType> roleTypes = roles.stream().map(RoleType::valueOf).collect(Collectors.toSet());
         Set<Role> rolesEntities = roleDAO.findByRoleTypeIn(roleTypes);
         user.setRoles(rolesEntities);

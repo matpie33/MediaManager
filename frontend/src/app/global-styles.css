@@ -1,10 +1,13 @@
+.information-message {
+  color: mediumblue;
+}
 
 .success-message{
-  color:mediumblue;
+  color: #00ff4e;
 }
 
 .error-message{
-  color: rgb(197, 0, 0);
+  color: #bb0000
 }
 
 .horizontal-menu {
@@ -73,7 +76,7 @@ p {
   border: 1px solid black;
   border-radius: 4px;
   padding: 5px;
-  background-color: mediumseagreen;
+  background-color: cadetblue;
   margin-left: 5px;
   margin-top: 5px;
   margin-bottom: 5px;

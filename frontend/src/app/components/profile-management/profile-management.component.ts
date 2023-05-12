@@ -37,7 +37,7 @@ export class ProfileManagementComponent extends ViewWithStatus{
       lastName: this.profileForm.controls["lastName"].value,
       email: this.profileForm.controls["email"].value,
     }
-    this.showSuccessMessage("Saving data...");
+    this.showInfoMessage("Saving data...");
     this.restHandler.editUser(profileData, Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe({
       next: this.handleEditPersonalDataDone.bind(this)
     });
