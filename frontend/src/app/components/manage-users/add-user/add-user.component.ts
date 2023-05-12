@@ -1,23 +1,20 @@
 import { Component } from '@angular/core';
-import {FormBuilder, FormGroup} from "@angular/forms";
-import {Role} from "../../../constants/role";
 import {ViewWithStatus} from "../../common/view-with-status";
-import {StatusCssClass} from "../../../constants/status-css-class";
-import {RestClientService} from "../../../services/rest-client.service";
-import * as crypto from "crypto-js";
 import {UserAuthenticationService} from "../../../services/user-authentication.service";
+import {RoleService} from "../../../services/role.service";
 
 @Component({
   selector: 'app-add-user',
   templateUrl: './add-user.component.html',
-  styleUrls: ['./add-user.component.css']
+  styleUrls: ['./add-user.component.css'],
+  providers: [RoleService]
 })
 export class AddUserComponent extends ViewWithStatus{
-  roleTypes = Role;
-  currentUserRoles = new Set<string>();
+
+  currentUserRoles = this.roleService.currentUserRoles;
   addUserForm = this.passwordService.registerForm;
 
-  constructor(private passwordService: UserAuthenticationService) {
+  constructor(private passwordService: UserAuthenticationService, private roleService: RoleService) {
     super();
     this.currentUserRoles.add("none");
   }
@@ -39,29 +36,15 @@ export class AddUserComponent extends ViewWithStatus{
     }
   }
 
-  remove(currentRole: any, roleCheckbox: HTMLInputElement) {
-    if (roleCheckbox.checked){
-      this.currentUserRoles.add(currentRole);
-    }
-    else{
-      this.currentUserRoles.delete(currentRole);
-    }
-  }
-
-  userNotPossessedRoles (){
-    let notPossessed = new Set<string>();
-    for (let role of Object.keys(this.roleTypes)){
-      if (!this.currentUserRoles.has(role)){
-        notPossessed.add(role);
-      }
-    }
-    return notPossessed;
+  userNotPossessedRoles(): Set<string> {
+    return this.roleService.userNotPossessedRoles();
   }
 
   addRole(selectedRole: HTMLSelectElement) {
-    if (this.currentUserRoles.has("none")){
-      this.currentUserRoles.clear();
-    }
-    this.currentUserRoles.add(selectedRole.value);
+    this.roleService.addRole(selectedRole);
+  }
+
+  remove(currentRole: string) {
+    this.roleService.remove(currentRole);
   }
 }

@@ -11,7 +11,7 @@
       <label>Permissions:</label>
       <div>
         <ng-container *ngFor="let currentRole of currentUserRoles">
-          <input #roleCheckbox type="checkbox" [id]="currentRole" [name]="currentRole" [value]="currentRole" checked (click)="remove(currentRole, roleCheckbox)">
+          <input type="checkbox" [id]="currentRole" [name]="currentRole" [value]="currentRole" checked (click)="remove(currentRole)">
           <label [for]="currentRole"> {{currentRole|lowercase}}</label><br>
         </ng-container>
       </div>

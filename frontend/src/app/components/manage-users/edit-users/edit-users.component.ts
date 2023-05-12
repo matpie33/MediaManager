@@ -4,22 +4,24 @@ import {Roles, UserRoles} from "../data/user-roles";
 import {Role} from "../../../constants/role";
 import {ViewWithStatus} from "../../common/view-with-status";
 import {StatusCssClass} from "../../../constants/status-css-class";
+import {RoleService} from "../../../services/role.service";
 
 @Component({
   selector: 'app-edit-users',
   templateUrl: './edit-users.component.html',
-  styleUrls: ['./edit-users.component.css']
+  styleUrls: ['./edit-users.component.css'],
+  providers: [RoleService]
 })
 export class EditUsersComponent extends ViewWithStatus implements OnInit{
 
   userRoles: Map<string, Array<string>> = new Map<string, Array<string>>();
-  currentUserRoles = new Set<string>();
+  currentUserRoles = this.roleService.currentUserRoles;
   status = "";
   roleTypes = Role;
   userName = "";
 
 
-  constructor(private restClient: RestClientService) {
+  constructor(private restClient: RestClientService, private roleService: RoleService) {
     super();
   }
 
@@ -54,13 +56,7 @@ export class EditUsersComponent extends ViewWithStatus implements OnInit{
   }
 
   userNotPossessedRoles (){
-    let notPossessed = new Set<string>();
-    for (let role of Object.keys(this.roleTypes)){
-      if (!this.currentUserRoles.has(role)){
-        notPossessed.add(role);
-      }
-    }
-    return notPossessed;
+    return this.roleService.userNotPossessedRoles();
   }
 
   saveChanges(buttonSave: HTMLButtonElement) {
@@ -88,20 +84,12 @@ export class EditUsersComponent extends ViewWithStatus implements OnInit{
   }
 
   addRole(selectedRole: HTMLSelectElement, buttonSave: HTMLButtonElement) {
-    if (this.currentUserRoles.has("none")){
-      this.currentUserRoles.clear();
-    }
-    this.currentUserRoles.add(selectedRole.value);
+    this.roleService.addRole(selectedRole);
     buttonSave.disabled = false;
   }
 
-  addOrRemove(currentRole: string, roleCheckbox: HTMLInputElement, buttonSave: HTMLButtonElement) {
-    if (roleCheckbox.checked){
-      this.currentUserRoles.add(currentRole);
-    }
-    else{
-      this.currentUserRoles.delete(currentRole);
-    }
+  remove(currentRole: string, buttonSave: HTMLButtonElement) {
+    this.roleService.remove(currentRole);
     buttonSave.disabled = false;
   }
 }
