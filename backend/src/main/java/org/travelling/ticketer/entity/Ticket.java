@@ -24,6 +24,17 @@ public class Ticket {
     @Column
     private LocalDate travelDate;
 
+    @Column
+    private String initializationVector;
+
+    public void setInitializationVector(String initializationVector) {
+        this.initializationVector = initializationVector;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     public void setTravelDate(LocalDate travelDate) {
         this.travelDate = travelDate;
     }
@@ -50,5 +61,13 @@ public class Ticket {
 
     public LocalDate getTravelDate() {
         return travelDate;
+    }
+
+    public String getInitializationVector() {
+        return initializationVector;
+    }
+
+    public AppUser getAppUser() {
+        return appUser;
     }
 }

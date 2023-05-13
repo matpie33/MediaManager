@@ -19,6 +19,7 @@
 	<parameter name="TicketType" class="java.lang.String"/>
 	<parameter name="Train" class="java.lang.String"/>
 	<parameter name="TrainTime" class="java.lang.String"/>
+	<parameter name="QrCodePath" class="java.lang.String"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -36,10 +37,10 @@
 		</band>
 	</background>
 	<title>
-		<band height="96" splitType="Stretch">
+		<band height="120" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="10" y="16" width="543" height="32" forecolor="#FFFFFF" uuid="5c3301e7-a737-4c59-8a2f-a6c79fd1adb8">
+				<reportElement x="10" y="16" width="410" height="32" forecolor="#FFFFFF" uuid="5c3301e7-a737-4c59-8a2f-a6c79fd1adb8">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
@@ -48,7 +49,7 @@
 				<textFieldExpression><![CDATA["Date of travel: " + $P{TravelDate}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="10" y="48" width="543" height="32" forecolor="#FFFFFF" uuid="37f9450a-ef53-4933-8310-e6a69a612f25">
+				<reportElement x="10" y="48" width="410" height="32" forecolor="#FFFFFF" uuid="37f9450a-ef53-4933-8310-e6a69a612f25">
 					<property name="com.jaspersoft.studio.unit.y" value="px"/>
 				</reportElement>
 				<textElement textAlignment="Left">
@@ -56,10 +57,14 @@
 				</textElement>
 				<textFieldExpression><![CDATA["Time: "+$P{TrainTime}]]></textFieldExpression>
 			</textField>
+			<image>
+				<reportElement stretchType="ContainerHeight" x="480" y="9" width="110" height="110" uuid="8168f166-5c19-4f2e-984d-3f913349b66c"/>
+				<imageExpression><![CDATA[$P{QrCodePath}]]></imageExpression>
+			</image>
 		</band>
 	</title>
 	<detail>
-		<band height="200" splitType="Stretch">
+		<band height="280" splitType="Stretch">
 			<property name="com.jaspersoft.studio.unit.height" value="px"/>
 			<textField>
 				<reportElement x="10" y="10" width="545" height="32" forecolor="#FFFFFF" uuid="d7cba5fe-5f92-460d-95b6-085b37f8f813">

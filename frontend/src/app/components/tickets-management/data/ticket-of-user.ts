@@ -10,6 +10,7 @@ export interface UserTicket {
     time: string
 
   }
+  id: number;
 }
 
 export interface TicketPdfData {

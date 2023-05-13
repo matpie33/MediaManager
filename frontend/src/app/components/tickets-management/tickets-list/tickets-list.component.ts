@@ -33,18 +33,7 @@ export class TicketsListComponent implements OnInit{
 
   openTicket(ticket: UserTicket){
     const options ={ responseType: 'blob'};
-    let ticketData = {
-      firstName: this.personalData.firstName,
-      lastName: this.personalData.lastName,
-      email: this.personalData.email,
-      travelDate: new DatePipe("en").transform(ticket.travelDate.toString(), DATE_FORMAT)!,
-      fromStation: ticket.connection.fromStation,
-      toStation: ticket.connection.toStation,
-      ticketType: ticket.ticketType,
-      trainName: ticket.trainName,
-      trainTime: ticket.connection.time
-    }
-    this.restHandler.getTicketAsPdf(ticketData, options).subscribe(bytes=>{
+    this.restHandler.getTicketAsPdf(ticket.id, options).subscribe(bytes=>{
       let blob = new Blob([bytes], {type: 'application/pdf'});
       const fileUrl = URL.createObjectURL(blob);
       window.open(fileUrl, '_blank');

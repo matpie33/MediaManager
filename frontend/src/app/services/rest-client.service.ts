@@ -63,8 +63,8 @@ export class RestClientService {
     return this.httpClient.post(`${this.restBaseAddress}/connection/from/${from}/to/${to}/atTime/${time}/trainId/${trainId}`, "");
   }
 
-  getTicketAsPdf (ticketData: TicketPdfData, options: any){
-    return this.httpClient.post(`${this.restBaseAddress}/ticket/pdf`, ticketData, options);
+  getTicketAsPdf (ticketId: number, options: any){
+    return this.httpClient.get(`${this.restBaseAddress}/ticket/${ticketId}/pdf`, options);
   }
 
   getUsersRoles (){

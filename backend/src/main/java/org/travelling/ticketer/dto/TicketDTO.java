@@ -10,6 +10,12 @@ public class TicketDTO {
 
     private ConnectionDTO connection;
 
+    private long id;
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public void setTrainName(String trainName) {
         this.trainName = trainName;
     }

@@ -1,5 +1,6 @@
 package org.travelling.ticketer.business;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.travelling.ticketer.constants.TicketType;
 import org.travelling.ticketer.dao.TicketDao;
 import org.travelling.ticketer.dto.TicketDTO;
@@ -9,7 +10,10 @@ import org.travelling.ticketer.entity.Ticket;
 import org.travelling.ticketer.mapper.TicketMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.travelling.ticketer.security.SecurityManager;
+import org.travelling.ticketer.utility.ExceptionBuilder;
 
+import javax.crypto.spec.IvParameterSpec;
 import java.time.LocalDateTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -24,11 +28,14 @@ public class TicketsManager {
 
     private TicketMapper ticketMapper;
 
+    private SecurityManager securityManager;
+
     @Autowired
-    public TicketsManager(TicketDao ticketDao, AppUserManager appUserManager, TicketMapper ticketMapper) {
+    public TicketsManager(SecurityManager securityManager, TicketDao ticketDao, AppUserManager appUserManager, TicketMapper ticketMapper) {
         this.ticketDao = ticketDao;
         this.appUserManager = appUserManager;
         this.ticketMapper = ticketMapper;
+        this.securityManager = securityManager;
     }
 
     public void assignTicketToUser(long userId, String ticketType, LocalDateTime dateTime, Connection connection) {
@@ -38,7 +45,13 @@ public class TicketsManager {
         ticket.setConnection(connection);
         ticket.setAppUser(user);
         ticket.setTravelDate(dateTime.toLocalDate());
+        IvParameterSpec iv = securityManager.generateIv();
+        ticket.setInitializationVector(securityManager.convertIvToString(iv));
         ticketDao.save(ticket);
+    }
+
+    public Ticket getTicket(long id){
+        return ticketDao.findById(id).orElseThrow(ExceptionBuilder.createIllegalArgumentException("ticket not found"));
     }
 
     public LinkedHashSet<TicketDTO> getTicketsOfUser(long userId){
