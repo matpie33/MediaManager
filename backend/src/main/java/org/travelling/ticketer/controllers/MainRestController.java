@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import org.travelling.ticketer.business.*;
 import org.travelling.ticketer.constants.DateTimeFormats;
 import org.travelling.ticketer.dto.QrCodeContentDTO;
-import org.travelling.ticketer.dto.QrCodeStatusDTO;
+import org.travelling.ticketer.dto.TicketCheckDTO;
 import org.travelling.ticketer.entity.Connection;
 import org.travelling.ticketer.entity.Ticket;
 import org.travelling.ticketer.entity.Train;
@@ -104,8 +104,18 @@ public class MainRestController {
     @PostMapping("decode")
     public String getDecryptedData (@RequestBody String ticketData) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, KeyStoreException, IOException, InvalidKeyException {
         QrCodeContentDTO qrCodeContentDTO = qrCodeImageGenerator.parseContent(ticketData);
-        QrCodeStatusDTO validationStatus = qrCodeValidator.getValidationStatus(qrCodeContentDTO);
-        return gson.toJson(validationStatus);
+        boolean isValid = qrCodeValidator.getValidationStatus(qrCodeContentDTO);
+        TicketCheckDTO ticketCheckDTO;
+        if (!isValid){
+            ticketCheckDTO = new TicketCheckDTO();
+            ticketCheckDTO.setValid(false);
+        }
+        else{
+
+            ticketCheckDTO = ticketsManager.getTicketForChecking(qrCodeContentDTO.getTicketId());
+            ticketCheckDTO.setValid(true);
+        }
+        return gson.toJson(ticketCheckDTO);
 
     }
 

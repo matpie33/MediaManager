@@ -16,21 +16,12 @@ public class QrCodeValidator {
         this.ticketsManager = ticketsManager;
     }
 
-    public QrCodeStatusDTO getValidationStatus(QrCodeContentDTO qrCodeContentDTO){
-        QrCodeStatusDTO qrCodeStatusDTO = new QrCodeStatusDTO();
+    public boolean getValidationStatus(QrCodeContentDTO qrCodeContentDTO){
         if (!qrCodeContentDTO.isValidContent()){
-            qrCodeStatusDTO.setContent(TICKET_INCORRECT);
+            return false;
         }
-        else{
-            Ticket ticket = ticketsManager.getTicket(qrCodeContentDTO.getTicketId());
-            if (isQrCodeDataValid(qrCodeContentDTO, ticket)) {
-                qrCodeStatusDTO.setContent(TICKET_DATA_CORRECT);
-            }
-            else{
-                qrCodeStatusDTO.setContent(TICKET_INCORRECT);
-            }
-        }
-        return qrCodeStatusDTO;
+        Ticket ticket = ticketsManager.getTicket(qrCodeContentDTO.getTicketId());
+        return isQrCodeDataValid(qrCodeContentDTO, ticket);
     }
 
     private boolean isQrCodeDataValid(QrCodeContentDTO qrCodeContentDTO, Ticket ticket) {

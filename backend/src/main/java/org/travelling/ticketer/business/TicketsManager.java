@@ -2,6 +2,7 @@ package org.travelling.ticketer.business;
 
 import org.travelling.ticketer.constants.TicketType;
 import org.travelling.ticketer.dao.TicketDao;
+import org.travelling.ticketer.dto.TicketCheckDTO;
 import org.travelling.ticketer.dto.TicketDTO;
 import org.travelling.ticketer.entity.AppUser;
 import org.travelling.ticketer.entity.Connection;
@@ -55,6 +56,10 @@ public class TicketsManager {
 
     public Ticket getTicket(long id){
         return ticketDao.findById(id).orElseThrow(ExceptionBuilder.createIllegalArgumentException("ticket not found"));
+    }
+
+    public TicketCheckDTO getTicketForChecking(long ticketId){
+        return ticketMapper.mapTicketForChecking(ticketDao.findById(ticketId).orElseThrow(ExceptionBuilder.createIllegalArgumentException("Ticket not found")));
     }
 
     public LinkedHashSet<TicketDTO> getTicketsOfUser(long userId){

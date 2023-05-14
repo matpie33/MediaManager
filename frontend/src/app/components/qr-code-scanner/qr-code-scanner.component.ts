@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {RestClientService} from "../../services/rest-client.service";
+import {QrCodeData} from "./data/qr-code-data";
 
 @Component({
   selector: 'app-qr-code-scanner',
@@ -9,7 +10,7 @@ import {RestClientService} from "../../services/rest-client.service";
 export class QrCodeScannerComponent {
 
   scanFinished = false;
-  scannedValue="";
+  ticketData!: QrCodeData;
 
   constructor(private restClientService: RestClientService) {
   }
@@ -18,7 +19,7 @@ export class QrCodeScannerComponent {
   scanSuccesss(scannedValue: string) {
     this.scanFinished = true;
     this.restClientService.decodeQrCode(scannedValue)
-      .subscribe(returnValue=>this.scannedValue=returnValue.content);
+      .subscribe(returnValue=>this.ticketData=returnValue);
   }
 
   reset() {
