@@ -1,4 +1,8 @@
-<div  style="height: 154px; width: 200px">
+<div class="bordered" style="height: 300px; width: 300px; position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);">
   <zxing-scanner *ngIf="!scanFinished" (scanSuccess)="scanSuccesss($event)"></zxing-scanner>
 
   <p *ngIf="scanFinished">{{scannedValue}}</p>
