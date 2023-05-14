@@ -5,19 +5,16 @@ import com.google.gson.Gson;
 import net.sf.jasperreports.engine.JRException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.travelling.ticketer.business.SeatsManager;
-import org.travelling.ticketer.business.TicketsManager;
-import org.travelling.ticketer.business.TrainsManager;
-import org.travelling.ticketer.business.TravelConnectionManager;
+import org.springframework.web.bind.annotation.*;
+import org.travelling.ticketer.business.*;
 import org.travelling.ticketer.constants.DateTimeFormats;
+import org.travelling.ticketer.dto.QrCodeContentDTO;
+import org.travelling.ticketer.dto.QrCodeStatusDTO;
 import org.travelling.ticketer.entity.Connection;
 import org.travelling.ticketer.entity.Ticket;
 import org.travelling.ticketer.entity.Train;
 import org.travelling.ticketer.pdfgenerator.PdfExportManager;
+import org.travelling.ticketer.security.SecurityManager;
 import org.travelling.ticketer.utility.QrCodeGenerator;
 
 import javax.crypto.BadPaddingException;
@@ -48,8 +45,11 @@ public class MainRestController {
 
     private final QrCodeGenerator qrCodeGenerator;
 
+    private final QrCodeValidator qrCodeValidator;
+
+
     @Autowired
-    public MainRestController(QrCodeGenerator qrCodeGenerator, PdfExportManager pdfExportManager, Gson gson, SeatsManager seatsManager, TrainsManager trainsManager, TravelConnectionManager travelConnectionManager, TicketsManager ticketsManager) {
+    public MainRestController(SecurityManager securityManager, QrCodeGenerator qrCodeGenerator, PdfExportManager pdfExportManager, Gson gson, SeatsManager seatsManager, TrainsManager trainsManager, TravelConnectionManager travelConnectionManager, TicketsManager ticketsManager, QrCodeValidator qrCodeValidator) {
         this.gson = gson;
         this.seatsManager = seatsManager;
         this.trainsManager = trainsManager;
@@ -57,6 +57,7 @@ public class MainRestController {
         this.ticketsManager = ticketsManager;
         this.pdfExportManager = pdfExportManager;
         this.qrCodeGenerator = qrCodeGenerator;
+        this.qrCodeValidator = qrCodeValidator;
     }
 
     @GetMapping("/connection/{from}/to/{to}/sinceHour/{travelDateTime}")
@@ -93,8 +94,16 @@ public class MainRestController {
     @GetMapping("ticket/{id}/pdf")
     public byte[] getTicketAsPdf (@PathVariable long id) throws JRException, IOException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, KeyStoreException, InvalidKeyException {
         Ticket ticket = ticketsManager.getTicket(id);
-        qrCodeGenerator.getQrCode(ticket.getId(), ticket.getConnection().getId(), ticket.getInitializationVector());
+        qrCodeGenerator.getQrCode(ticket.getId(), ticket.getAppUser().getId(), ticket.getConnection().getId(), ticket.getInitializationVector());
         return pdfExportManager.exportToPdf(ticket);
+    }
+
+    @PostMapping("decode")
+    public String getDecryptedData (@RequestBody String ticketData) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, KeyStoreException, IOException, InvalidKeyException {
+        QrCodeContentDTO qrCodeContentDTO = qrCodeGenerator.decodeInformation(ticketData);
+        QrCodeStatusDTO validationStatus = qrCodeValidator.getValidationStatus(qrCodeContentDTO);
+        return gson.toJson(validationStatus);
+
     }
 
 

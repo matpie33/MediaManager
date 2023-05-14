@@ -1,0 +1,6 @@
+<div  style="height: 154px; width: 200px">
+  <zxing-scanner *ngIf="!scanFinished" (scanSuccess)="scanSuccesss($event)"></zxing-scanner>
+
+  <p *ngIf="scanFinished">{{scannedValue}}</p>
+  <button (click)="reset()">Scan again</button>
+</div>

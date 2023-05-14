@@ -8,6 +8,7 @@ import {LoginData, LoginResponse, PersonalData, RegisterData} from "../component
 import {REST_API_URL} from "../constants/environment/environment";
 import {TrainData} from "../components/add-connection/data/train-data";
 import {Roles, UserRoles} from "../components/manage-users/data/user-roles";
+import {QrCodeData} from "../components/qr-code-scanner/data/qr-code-data";
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,10 @@ export class RestClientService {
 
   editUserRoles(username: string, roles: Roles){
     return this.httpClient.post(`${this.restBaseAddress}/user/${username}/roles`, roles);
+  }
+
+  decodeQrCode(data: string){
+    return this.httpClient.post<QrCodeData>(`${this.restBaseAddress}/decode`, data);
   }
 
 }

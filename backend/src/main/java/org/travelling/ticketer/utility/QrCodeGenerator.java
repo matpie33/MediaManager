@@ -1,9 +1,11 @@
 package org.travelling.ticketer.utility;
 
 import io.nayuki.qrcodegen.QrCode;
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.stereotype.Component;
 import org.travelling.ticketer.constants.Filenames;
+import org.travelling.ticketer.dao.TicketDao;
+import org.travelling.ticketer.dto.QrCodeContentDTO;
+import org.travelling.ticketer.entity.Ticket;
 import org.travelling.ticketer.security.SecurityManager;
 
 import javax.crypto.BadPaddingException;
@@ -25,17 +27,61 @@ public class QrCodeGenerator {
 
     private final SecurityManager securityManager;
 
-    public QrCodeGenerator(SecurityManager securityManager) {
+    private final TicketDao ticketDao;
+
+    public QrCodeGenerator(SecurityManager securityManager, TicketDao ticketDao) {
         this.securityManager = securityManager;
+        this.ticketDao = ticketDao;
     }
 
-    public void getQrCode(Long ticketId, Long connectionId, String iv) throws IOException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, KeyStoreException, InvalidKeyException {
+    public void getQrCode(Long ticketId, Long userId, Long connectionId, String iv) throws IOException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, KeyStoreException, InvalidKeyException {
         IvParameterSpec ivspec = securityManager.convertIvStringToObject(iv);
-        String content = ticketId+","+connectionId;
+        String content = userId+" "+connectionId;
         String encryptedContent = securityManager.encrypt(content, ivspec);
-        QrCode qrCode = QrCode.encodeText(encryptedContent, QrCode.Ecc.HIGH);
+        String qrCodeContent = ticketId + ":" + encryptedContent;
+        QrCode qrCode = QrCode.encodeText(qrCodeContent, QrCode.Ecc.HIGH);
         BufferedImage img = toImage(qrCode, 10, 4);
         ImageIO.write(img, "png", new File(Filenames.QR_CODE));
+    }
+
+    public QrCodeContentDTO decodeInformation (String qrCodeData) throws InvalidAlgorithmParameterException, NoSuchPaddingException, IllegalBlockSizeException, NoSuchAlgorithmException, BadPaddingException, KeyStoreException, IOException, InvalidKeyException {
+        if (!qrCodeData.contains(":")){
+            QrCodeContentDTO qrCodeContentDTO = new QrCodeContentDTO();
+            qrCodeContentDTO.setValidContent(false);
+            return qrCodeContentDTO;
+        }
+        int indexOfColon = qrCodeData.indexOf(":");
+        if (indexOfColon == qrCodeData.length()-1){
+            QrCodeContentDTO qrCodeContentDTO = new QrCodeContentDTO();
+            qrCodeContentDTO.setValidContent(false);
+            return qrCodeContentDTO;
+        }
+        String ticketId = qrCodeData.substring(0, indexOfColon);
+        String decryptedData= qrCodeData.substring(indexOfColon+1);
+        long ticketIdL = Long.parseLong(ticketId);
+        Ticket ticket = ticketDao.findById(ticketIdL).orElseThrow(ExceptionBuilder.createIllegalArgumentException("Ticket not found"));
+        String initializationVector = ticket.getInitializationVector();
+        String data = securityManager.decrypt(decryptedData, securityManager.convertIvStringToObject(initializationVector));
+        if (!data.contains(" ")){
+            QrCodeContentDTO qrCodeContentDTO = new QrCodeContentDTO();
+            qrCodeContentDTO.setValidContent(false);
+            return qrCodeContentDTO;
+        }
+        String[] dataSplitByWhitespace = data.split(" ");
+        if (dataSplitByWhitespace.length==1){
+            QrCodeContentDTO qrCodeContentDTO = new QrCodeContentDTO();
+            qrCodeContentDTO.setValidContent(false);
+            return qrCodeContentDTO;
+        }
+        long userId = Long.parseLong(dataSplitByWhitespace[0]);
+        long connectionId = Long.parseLong(dataSplitByWhitespace[1]);
+        QrCodeContentDTO qrCodeContent = new QrCodeContentDTO();
+        qrCodeContent.setConnectionId(connectionId);
+        qrCodeContent.setUserId(userId);
+        qrCodeContent.setTicketId(ticketIdL);
+        qrCodeContent.setValidContent(true);
+        return qrCodeContent;
+
     }
 
     private static BufferedImage toImage(QrCode qr, int scale, int border) {

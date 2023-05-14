@@ -23,6 +23,8 @@ import { AddConnectionComponent } from './add-connection/add-connection.componen
 import {EditUsersComponent} from "./manage-users/edit-users/edit-users.component";
 import { ManageUsersParentComponent } from './manage-users/manage-users-parent/manage-users-parent.component';
 import { AddUserComponent } from './manage-users/add-user/add-user.component';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
+import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.component';
 
 
 const appRoutes: Routes = [
@@ -32,6 +34,7 @@ const appRoutes: Routes = [
   {path: MenuItems.NEWS.toString(), component: NewsComponent},
   {path: MenuItems.ADD_CONNECTION.toString(), component: AddConnectionComponent, canActivate: [AuthenticationGuardAdmin]},
   {path: MenuItems.MANAGE_USERS.toString(), component: ManageUsersParentComponent, canActivate: [AuthenticationGuardAdmin]},
+  {path: MenuItems.SCAN_QR_CODE.toString(), component: QrCodeScannerComponent, canActivate: [AuthenticationGuardAdmin]},
   {path: LoginConstants.LOGIN_URL.toString(), component: LoginComponent},
   {path: LoginConstants.ACCESS_DENIED.toString(), component: AccessDeniedComponent},
   {path: '', redirectTo: MenuItems.NEWS, pathMatch: 'full'},
@@ -54,7 +57,8 @@ const appRoutes: Routes = [
     AddConnectionComponent,
     EditUsersComponent,
     ManageUsersParentComponent,
-    AddUserComponent
+    AddUserComponent,
+    QrCodeScannerComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +66,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes
     ),
-    HttpClientModule
+    HttpClientModule,
+    ZXingScannerModule
   ],
   providers: [],
   bootstrap: [RootComponent]
