@@ -1,6 +1,5 @@
 package org.travelling.ticketer.business;
 
-import org.apache.tomcat.util.codec.binary.Base64;
 import org.travelling.ticketer.constants.TicketType;
 import org.travelling.ticketer.dao.TicketDao;
 import org.travelling.ticketer.dto.TicketDTO;
@@ -36,6 +35,10 @@ public class TicketsManager {
         this.appUserManager = appUserManager;
         this.ticketMapper = ticketMapper;
         this.securityManager = securityManager;
+    }
+
+    public String getIv(long ticketId){
+        return getTicket(ticketId).getInitializationVector();
     }
 
     public void assignTicketToUser(long userId, String ticketType, LocalDateTime dateTime, Connection connection) {
