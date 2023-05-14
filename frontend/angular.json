@@ -41,9 +41,9 @@
                 }
               ],
               "fileReplacements": [{
-                "replace": "src/app/environment/environment.ts",
-                "with": "src/app/environment/environment-prod.ts"
-              }]
+                "replace": "src/app/constants/environment/environment.ts",
+                "with": "src/app/constants/environment/environment-prod.ts"
+              }],
               "outputHashing": "all"
             },
             "development": {
