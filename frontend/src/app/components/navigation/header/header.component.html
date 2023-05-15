@@ -1,19 +1,21 @@
 <mat-toolbar color="primary">
-  <div fxHide.gt-xs>
+  <div style="all:inherit" fxHide.gt-xs>
     <button mat-icon-button (click)="onToggleSidenav()">
       <mat-icon>menu</mat-icon>
-      <span id="menu-text">menu</span>
     </button>
+    <span>Menu</span>
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="start" fxHide.xs>
-    <ul fxLayout fxLayoutGap="15px" class="navigation-items">
-      <li *ngFor = "let item of userAccessibleMenu">
-        <a [routerLink]="item.toString()"><mat-icon>{{getIcon(item)}}</mat-icon><span fxHide.lt-md >{{item}}</span></a>
-      </li>
+  <div style="all:inherit" fxFlex fxLayout fxLayoutAlign="start" fxHide.xs>
+    <div fxLayout fxLayoutGap="15px" class="navigation-items">
+      <a *ngFor = "let item of userAccessibleMenu" [routerLink]="item">
+        <mat-icon>{{getIcon(item)}}</mat-icon>
+        <span fxHide.lt-md >{{item}}</span>
+      </a>
+    </div>
 
-    </ul>
+
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
+  <div style="all:inherit" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">
       <div style="color:#ebe2b5" *ngIf="username">
         Logged as: {{username}}
