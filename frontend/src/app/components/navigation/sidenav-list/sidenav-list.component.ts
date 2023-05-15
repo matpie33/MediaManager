@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {MenuItems} from "../../../constants/menu-items";
+import {MenuService} from "../../../services/menu.service";
 
 @Component({
   selector: 'app-sidenav-list',
@@ -9,10 +10,13 @@ import {MenuItems} from "../../../constants/menu-items";
 export class SidenavListComponent {
   @Output() sidenavClose = new EventEmitter();
   @Input() userAccessibleMenu!: Set<MenuItems>;
-  constructor() { }
-  ngOnInit() {
-  }
+  constructor(private menuService: MenuService) { }
   public onSidenavClose = () => {
     this.sidenavClose.emit();
   }
+
+  getIcon (menu: MenuItems){
+    return this.menuService.getIcon(menu);
+  }
+
 }

@@ -1,5 +1,8 @@
 <mat-nav-list>
-  <a mat-list-item *ngFor = "let item of userAccessibleMenu"  [routerLink]="item.toString()"
-     (click)="onSidenavClose()">
-    <mat-icon>home</mat-icon> <span class="nav-caption">{{item}}</span></a>
+  <ng-container *ngFor = "let item of userAccessibleMenu">
+    <a mat-list-item [routerLink]="item.toString()"
+       (click)="onSidenavClose()">
+      <mat-icon>{{getIcon(item)}}</mat-icon> <span class="nav-caption">{{item}}</span></a>
+  </ng-container>
+
 </mat-nav-list>
