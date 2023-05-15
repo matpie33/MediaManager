@@ -13,11 +13,11 @@ import {PermissionsService} from "../../services/permissions.service";
 })
 export class RootComponent implements OnInit{
   menuItems: (string | MenuItems) [] = Object.values(MenuItems);
-  username: string | null;
+
   userAccessibleMenu: Set<MenuItems> = new Set<MenuItems>();
 
   constructor(private permissionService: PermissionsService) {
-    this.username = sessionStorage.getItem(LoginConstants.USERNAME);
+
     this.initializeMenuPermissions();
   }
 
@@ -28,10 +28,7 @@ export class RootComponent implements OnInit{
 
   }
 
-  logout() {
-    sessionStorage.clear();
-    window.location.reload();
-  }
+
 
   ngOnInit(): void {
     this.permissionService.getUserMenus().subscribe(menuItems=>{

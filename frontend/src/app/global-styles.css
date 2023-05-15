@@ -10,45 +10,6 @@
   color: #bb0000
 }
 
-.horizontal-menu {
-  display: inline-flex;
-  padding-left: 60px;
-  padding-bottom: 5px;
-  padding-top: 5px;
-}
-
-.login-div {
-  border-left: 1px solid black;
-  display: inline;
-  float: right;
-  padding: 10px 10px 9px;
-
-}
-
-.wrapper-div {
-  background-color: mediumseagreen;
-  border-bottom: 1px solid black;
-}
-
-
-.horizontal-menu a {
-  background-color: darkseagreen;
-  color: black;
-  text-decoration: none;
-  border: 1px solid black;
-  padding: 5px 10px;
-  border-radius: 6px;
-}
-
-.horizontal-menu a:hover {
-  background-color: dodgerblue;
-}
-
-.horizontal-menu a:active {
-  background-color: #04AA6D;
-  color: white;
-}
-
 label, input {
   margin-right: 5px;
 }
@@ -108,5 +69,13 @@ html, body{
 
 .btn-secondary {
   background-color: lightgoldenrodyellow;
+}
+
+mat-sidenav-container {
+  height: 100%;
+}
+
+mat-sidenav-content {
+  background-color: #7b79df;
 }
 

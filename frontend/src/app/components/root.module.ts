@@ -25,6 +25,15 @@ import { ManageUsersParentComponent } from './manage-users/manage-users-parent/m
 import { AddUserComponent } from './manage-users/add-user/add-user.component';
 import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { QrCodeScannerComponent } from './qr-code-scanner/qr-code-scanner.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSidenavModule} from "@angular/material/sidenav";
+import {MatToolbarModule} from "@angular/material/toolbar";
+import {MatIconModule} from "@angular/material/icon";
+import {MatButtonModule} from "@angular/material/button";
+import {MatListModule} from "@angular/material/list";
+import { HeaderComponent } from './navigation/header/header.component';
+import { FlexLayoutModule} from "@angular/flex-layout";
+import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 
 
 const appRoutes: Routes = [
@@ -58,16 +67,25 @@ const appRoutes: Routes = [
     EditUsersComponent,
     ManageUsersParentComponent,
     AddUserComponent,
-    QrCodeScannerComponent
+    QrCodeScannerComponent,
+    HeaderComponent,
+    SidenavListComponent
   ],
   imports: [
+    MatButtonModule,
+    MatIconModule,
+    MatListModule,
+    MatToolbarModule,
+    MatSidenavModule,
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot(
       appRoutes
     ),
     HttpClientModule,
-    ZXingScannerModule
+    ZXingScannerModule,
+    BrowserAnimationsModule,
+    FlexLayoutModule
   ],
   providers: [],
   bootstrap: [RootComponent]

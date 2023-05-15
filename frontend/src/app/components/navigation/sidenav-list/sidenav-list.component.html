@@ -1,0 +1,5 @@
+<mat-nav-list>
+  <a mat-list-item *ngFor = "let item of userAccessibleMenu"  [routerLink]="item.toString()"
+     (click)="onSidenavClose()">
+    <mat-icon>home</mat-icon> <span class="nav-caption">{{item}}</span></a>
+</mat-nav-list>
