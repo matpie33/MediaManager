@@ -4,9 +4,7 @@ import io.nayuki.qrcodegen.QrCode;
 import org.springframework.stereotype.Component;
 import org.travelling.ticketer.business.QrContentBuilder;
 import org.travelling.ticketer.constants.Filenames;
-import org.travelling.ticketer.dao.TicketDao;
 import org.travelling.ticketer.dto.QrCodeContentDTO;
-import org.travelling.ticketer.security.SecurityManager;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.IllegalBlockSizeException;
@@ -30,7 +28,7 @@ public class QrCodeImageGenerator {
         this.qrContentBuilder = qrContentBuilder;
     }
 
-    public void getQrCode(QrCodeContentDTO qrCodeContentDTO, String iv) throws IOException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, KeyStoreException, InvalidKeyException {
+    public void createQrCodeImage(QrCodeContentDTO qrCodeContentDTO, String iv) throws IOException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, KeyStoreException, InvalidKeyException {
         String qrCodeContent = qrContentBuilder.build(qrCodeContentDTO, iv);
         QrCode qrCode = QrCode.encodeText(qrCodeContent, QrCode.Ecc.HIGH);
         BufferedImage img = toImage(qrCode, 10, 4);

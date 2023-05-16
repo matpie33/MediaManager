@@ -26,7 +26,6 @@ import java.security.InvalidKeyException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
-import java.util.Collections;
 
 @RestController
 public class MainRestController {
@@ -67,7 +66,7 @@ public class MainRestController {
 
     @Transactional
     @GetMapping("/assignTicket/{connectionId}/user/{userId}/ticket_type/{ticketType}/travelDate/{travelDateTime}")
-    public void assignTicketToUser(@PathVariable long connectionId, @PathVariable long userId, @PathVariable String ticketType, @PathVariable @DateTimeFormat(pattern = "dd.MM.yyyy HH:mm") LocalDateTime travelDateTime){
+    public void assignTicketToUser(@PathVariable long connectionId, @PathVariable long userId, @PathVariable String ticketType, @PathVariable @DateTimeFormat(pattern = DateTimeFormats.DATE_TIME_FORMAT) LocalDateTime travelDateTime){
 
         Connection connection = travelConnectionManager.getConnectionById(connectionId);
         seatsManager.updateSeats(connection, travelDateTime, connectionId);
@@ -98,8 +97,8 @@ public class MainRestController {
         qrCodeContentDTO.setConnectionId(ticket.getConnection().getId());
         qrCodeContentDTO.setUserId(ticket.getAppUser().getId());
         qrCodeContentDTO.setTicketId(ticket.getId());
-        qrCodeImageGenerator.getQrCode(qrCodeContentDTO, ticket.getInitializationVector());
-        return pdfExportManager.exportToPdf(ticket);
+        qrCodeImageGenerator.createQrCodeImage(qrCodeContentDTO, ticket.getInitializationVector());
+        return pdfExportManager.exportToPdf(ticketsManager.getTicketForPdf(ticket));
     }
 
     @PostMapping("decode")

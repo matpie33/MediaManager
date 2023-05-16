@@ -4,6 +4,7 @@ import org.travelling.ticketer.constants.TicketType;
 import org.travelling.ticketer.dao.TicketDao;
 import org.travelling.ticketer.dto.TicketCheckDTO;
 import org.travelling.ticketer.dto.TicketDTO;
+import org.travelling.ticketer.dto.TicketPdfDTO;
 import org.travelling.ticketer.entity.AppUser;
 import org.travelling.ticketer.entity.Connection;
 import org.travelling.ticketer.entity.Ticket;
@@ -56,6 +57,10 @@ public class TicketsManager {
 
     public Ticket getTicket(long id){
         return ticketDao.findById(id).orElseThrow(ExceptionBuilder.createIllegalArgumentException("ticket not found"));
+    }
+
+    public TicketPdfDTO getTicketForPdf(Ticket ticket){
+        return ticketMapper.mapTicketForPdf(ticket);
     }
 
     public TicketCheckDTO getTicketForChecking(long ticketId){
