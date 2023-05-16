@@ -9,20 +9,23 @@ import {QrCodeData} from "./data/qr-code-data";
 })
 export class QrCodeScannerComponent {
 
+  ticketData: QrCodeData | undefined;
+  waitingForQrCodeResponse = false;
   scanFinished = false;
-  ticketData!: QrCodeData;
 
   constructor(private restClientService: RestClientService) {
   }
 
 
-  scanSuccesss(scannedValue: string) {
+  scanSuccess(scannedValue: string) {
+    this.waitingForQrCodeResponse = true;
     this.scanFinished = true;
     this.restClientService.decodeQrCode(scannedValue)
-      .subscribe(returnValue=>this.ticketData=returnValue);
+      .subscribe(returnValue=>{this.ticketData=returnValue; this.waitingForQrCodeResponse = false});
   }
 
   reset() {
-    this.scanFinished=false;
+    this.scanFinished = false;
+    this.ticketData = undefined;
   }
 }

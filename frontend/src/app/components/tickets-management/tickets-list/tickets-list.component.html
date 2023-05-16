@@ -1,4 +1,5 @@
 <h1 class="header" *ngIf="tickets.length">Tickets history:</h1>
+<app-progress-spinner [shouldDisplay]="loadingData"></app-progress-spinner>
 <div class="bordered" *ngFor="let ticket of tickets">
   <h2>Ticket</h2>
   <p>From station : {{ticket.connection.fromStation}}</p>
@@ -7,8 +8,8 @@
   <p>Ticket type: {{ticket.ticketType}}</p>
   <button class="submit" (click)="openTicket(ticket)">Open</button>
 </div>
-<div *ngIf="!dataLoaded"><h3 class="center">Loading data...</h3></div>
-<div *ngIf="!tickets.length && dataLoaded"><h1 class="center">No tickets bought for this user.</h1></div>
+
+<div *ngIf="!tickets.length && loadingData"><h1 class="center">No tickets bought for this user.</h1></div>
 
 
 

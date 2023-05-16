@@ -19,6 +19,7 @@ export class EditUsersComponent extends ViewWithStatus implements OnInit{
   status = "";
   roleTypes = Role;
   userName = "";
+  loadingData = true;
 
 
   constructor(private restClient: RestClientService, private roleService: RoleService) {
@@ -30,6 +31,7 @@ export class EditUsersComponent extends ViewWithStatus implements OnInit{
       for (let user of users){
         this.userRoles.set(user.userName, user.roles);
       }
+      this.loadingData = false;
     })
   }
 

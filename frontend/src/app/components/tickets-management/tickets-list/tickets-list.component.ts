@@ -4,7 +4,7 @@ import {UserTicket} from "../data/ticket-of-user";
 import {LoginConstants} from "../../login/data/login-enums";
 import {DATE_FORMAT} from "../../../constants/date-formats";
 import {PersonalData} from "../../login/data/login-data";
-import {DatePipe} from "@angular/common";
+import {forkJoin} from "rxjs";
 
 @Component({
   selector: 'app-tickets-list',
@@ -14,30 +14,32 @@ import {DatePipe} from "@angular/common";
 export class TicketsListComponent implements OnInit{
  tickets: Array<UserTicket> = [];
   dateFormat = DATE_FORMAT;
-  dataLoaded = false;
+  loadingData = true;
   personalData!: PersonalData;
 
  constructor(private restHandler: RestClientService) {
  }
 
   ngOnInit(): void {
-    this.restHandler.getTicketsOfUser(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe(tickets => {
-      this.tickets = tickets;
-      this.dataLoaded = true;
+    let ticketsObservable = this.restHandler.getTicketsOfUser(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!));
+    let userDataObservable = this.restHandler.getUser(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!));
+    let observables = [ticketsObservable, userDataObservable];
+    forkJoin(observables).subscribe(result=>{
+      this.tickets = result[0] as UserTicket[];
+      this.personalData = result[1] as PersonalData;
+      this.loadingData = false;
     });
-    this.restHandler.getUser(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!))
-      .subscribe(personalData=>{
-      this.personalData = personalData;
-    })
   }
 
   openTicket(ticket: UserTicket){
     const options ={ responseType: 'blob'};
+    this.loadingData = true;
     this.restHandler.getTicketAsPdf(ticket.id, options).subscribe(bytes=>{
       let blob = new Blob([bytes], {type: 'application/pdf'});
       const fileUrl = URL.createObjectURL(blob);
       window.open(fileUrl, '_blank');
-   })
+      this.loadingData = false;
+    })
   }
 
 }

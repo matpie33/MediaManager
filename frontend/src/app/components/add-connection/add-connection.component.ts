@@ -21,6 +21,7 @@ export class AddConnectionComponent extends ViewWithStatus{
   SUCCESS_MESSAGE = "Successfully added travel connection.";
   ERROR_MESSAGE = "Error while adding travel connection.";
   timeoutId: number = 0;
+  loadingData = true;
 
   constructor(private formBuilder: FormBuilder, private restHandlerService: RestClientService) {
     super();
@@ -32,6 +33,7 @@ export class AddConnectionComponent extends ViewWithStatus{
         this.trains.set(train.id, train.name);
       }
       this.form.controls["train"].setValue(1);
+      this.loadingData = false;
     });
 
   }

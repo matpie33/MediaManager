@@ -15,6 +15,7 @@ export class TicketSummaryComponent extends ViewWithStatus{
   submitButtonEnabled: boolean = false;
   buyRequestSent: boolean = false;
   dateFormat = DATE_FORMAT;
+  waitingForBuyRequest = false;
 
   constructor(private restHandler: RestClientService) {
     super();
@@ -23,11 +24,12 @@ export class TicketSummaryComponent extends ViewWithStatus{
   confirmAndBuy() {
     this.buyRequestSent = true;
     this.showInfoMessage("Please wait for response");
+    this.waitingForBuyRequest = true;
 
     let userId = Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!);
     this.restHandler.assignTicketToUser(userId, this.ticketData).subscribe({
-      complete: ()=>this.showSuccessMessage("Payment succesfull"),
-      error: ()=>this.showErrorMessage("Payment failed")
+      complete: ()=>{this.showSuccessMessage("Payment succesfull"); this.waitingForBuyRequest = false;},
+      error: ()=>{this.showErrorMessage("Payment failed"); this.waitingForBuyRequest = false;}
     });
     this.submitButtonEnabled = true;
   }

@@ -24,11 +24,7 @@ export class RootComponent implements OnInit{
   initializeMenuPermissions (){
     this.userAccessibleMenu.add(MenuItems.NEWS);
     this.userAccessibleMenu.add(MenuItems.SEARCH_CONNECTIONS);
-
-
   }
-
-
 
   ngOnInit(): void {
     this.permissionService.getUserMenus().subscribe(menuItems=>{

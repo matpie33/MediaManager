@@ -30,6 +30,7 @@ export class SearchTicketsComponent extends ViewWithStatus{
 
   searchPerformed: boolean = false;
   searchFormValid :boolean = false;
+  loadingData = false;
 
   @Output() ticketData: EventEmitter<TicketData> = new EventEmitter<TicketData>();
 
@@ -46,6 +47,7 @@ export class SearchTicketsComponent extends ViewWithStatus{
 
   onSubmitSearch() {
     this.availableTickets.clear();
+    this.loadingData = true;
     if (this.searchForm.valid){
       this.searchPerformed = true;
       this.searchFormValid = false;
@@ -55,6 +57,7 @@ export class SearchTicketsComponent extends ViewWithStatus{
           connections.forEach(connection =>{
             this.availableTickets.set(connection.id, connection);
           });
+          this.loadingData = false;
       });
     }
     else{

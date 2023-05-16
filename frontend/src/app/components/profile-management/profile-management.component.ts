@@ -1,9 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormGroup} from "@angular/forms";
 import {FormBuilder} from "@angular/forms";
 import {RestClientService} from "../../services/rest-client.service";
 import {LoginConstants} from "../login/data/login-enums";
-import {StatusCssClass} from "../../constants/status-css-class";
 import {ViewWithStatus} from "../common/view-with-status";
 
 @Component({
@@ -11,25 +10,31 @@ import {ViewWithStatus} from "../common/view-with-status";
   templateUrl: './profile-management.component.html',
   styleUrls: ['./profile-management.component.css']
 })
-export class ProfileManagementComponent extends ViewWithStatus{
+export class ProfileManagementComponent extends ViewWithStatus implements OnInit{
 
   profileForm: FormGroup = this.formBuilder.group({
     firstName: "",
     lastName: "",
     email: "",
   });
+  loadingData = true;
 
 
   constructor(private formBuilder:FormBuilder, private restHandler: RestClientService) {
     super();
-    restHandler.getUser(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe(
+
+  }
+
+  ngOnInit(): void {
+    this.restHandler.getUser(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe(
       result => {
         this.profileForm.controls["firstName"].setValue(result.firstName);
         this.profileForm.controls["lastName"].setValue(result.lastName);
         this.profileForm.controls["email"].setValue(result.email);
+        this.loadingData = false;
       }
     );
-  }
+    }
 
   onSubmitProfile() {
     let profileData = {
