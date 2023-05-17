@@ -56,11 +56,24 @@ html, body{
 .grid-parent {
   flex: 0 0 content;
   display: grid;
-  grid-template-columns: max-content max-content;
+  grid-template-columns: max-content min-content;
+  height: fit-content;
+}
+
+.connections-parent .grid-parent{
+  padding-bottom: 50px;
 }
 
 .grid-parent * {
   margin: 5px;
+}
+
+app-progress-spinner {
+  position:absolute;
+  top: 50%;
+  left: 50%;
+  margin: auto;
+  transform: translate(-50%, -50%);
 }
 
 .btn-main {

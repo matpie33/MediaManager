@@ -10,5 +10,6 @@ export class ProgressSpinnerComponent {
 
   mode: ProgressSpinnerMode = 'indeterminate';
   @Input() shouldDisplay = false;
+  @Input() diameter = 80;
 
 }

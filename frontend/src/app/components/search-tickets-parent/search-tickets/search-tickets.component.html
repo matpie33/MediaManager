@@ -1,4 +1,4 @@
-<app-progress-spinner [shouldDisplay]="loadingData"></app-progress-spinner>
+
   <form class="bordered" [formGroup]= "searchForm" (ngSubmit)="onSubmitSearch()">
     <p *ngIf="searchFormValid" style="color:red">Invalid input</p>
     <h2>Search connection</h2>
@@ -13,7 +13,7 @@
       <input type="time" step="60" formControlName="time">
     </div>
 
-    <button class="submit" type ="submit">Submit</button>
+    <button class="submit" type ="submit">Search</button>
   </form>
 
   <form *ngIf="searchPerformed" [formGroup]="ticketsForm" (ngSubmit)="onSubmitPersonalData()">
@@ -21,6 +21,7 @@
     <div class="bordered">
       <h2>Connections</h2>
       <div class="connections-parent">
+        <app-progress-spinner [shouldDisplay]="loadingData"></app-progress-spinner>
         <div *ngFor="let ticket of availableTickets | keyvalue :connectionByTimeComparator" id="tickets" class="bordered grid-parent">
           <Label>Time</Label>
           <Label>{{ticket.value.time}}</Label>

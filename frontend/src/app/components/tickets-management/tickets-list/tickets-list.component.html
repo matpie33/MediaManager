@@ -9,7 +9,7 @@
   <button class="submit" (click)="openTicket(ticket)">Open</button>
 </div>
 
-<div *ngIf="!tickets.length && loadingData"><h1 class="center">No tickets bought for this user.</h1></div>
+<div *ngIf="!tickets.length && !loadingData"><h1 class="center">No tickets bought for this user.</h1></div>
 
 
 

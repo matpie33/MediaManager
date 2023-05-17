@@ -1,4 +1,4 @@
-<app-progress-spinner [shouldDisplay]="loadingData"></app-progress-spinner>
+
 <form class="bordered" [formGroup]= "form" (ngSubmit)="onSubmit()">
   <h2>Add new connection</h2>
   <div class="grid-parent">
@@ -13,9 +13,9 @@
     <select formControlName="train">
       <option *ngFor="let train of trains | keyvalue" [ngValue]="train.key">{{train.value}}</option>
     </select>
-    <button type="submit">Add</button>
-
   </div>
+  <app-progress-spinner [diameter]="30" class="small-progress-spinner" [shouldDisplay]="loadingData" ></app-progress-spinner>
+  <button type="submit">Add</button>
   <p [class]="statusClass" *ngIf="showStatus">{{statusMessage}}</p>
 
 
