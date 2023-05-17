@@ -1,17 +1,14 @@
-import {inject, Injectable} from '@angular/core';
-import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree} from '@angular/router';
+import {Injectable} from '@angular/core';
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import {Observable, map, catchError, of} from 'rxjs';
-import {MenuItems} from "../../../constants/menu-items";
 import {LoginConstants} from "../data/login-enums";
-import {LoginComponent} from "../login.component";
 import {RestClientService} from "../../../services/rest-client.service";
-import {LoginResponse} from "../data/login-data";
 import {PermissionsService} from "../../../services/permissions.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthenticationGuardAdmin implements CanActivate {
+export class AuthenticationGuardAdmin  {
   constructor(private router: Router, private restHandler: RestClientService, private permissionService: PermissionsService) {
   }
 
@@ -27,7 +24,7 @@ export class AuthenticationGuardAdmin implements CanActivate {
       }
       this.router.navigate([LoginConstants.ACCESS_DENIED.toString()]);
       return false;
-    }), catchError((er, caught)=>{
+    }), catchError(()=>{
       let returnUrl = LoginConstants.RETURN_URL;
       this.router.navigate([LoginConstants.LOGIN_URL.toString()],
         { queryParams: { [returnUrl]: state.url }}).catch(error=>console.log(error));
