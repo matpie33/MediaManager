@@ -2,7 +2,6 @@
 <div class="bordered" style="height: 300px; width: 300px; position: absolute;
   left: 50%;
   top: 50%;
-  -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);">
   <app-progress-spinner [shouldDisplay]="waitingForQrCodeResponse"></app-progress-spinner>
   <zxing-scanner *ngIf="!scanFinished" (scanSuccess)="scanSuccess($event)"></zxing-scanner>
@@ -16,6 +15,6 @@
     <p>FromStation: {{ticketData.fromStation}}</p>
     <p>ToStation: {{ticketData.toStation}}</p>
   </div>
-  <p *ngIf="ticketData && !ticketData.isValid" class="error-message">Invalid qr code</p>
+  <p *ngIf="errorOcurred || (scanFinished &&  ticketData && !ticketData.isValid)" class="error-message">Invalid qr code</p>
   <button (click)="reset()">Scan again</button>
 </div>

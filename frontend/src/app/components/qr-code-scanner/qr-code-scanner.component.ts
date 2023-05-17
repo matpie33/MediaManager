@@ -12,6 +12,7 @@ export class QrCodeScannerComponent {
   ticketData: QrCodeData | undefined;
   waitingForQrCodeResponse = false;
   scanFinished = false;
+  errorOcurred = false;
 
   constructor(private restClientService: RestClientService) {
   }
@@ -21,7 +22,9 @@ export class QrCodeScannerComponent {
     this.waitingForQrCodeResponse = true;
     this.scanFinished = true;
     this.restClientService.decodeQrCode(scannedValue)
-      .subscribe(returnValue=>{this.ticketData=returnValue; this.waitingForQrCodeResponse = false});
+      .subscribe({
+        next: value=>{this.ticketData=value; this.waitingForQrCodeResponse = false; this.errorOcurred = false},
+        error: ()=>{this.waitingForQrCodeResponse = false; this.errorOcurred = true}});
   }
 
   reset() {
