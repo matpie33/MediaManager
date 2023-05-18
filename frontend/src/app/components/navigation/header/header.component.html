@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar style="background-color: #569393">
   <div style="all:inherit" fxHide.gt-xs>
     <button mat-icon-button (click)="onToggleSidenav()">
       <mat-icon>menu</mat-icon>
@@ -11,9 +11,8 @@
         <mat-icon>{{getIcon(item)}}</mat-icon>
         <span fxHide.lt-md >{{item}}</span>
       </a>
+      <app-progress-spinner [shouldDisplay]="loadingData" [diameter]="30" class="small-progress-spinner"></app-progress-spinner>
     </div>
-
-
   </div>
   <div style="all:inherit" fxFlex fxLayout fxLayoutAlign="end" fxHide.xs>
     <ul fxLayout fxLayoutGap="15px" class="navigation-items">

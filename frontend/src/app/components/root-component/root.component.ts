@@ -1,8 +1,5 @@
 import {Component, OnInit, ViewEncapsulation} from '@angular/core';
 import {MenuItems} from "../../constants/menu-items";
-import {LoginConstants} from "../login/data/login-enums";
-import {RestClientService} from "../../services/rest-client.service";
-import {PermissionTypes} from "../../constants/permission-types";
 import {PermissionsService} from "../../services/permissions.service";
 
 @Component({
@@ -12,9 +9,8 @@ import {PermissionsService} from "../../services/permissions.service";
   encapsulation: ViewEncapsulation.None
 })
 export class RootComponent implements OnInit{
-  menuItems: (string | MenuItems) [] = Object.values(MenuItems);
-
   userAccessibleMenu: Set<MenuItems> = new Set<MenuItems>();
+  loadingData = true;
 
   constructor(private permissionService: PermissionsService) {
 
@@ -31,6 +27,7 @@ export class RootComponent implements OnInit{
       for (let menuItem of menuItems){
         this.userAccessibleMenu.add(menuItem);
       }
+      this.loadingData = false;
     })
   }
 

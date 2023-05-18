@@ -11,6 +11,7 @@ import {MenuService} from "../../../services/menu.service";
 export class HeaderComponent {
   @Output() public sidenavToggle = new EventEmitter();
   @Input() userAccessibleMenu!: Set<MenuItems>;
+  @Input() loadingData = true;
 
   username: string | null;
 
