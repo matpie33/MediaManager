@@ -1,4 +1,4 @@
-import {inject, NgModule} from '@angular/core';
+import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 
 import {RootComponent} from './root-component/root.component';
@@ -15,7 +15,7 @@ import { ProfileManagementComponent } from './profile-management/profile-managem
 import { NewsComponent } from './news/news.component';
 import {AuthenticationGuard} from "./login/authentication/authentication-guard";
 import {LoginConstants} from "./login/data/login-enums";
-import {HttpClientModule} from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import { PageNotFoundComponent } from './error-handling/page-not-found/page-not-found.component';
 import {AuthenticationGuardAdmin} from "./login/authentication/authentication-guard-admin";
 import { AccessDeniedComponent } from './error-handling/access-denied/access-denied.component';
@@ -36,6 +36,7 @@ import { FlexLayoutModule} from "@angular/flex-layout";
 import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
+import {CacheInterceptorService} from "../services/cache-interceptor.service";
 
 
 const appRoutes: Routes = [
@@ -91,7 +92,7 @@ const appRoutes: Routes = [
     BrowserAnimationsModule,
     FlexLayoutModule
   ],
-  providers: [],
+  providers: [{ provide: HTTP_INTERCEPTORS, useClass: CacheInterceptorService, multi: true}],
   bootstrap: [RootComponent]
 })
 export class RootModule { }
