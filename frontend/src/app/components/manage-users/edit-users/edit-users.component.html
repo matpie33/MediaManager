@@ -1,4 +1,4 @@
-<app-progress-spinner [shouldDisplay] = loadingData ></app-progress-spinner>
+
 <div class="bordered">
 <h2>Edit user roles</h2>
   <div class="grid-parent">
@@ -7,7 +7,10 @@
     </datalist>
 
     <label>User:</label>
-    <input #input (click)="clear(input)" autoComplete="on" list="suggestions" placeholder="type to search" (input)="inputChanged(input)"/>
+    <div>
+      <input #input (click)="clear(input)" [style.color]="textColor" autoComplete="on" list="suggestions" [value]="currentUserValue" placeholder="type to search" (input)="inputChanged(input)"/>
+    </div>
+
     <label>Permissions:</label>
     <div *ngIf="currentUserRoles.size>0">
         <ng-container *ngFor="let currentRole of currentUserRoles">

@@ -33,12 +33,13 @@ export class TicketsListComponent implements OnInit{
 
   openTicket(ticket: UserTicket){
     const options ={ responseType: 'blob'};
-    this.loadingData = true;
+    ticket.isLoading = true;
+
     this.restHandler.getTicketAsPdf(ticket.id, options).subscribe(bytes=>{
       let blob = new Blob([bytes], {type: 'application/pdf'});
       const fileUrl = URL.createObjectURL(blob);
       window.open(fileUrl, '_blank');
-      this.loadingData = false;
+      ticket.isLoading = false;
     })
   }
 

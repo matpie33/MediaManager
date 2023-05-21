@@ -1,3 +1,11 @@
+app-progress-spinner {
+  position: relative;
+  top: 0;
+  left: 0;
+  display: inline-block;
+  transform: translate(30%, 30%);
+}
+
 .center {
   display: flex;
   justify-content: center;

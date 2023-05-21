@@ -11,6 +11,7 @@ export interface UserTicket {
 
   }
   id: number;
+  isLoading: boolean;
 }
 
 export interface TicketPdfData {

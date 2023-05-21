@@ -1,5 +1,6 @@
-<app-progress-spinner [shouldDisplay]="loadingData"></app-progress-spinner>
+
 <form class="bordered" [formGroup]= "profileForm" (ngSubmit)="onSubmitProfile()">
+
   <h2>Edit profile</h2>
   <div class="grid-parent">
     <label>First name:</label>
@@ -9,6 +10,7 @@
     <label>Email: </label>
     <input type="text" formControlName="email">
   </div>
+  <app-progress-spinner [shouldDisplay]="loadingData"></app-progress-spinner>
   <button class="submit" type ="submit" [disabled]="profileForm.pristine">Submit</button>
   <p *ngIf="showStatus" [class]="statusClass">{{statusMessage}}</p>
 </form>

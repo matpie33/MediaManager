@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {RestClientService} from "../../../services/rest-client.service";
-import {Roles, UserRoles} from "../data/user-roles";
-import {Role} from "../../../constants/role";
+import {Roles} from "../data/user-roles";
 import {ViewWithStatus} from "../../common/view-with-status";
 import {StatusCssClass} from "../../../constants/status-css-class";
 import {RoleService} from "../../../services/role.service";
@@ -17,9 +16,11 @@ export class EditUsersComponent extends ViewWithStatus implements OnInit{
   userRoles: Map<string, Array<string>> = new Map<string, Array<string>>();
   currentUserRoles = this.roleService.currentUserRoles;
   status = "";
-  roleTypes = Role;
   userName = "";
   loadingData = true;
+  currentUserValue ="loading data...";
+  textColor = "red";
+
 
 
   constructor(private restClient: RestClientService, private roleService: RoleService) {
@@ -32,6 +33,8 @@ export class EditUsersComponent extends ViewWithStatus implements OnInit{
         this.userRoles.set(user.userName, user.roles);
       }
       this.loadingData = false;
+      this.currentUserValue = "choose or type"
+      this.textColor = "black";
     })
   }
 

@@ -7,7 +7,7 @@
 }
 
 .error-message{
-  color: #bb0000
+  color: #bb0000;
 }
 
 label, input {
@@ -15,7 +15,6 @@ label, input {
 }
 
 .submit {
-  margin: 5px;
   align-self: center;
   display:inline-block;
 }
