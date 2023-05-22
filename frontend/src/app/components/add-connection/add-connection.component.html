@@ -10,11 +10,11 @@
     <label>Time</label>
     <input type="time" step="60" formControlName="time">
     <label>Train</label>
-    <select formControlName="train">
+    <select formControlName="train" [style.color]="loadingData? 'red': 'black'">
+      <option *ngIf="loadingData" >Loading data...</option>
       <option *ngFor="let train of trains | keyvalue" [ngValue]="train.key">{{train.value}}</option>
     </select>
   </div>
-  <app-progress-spinner [diameter]="30" class="small-progress-spinner" [shouldDisplay]="loadingData" ></app-progress-spinner>
   <button type="submit">Add</button>
   <p [class]="statusClass" *ngIf="showStatus">{{statusMessage}}</p>
 

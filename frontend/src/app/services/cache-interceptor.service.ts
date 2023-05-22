@@ -7,7 +7,6 @@ export class CacheInterceptorService implements HttpInterceptor{
   private urlToResponseCache: Map<string, HttpResponse<any>> = new Map()
   constructor() { }
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log(request);
     if (request.method != "GET"){
       return next.handle(request);
     }

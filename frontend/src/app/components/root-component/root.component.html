@@ -3,9 +3,10 @@
     <app-sidenav-list [userAccessibleMenu]="userAccessibleMenu" (sidenavClose)="sidenav.close()"></app-sidenav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <app-header [loadingData]="loadingData" [userAccessibleMenu]="userAccessibleMenu" (sidenavToggle)="sidenav.toggle()"></app-header>
+    <app-header [loadingData]="isLoadingData()" [userAccessibleMenu]="userAccessibleMenu" (sidenavToggle)="sidenav.toggle()"></app-header>
     <main>
-        <router-outlet></router-outlet>
+        <app-progress-spinner [shouldDisplay]="!routerActivated"></app-progress-spinner>
+        <router-outlet (activate)="activated()"></router-outlet>
     </main>
   </mat-sidenav-content>
 </mat-sidenav-container>

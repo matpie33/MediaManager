@@ -12,7 +12,7 @@ export class AddConnectionComponent extends ViewWithStatus{
   form: FormGroup = this.formBuilder.group({
     fromStation: "",
     toStation: "",
-    time: "11:11",
+    time: "",
     train: ""
   });
 

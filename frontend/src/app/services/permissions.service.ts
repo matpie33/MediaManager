@@ -10,7 +10,7 @@ import {EMPTY, map, Observable} from "rxjs";
 })
 export class PermissionsService {
   menuToPermissionMap : Map<string, Array<MenuItems> | MenuItems> = new Map<string, Array<MenuItems> | MenuItems>();
-
+  loadingData = false;
 
   constructor(private restService: RestClientService) {
     let defaultMenu: Array<MenuItems> = [
@@ -27,6 +27,7 @@ export class PermissionsService {
     if (!sessionStorage.getItem(LoginConstants.USER_ID)) {
       return EMPTY;
     }
+    this.loadingData = true;
     return this.restService.getUserPermissions(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!))
       .pipe(map(response=>{
       let userAccessibleMenu: Set<MenuItems> = new Set<MenuItems>();
@@ -45,6 +46,7 @@ export class PermissionsService {
           }
 
       });
+      this.loadingData = false;
       return userAccessibleMenu;
     }));
   }

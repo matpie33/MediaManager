@@ -1,5 +1,5 @@
 <h1 class="header" *ngIf="tickets.length">Tickets history:</h1>
-
+<app-progress-spinner [shouldDisplay]="loadingData"></app-progress-spinner>
 <div class="bordered" *ngFor="let ticket of tickets">
   <h2>Ticket</h2>
   <p>From station : {{ticket.connection.fromStation}}</p>
@@ -8,7 +8,7 @@
   <p>Ticket type: {{ticket.ticketType}}</p>
   <div>
     <button class="submit" (click)="openTicket(ticket)">Open</button>
-    <app-progress-spinner [diameter]="20" [shouldDisplay]="ticket.isLoading"></app-progress-spinner>
+    <app-progress-spinner class="ticket-spinner" [diameter]="20" [shouldDisplay]="ticket.isLoading"></app-progress-spinner>
   </div>
 
 </div>
