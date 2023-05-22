@@ -23,11 +23,16 @@ export class RootComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    this.permissionService.getUserMenus().subscribe(menuItems=>{
-      for (let menuItem of menuItems){
-        this.userAccessibleMenu.add(menuItem);
-      }
-      this.loadingData = false;
+    this.permissionService.getUserMenus().subscribe({
+      next:
+        menuItems=>{
+          for (let menuItem of menuItems){
+            this.userAccessibleMenu.add(menuItem);
+          }
+          this.loadingData = false;
+        },
+      complete: ()=>this.loadingData=false
+
     })
   }
 

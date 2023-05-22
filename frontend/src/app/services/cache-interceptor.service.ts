@@ -17,7 +17,14 @@ export class CacheInterceptorService implements HttpInterceptor{
         return of(valueFromCache.clone());
       }
       else{
-        next.handle(request).subscribe(responseEvent=>this.urlToResponseCache.set(request.url, responseEvent as HttpResponse<any>));
+        next.handle(request).subscribe(
+          responseEvent=>{
+            if (responseEvent instanceof HttpResponse){
+              this.urlToResponseCache.set(request.url, responseEvent as HttpResponse<any>);
+            }
+        });
+
+
         return next.handle(request);
       }
     }

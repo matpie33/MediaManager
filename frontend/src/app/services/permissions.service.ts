@@ -3,7 +3,7 @@ import {LoginConstants} from "../components/login/data/login-enums";
 import {MenuItems} from "../constants/menu-items";
 import {RestClientService} from "./rest-client.service";
 import {PermissionTypes} from "../constants/permission-types";
-import {map, Observable} from "rxjs";
+import {EMPTY, map, Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +24,9 @@ export class PermissionsService {
 
   getUserMenus () : Observable<Set<MenuItems>>{
 
+    if (!sessionStorage.getItem(LoginConstants.USER_ID)) {
+      return EMPTY;
+    }
     return this.restService.getUserPermissions(Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!))
       .pipe(map(response=>{
       let userAccessibleMenu: Set<MenuItems> = new Set<MenuItems>();
