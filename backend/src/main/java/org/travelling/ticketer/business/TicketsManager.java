@@ -23,13 +23,13 @@ import java.util.stream.Collectors;
 @Component
 public class TicketsManager {
 
-    private TicketDao ticketDao;
+    private final TicketDao ticketDao;
 
-    private AppUserManager appUserManager;
+    private final AppUserManager appUserManager;
 
-    private TicketMapper ticketMapper;
+    private final TicketMapper ticketMapper;
 
-    private SecurityManager securityManager;
+    private final SecurityManager securityManager;
 
     @Autowired
     public TicketsManager(SecurityManager securityManager, TicketDao ticketDao, AppUserManager appUserManager, TicketMapper ticketMapper) {
@@ -68,8 +68,20 @@ public class TicketsManager {
     }
 
     public LinkedHashSet<TicketDTO> getTicketsOfUser(long userId){
-        Set<Ticket> tickets = ticketDao.findByAppUser_IdOrderByTravelDateAscConnection_timeAsc(userId);
+        Set<Ticket> tickets = ticketDao.findByAppUser_IdOrderByTravelDateAscConnection_departureTimeAsc(userId);
         return tickets.stream().map(ticketMapper::mapTicket).collect(Collectors.toCollection(LinkedHashSet::new));
     }
+
+    public Set<TicketDTO> getTicketsOfUserValidNow(long userId){
+        Set<Ticket> tickets = ticketDao.findByAppUser_Id(userId);
+        LocalDateTime dateTimeNow = LocalDateTime.now();
+        return tickets.stream().filter(ticket-> isTicketValidNow(dateTimeNow, ticket)).map(ticketMapper::mapTicket).collect(Collectors.toSet());
+    }
+
+    private boolean isTicketValidNow(LocalDateTime dateTimeNow, Ticket ticket) {
+        return LocalDateTime.of(ticket.getTravelDate(), ticket.getConnection().getDepartureTime()).isBefore(dateTimeNow)
+                && LocalDateTime.of(ticket.getTravelDate(), ticket.getConnection().getArrivalTime()).isAfter(dateTimeNow);
+    }
+
 
 }

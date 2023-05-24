@@ -15,11 +15,11 @@ import java.util.Optional;
 @Component
 public class SeatsManager {
 
-    private SeatsDAO seatsDAO;
+    private final SeatsDAO seatsDAO;
 
-    private SeatsMapper seatsMapper;
+    private final SeatsMapper seatsMapper;
 
-    private TrainsManager trainsManager;
+    private final TrainsManager trainsManager;
 
     @Autowired
     public SeatsManager(SeatsDAO seatsDAO, SeatsMapper seatsMapper, TrainsManager trainsManager) {
@@ -40,7 +40,7 @@ public class SeatsManager {
         }
         else{
             Train train = trainsManager.getTrainByConnection(connection);
-            return seatsMapper.mapSeats(connection.getTime(), from, to, train.getMaxSeats(), connection.getId());
+            return seatsMapper.mapSeats(connection.getDepartureTime(), from, to, train.getMaxSeats(), connection.getId());
         }
     }
 

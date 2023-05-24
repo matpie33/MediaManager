@@ -17,11 +17,11 @@ import java.util.stream.Collectors;
 @Component
 public class TravelConnectionManager {
 
-    private TravelConnectionDAO travelConnectionDAO;
+    private final TravelConnectionDAO travelConnectionDAO;
 
-    private SeatsManager seatsManager;
+    private final SeatsManager seatsManager;
 
-    private ConnectionMapper connectionMapper;
+    private final ConnectionMapper connectionMapper;
 
     @Autowired
     public TravelConnectionManager(TravelConnectionDAO travelConnectionDAO, SeatsManager seatsManager, ConnectionMapper connectionMapper) {
@@ -31,7 +31,7 @@ public class TravelConnectionManager {
     }
 
     public Set<SeatsDTO> getConnectionsWithFreeSeats(String from, String to, LocalDateTime travelDateTime) {
-        Set<Connection> connections = travelConnectionDAO.findConnectionsByTimeGreaterThanEqualAndFromStationAndToStation(travelDateTime.toLocalTime(), from, to);
+        Set<Connection> connections = travelConnectionDAO.findConnectionsByDepartureTimeGreaterThanEqualAndFromStationAndToStation(travelDateTime.toLocalTime(), from, to);
         return connections.stream().map(connection -> seatsManager.getSeat(travelDateTime, connection, from, to)).filter(Objects::nonNull).collect(Collectors.toSet());
     }
 

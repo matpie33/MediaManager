@@ -15,7 +15,7 @@ public class ConnectionMapper {
     public ConnectionDTO mapConnection (Connection connection){
         ConnectionDTO connectionDTO = new ConnectionDTO();
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.TIME_FORMAT);
-        connectionDTO.setTime(dateTimeFormatter.format(connection.getTime()));
+        connectionDTO.setTime(dateTimeFormatter.format(connection.getDepartureTime()));
         connectionDTO.setFromStation(connection.getFromStation());
         connectionDTO.setToStation(connection.getToStation());
         connectionDTO.setId(connection.getId());
@@ -25,7 +25,7 @@ public class ConnectionMapper {
     public Connection mapConnection (String fromStation, String toStation, String time, Train train){
         Connection connection = new Connection();
         LocalTime localTime = LocalTime.parse(time);
-        connection.setTime(localTime);
+        connection.setDepartureTime(localTime);
         connection.setFromStation(fromStation);
         connection.setToStation(toStation);
         connection.setTrain(train);

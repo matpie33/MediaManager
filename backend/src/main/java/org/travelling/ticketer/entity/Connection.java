@@ -15,8 +15,10 @@ public class Connection {
     @Column(nullable = false)
     private String toStation;
 
-    @Column(nullable = false)
-    private LocalTime time;
+    @Column()
+    private LocalTime departureTime;
+    @Column()
+    private LocalTime arrivalTime;
 
     @ManyToOne
     private Train train;
@@ -29,8 +31,8 @@ public class Connection {
         return toStation;
     }
 
-    public LocalTime getTime() {
-        return time;
+    public LocalTime getDepartureTime() {
+        return departureTime;
     }
 
 
@@ -50,12 +52,16 @@ public class Connection {
         this.toStation = toStation;
     }
 
-    public void setTime(LocalTime time) {
-        this.time = time;
+    public void setDepartureTime(LocalTime time) {
+        this.departureTime = time;
     }
 
     public void setTrain(Train train) {
         this.train = train;
+    }
+
+    public LocalTime getArrivalTime() {
+        return arrivalTime;
     }
 
     @Override
@@ -64,7 +70,7 @@ public class Connection {
                 "id=" + id +
                 ", fromStation='" + fromStation + '\'' +
                 ", toStation='" + toStation + '\'' +
-                ", time=" + time +
+                ", time=" + departureTime +
                 '}';
     }
 }

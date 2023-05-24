@@ -36,7 +36,7 @@ public class TicketMapper {
         ticketCheckDTO.setTicketType(ticket.getTicketType().getDisplayName());
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.DATE_FORMAT);
         ticketCheckDTO.setDate(dateTimeFormatter.format(ticket.getTravelDate()));
-        ticketCheckDTO.setTime(ticket.getConnection().getTime().toString());
+        ticketCheckDTO.setTime(ticket.getConnection().getDepartureTime().toString());
         ticketCheckDTO.setFirstName(ticket.getAppUser().getFirstName());
         ticketCheckDTO.setLastName(ticket.getAppUser().getLastName());
         ticketCheckDTO.setFromStation(ticket.getConnection().getFromStation());
@@ -49,7 +49,7 @@ public class TicketMapper {
         ticketCheckDTO.setTicketType(ticket.getTicketType().getDisplayName());
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.DATE_FORMAT);
         ticketCheckDTO.setTravelDate(dateTimeFormatter.format(ticket.getTravelDate()));
-        ticketCheckDTO.setTravelTime(ticket.getConnection().getTime().toString());
+        ticketCheckDTO.setTravelTime(ticket.getConnection().getDepartureTime().toString());
         AppUser appUser = ticket.getAppUser();
         ticketCheckDTO.setName(appUser.getFirstName() + " " + appUser.getLastName());
         ticketCheckDTO.setEmail(appUser.getEmail());

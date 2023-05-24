@@ -15,7 +15,7 @@ public class SeatsMapper {
         SeatsDTO seatsDTO = new SeatsDTO();
         seatsDTO.setFreeSeats(seats.getFreeSeats());
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.TIME_FORMAT);
-        seatsDTO.setTime(dateTimeFormatter.format(seats.getConnection().getTime()));
+        seatsDTO.setTime(dateTimeFormatter.format(seats.getConnection().getDepartureTime()));
         seatsDTO.setFromStation(seats.getConnection().getFromStation());
         seatsDTO.setToStation(seats.getConnection().getToStation());
         seatsDTO.setId(seats.getConnection().getId());
