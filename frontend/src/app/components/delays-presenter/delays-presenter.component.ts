@@ -11,6 +11,7 @@ import {TicketWithDelay} from "./data/TicketWithDelay";
 export class DelaysPresenterComponent implements OnInit{
   relations: Map<number, TicketWithDelay>  = new Map<number, TicketWithDelay>();
   currentRelation: TicketWithDelay | undefined;
+  loadingData = true;
 
   constructor(private restClient: RestClientService) {
   }
@@ -24,6 +25,7 @@ export class DelaysPresenterComponent implements OnInit{
           i++;
         }
         this.currentRelation = this.relations.get(0);
+        this.loadingData = false;
       });
   }
 

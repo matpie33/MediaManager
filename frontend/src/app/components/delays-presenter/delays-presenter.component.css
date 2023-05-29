@@ -1,0 +1,6 @@
+.ticket-spinner {
+  position: relative;
+  top: 0;
+  left: 0;
+  transform: translate(30%, 30%);
+}

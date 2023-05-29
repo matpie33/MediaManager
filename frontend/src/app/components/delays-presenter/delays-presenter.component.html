@@ -1,16 +1,18 @@
 
 <div class="bordered">
   <h2>Delays</h2>
+  <app-progress-spinner class="ticket-spinner" [shouldDisplay]="loadingData"></app-progress-spinner>
   <div class="grid-parent">
+    <p *ngIf="!loadingData && relations.size==0">No delays</p>
+    <ng-container *ngIf="relations.size>0">
     <label>Connection relation:</label>
     <select (change)="onRelationSelect($event)">
       <option *ngFor="let relation of relations |keyvalue" [value]="relation.key">{{relation.value.fromStation}} - {{relation.value.toStation}}</option>
     </select>
-    <ng-container *ngIf="currentRelation">
-      <label>Time: </label>
-      <label>{{currentRelation.departureTime}}</label>
-      <label>Delay: </label>
-      <label>{{currentRelation.delayMinutes}}</label>
+    <label>Time: </label>
+    <label>{{currentRelation?.departureTime}}</label>
+    <label>Delay: </label>
+    <label>{{currentRelation?.delayMinutes}}</label>
     </ng-container>
   </div>
 
