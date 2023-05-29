@@ -3,12 +3,13 @@ import {HttpClient} from "@angular/common/http";
 import {ConnectionData} from "../components/search-tickets-parent/data/connection-data";
 import {Observable} from "rxjs";
 import {TicketData} from "../components/search-tickets-parent/data/ticket-data";
-import {TicketPdfData, UserTicket} from "../components/tickets-management/data/ticket-of-user";
+import {UserTicket} from "../components/tickets-management/data/ticket-of-user";
 import {LoginData, LoginResponse, PersonalData, RegisterData} from "../components/login/data/login-data";
 import {REST_API_URL} from "../constants/environment/environment";
 import {TrainData} from "../components/add-connection/data/train-data";
 import {Roles, UserRoles} from "../components/manage-users/data/user-roles";
 import {QrCodeData} from "../components/qr-code-scanner/data/qr-code-data";
+import {TicketWithDelay} from "../components/delays-presenter/data/TicketWithDelay";
 
 @Injectable({
   providedIn: 'root'
@@ -80,4 +81,8 @@ export class RestClientService {
     return this.httpClient.post<QrCodeData>(`${this.restBaseAddress}/decode`, data);
   }
 
+  getTrainsWithDelaysNow(userId: string ) {
+    return this.httpClient.get<Set<TicketWithDelay>>(`${this.restBaseAddress}/trainsWithDelaysNow/${userId}`);
+
+  }
 }

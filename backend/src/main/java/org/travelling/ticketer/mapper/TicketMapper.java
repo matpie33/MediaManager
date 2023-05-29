@@ -4,10 +4,12 @@ import org.travelling.ticketer.constants.DateTimeFormats;
 import org.travelling.ticketer.dto.TicketCheckDTO;
 import org.travelling.ticketer.dto.TicketDTO;
 import org.travelling.ticketer.dto.TicketPdfDTO;
+import org.travelling.ticketer.dto.TicketWithDelayDTO;
 import org.travelling.ticketer.entity.AppUser;
 import org.travelling.ticketer.entity.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.travelling.ticketer.projections.TicketWithDelayView;
 
 import java.time.format.DateTimeFormatter;
 
@@ -28,6 +30,17 @@ public class TicketMapper {
         ticketDTO.setConnection(connectionMapper.mapConnection(ticket.getConnection()));
         ticketDTO.setTrainName(ticket.getConnection().getTrain().getName());
         ticketDTO.setId(ticket.getId());
+        return ticketDTO;
+    }
+
+    public TicketWithDelayDTO mapTicket (TicketWithDelayView ticketView){
+        TicketWithDelayDTO ticketDTO = new TicketWithDelayDTO();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.TIME_FORMAT);
+        ticketDTO.setArrivalTime(dateTimeFormatter.format(ticketView.getArrivalTime()));
+        ticketDTO.setDelayMinutes(ticketView.getDelayMinutes());
+        ticketDTO.setDepartureTime(dateTimeFormatter.format(ticketView.getDepartureTime()));
+        ticketDTO.setFromStation(ticketView.getFromStation());
+        ticketDTO.setToStation(ticketView.getToStation());
         return ticketDTO;
     }
 

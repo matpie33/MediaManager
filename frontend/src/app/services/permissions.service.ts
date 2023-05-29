@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {LoginConstants} from "../components/login/data/login-enums";
 import {MenuItems} from "../constants/menu-items";
 import {RestClientService} from "./rest-client.service";
@@ -14,7 +14,7 @@ export class PermissionsService {
 
   constructor(private restService: RestClientService) {
     let defaultMenu: Array<MenuItems> = [
-      MenuItems.TICKETS_MANAGEMENT, MenuItems.PROFILE
+      MenuItems.TICKETS_MANAGEMENT, MenuItems.PROFILE, MenuItems.DELAYS
     ];
     this.menuToPermissionMap.set(PermissionTypes.USER_ACTIVITIES, defaultMenu);
     this.menuToPermissionMap.set(PermissionTypes.ADD_TRAVEL_CONNECTION,MenuItems.ADD_CONNECTION);

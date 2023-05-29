@@ -10,7 +10,7 @@ import org.travelling.ticketer.business.*;
 import org.travelling.ticketer.constants.DateTimeFormats;
 import org.travelling.ticketer.dto.QrCodeContentDTO;
 import org.travelling.ticketer.dto.TicketCheckDTO;
-import org.travelling.ticketer.dto.TicketDTO;
+import org.travelling.ticketer.dto.TicketWithDelayDTO;
 import org.travelling.ticketer.entity.Connection;
 import org.travelling.ticketer.entity.Ticket;
 import org.travelling.ticketer.entity.Train;
@@ -48,11 +48,9 @@ public class MainRestController {
 
     private final QrCodeValidator qrCodeValidator;
 
-    private final DelayService delayService;
-
 
     @Autowired
-    public MainRestController(QrCodeImageGenerator qrCodeImageGenerator, PdfExportManager pdfExportManager, Gson gson, SeatsManager seatsManager, TrainsManager trainsManager, TravelConnectionManager travelConnectionManager, TicketsManager ticketsManager, QrCodeValidator qrCodeValidator, DelayService delayService) {
+    public MainRestController(QrCodeImageGenerator qrCodeImageGenerator, PdfExportManager pdfExportManager, Gson gson, SeatsManager seatsManager, TrainsManager trainsManager, TravelConnectionManager travelConnectionManager, TicketsManager ticketsManager, QrCodeValidator qrCodeValidator) {
         this.gson = gson;
         this.seatsManager = seatsManager;
         this.trainsManager = trainsManager;
@@ -61,7 +59,6 @@ public class MainRestController {
         this.pdfExportManager = pdfExportManager;
         this.qrCodeImageGenerator = qrCodeImageGenerator;
         this.qrCodeValidator = qrCodeValidator;
-        this.delayService = delayService;
     }
 
     @GetMapping("/connection/{from}/to/{to}/sinceHour/{travelDateTime}")
@@ -123,16 +120,12 @@ public class MainRestController {
 
     }
 
-    @GetMapping("/trainsRunningNow/{userId}")
-    public String getTrainsRunningNow (@PathVariable long userId){
-        Set<TicketDTO> ticketsOfUser = ticketsManager.getTicketsOfUserValidNow(userId);
-        return gson.toJson(ticketsOfUser);
+    @GetMapping("/trainsWithDelaysNow/{userId}")
+    public String getCurrentDelaysForUserTickets (@PathVariable long userId){
+        Set<TicketWithDelayDTO> ticketsWithDelay = ticketsManager.getTicketsOfUserValidNow(userId);
+        return gson.toJson(ticketsWithDelay);
     }
 
-    @GetMapping("/delay/{connectionId}")
-    public String getCurrentDelay(@PathVariable long connectionId){
-        return gson.toJson(delayService.getDelay(connectionId));
-    }
 
 
 

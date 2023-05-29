@@ -2,20 +2,21 @@ package org.travelling.ticketer.business;
 
 import org.travelling.ticketer.constants.TicketType;
 import org.travelling.ticketer.dao.TicketDao;
-import org.travelling.ticketer.dto.TicketCheckDTO;
-import org.travelling.ticketer.dto.TicketDTO;
-import org.travelling.ticketer.dto.TicketPdfDTO;
+import org.travelling.ticketer.dto.*;
 import org.travelling.ticketer.entity.AppUser;
 import org.travelling.ticketer.entity.Connection;
 import org.travelling.ticketer.entity.Ticket;
 import org.travelling.ticketer.mapper.TicketMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.travelling.ticketer.projections.TicketWithDelayView;
 import org.travelling.ticketer.security.SecurityManager;
 import org.travelling.ticketer.utility.ExceptionBuilder;
 
 import javax.crypto.spec.IvParameterSpec;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -72,15 +73,15 @@ public class TicketsManager {
         return tickets.stream().map(ticketMapper::mapTicket).collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
-    public Set<TicketDTO> getTicketsOfUserValidNow(long userId){
-        Set<Ticket> tickets = ticketDao.findByAppUser_Id(userId);
-        LocalDateTime dateTimeNow = LocalDateTime.now();
-        return tickets.stream().filter(ticket-> isTicketValidNow(dateTimeNow, ticket)).map(ticketMapper::mapTicket).collect(Collectors.toSet());
+    public Set<TicketWithDelayDTO> getTicketsOfUserValidNow(long userId){
+        Set<TicketWithDelayView> tickets = ticketDao.findTicketsWithDelaysForUser(userId, LocalDate.now());
+        LocalTime now = LocalTime.now();
+        return tickets.stream().filter(ticket -> isTicketValidNow(now, ticket)).map(ticketMapper::mapTicket).collect(Collectors.toSet());
     }
 
-    private boolean isTicketValidNow(LocalDateTime dateTimeNow, Ticket ticket) {
-        return LocalDateTime.of(ticket.getTravelDate(), ticket.getConnection().getDepartureTime()).isBefore(dateTimeNow)
-                && LocalDateTime.of(ticket.getTravelDate(), ticket.getConnection().getArrivalTime()).isAfter(dateTimeNow);
+    private boolean isTicketValidNow(LocalTime timeNow, TicketWithDelayView ticket) {
+        return ticket.getDepartureTime().isBefore(timeNow)
+                && ticket.getArrivalTime().isAfter(timeNow);
     }
 
 

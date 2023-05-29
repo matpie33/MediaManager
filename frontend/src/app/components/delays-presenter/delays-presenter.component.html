@@ -1,0 +1,17 @@
+
+<div class="bordered">
+  <h2>Delays</h2>
+  <div class="grid-parent">
+    <label>Connection relation:</label>
+    <select (change)="onRelationSelect($event)">
+      <option *ngFor="let relation of relations |keyvalue" [value]="relation.key">{{relation.value.fromStation}} - {{relation.value.toStation}}</option>
+    </select>
+    <ng-container *ngIf="currentRelation">
+      <label>Time: </label>
+      <label>{{currentRelation.departureTime}}</label>
+      <label>Delay: </label>
+      <label>{{currentRelation.delayMinutes}}</label>
+    </ng-container>
+  </div>
+
+</div>

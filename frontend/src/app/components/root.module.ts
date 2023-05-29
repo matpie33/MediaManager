@@ -37,6 +37,7 @@ import { SidenavListComponent } from './navigation/sidenav-list/sidenav-list.com
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import {CacheInterceptorService} from "../services/cache-interceptor.service";
+import { DelaysPresenterComponent } from './delays-presenter/delays-presenter.component';
 
 
 const appRoutes: Routes = [
@@ -47,6 +48,7 @@ const appRoutes: Routes = [
   {path: MenuItems.ADD_CONNECTION.toString(), component: AddConnectionComponent, canActivate: [AuthenticationGuardAdmin]},
   {path: MenuItems.MANAGE_USERS.toString(), component: ManageUsersParentComponent, canActivate: [AuthenticationGuardAdmin]},
   {path: MenuItems.SCAN_QR_CODE.toString(), component: QrCodeScannerComponent, canActivate: [AuthenticationGuardAdmin]},
+  {path: MenuItems.DELAYS.toString(), component: DelaysPresenterComponent, canActivate: [AuthenticationGuard]},
   {path: LoginConstants.LOGIN_URL.toString(), component: LoginComponent},
   {path: LoginConstants.ACCESS_DENIED.toString(), component: AccessDeniedComponent},
   {path: '', redirectTo: MenuItems.NEWS, pathMatch: 'full'},
@@ -73,7 +75,8 @@ const appRoutes: Routes = [
     QrCodeScannerComponent,
     HeaderComponent,
     SidenavListComponent,
-    ProgressSpinnerComponent
+    ProgressSpinnerComponent,
+    DelaysPresenterComponent
   ],
   imports: [
     MatProgressSpinnerModule,
