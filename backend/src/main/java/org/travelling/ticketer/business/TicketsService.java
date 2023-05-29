@@ -1,5 +1,6 @@
 package org.travelling.ticketer.business;
 
+import org.springframework.stereotype.Service;
 import org.travelling.ticketer.constants.TicketType;
 import org.travelling.ticketer.dao.TicketDao;
 import org.travelling.ticketer.dto.*;
@@ -21,21 +22,21 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
-public class TicketsManager {
+@Service
+public class TicketsService {
 
     private final TicketDao ticketDao;
 
-    private final AppUserManager appUserManager;
+    private final AppUserService appUserService;
 
     private final TicketMapper ticketMapper;
 
     private final SecurityManager securityManager;
 
     @Autowired
-    public TicketsManager(SecurityManager securityManager, TicketDao ticketDao, AppUserManager appUserManager, TicketMapper ticketMapper) {
+    public TicketsService(SecurityManager securityManager, TicketDao ticketDao, AppUserService appUserService, TicketMapper ticketMapper) {
         this.ticketDao = ticketDao;
-        this.appUserManager = appUserManager;
+        this.appUserService = appUserService;
         this.ticketMapper = ticketMapper;
         this.securityManager = securityManager;
     }
@@ -45,7 +46,7 @@ public class TicketsManager {
     }
 
     public void assignTicketToUser(long userId, String ticketType, LocalDateTime dateTime, Connection connection) {
-        AppUser user = appUserManager.getUserById(userId);
+        AppUser user = appUserService.getUserById(userId);
         Ticket ticket = new Ticket();
         ticket.setTicketType(TicketType.fromString(ticketType));
         ticket.setConnection(connection);

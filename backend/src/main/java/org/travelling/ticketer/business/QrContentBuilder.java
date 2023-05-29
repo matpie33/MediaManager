@@ -22,11 +22,11 @@ public class QrContentBuilder {
     public static final char ENCRYPTED_CONTENT_SEPARATOR = ' ';
     public static final char PLAINTEXT_SEPARATOR = ':';
     private final SecurityManager securityManager;
-    private final TicketsManager ticketsManager;
+    private final TicketsService ticketsService;
 
-    public QrContentBuilder(SecurityManager securityManager, TicketsManager ticketsManager) {
+    public QrContentBuilder(SecurityManager securityManager, TicketsService ticketsService) {
         this.securityManager = securityManager;
-        this.ticketsManager = ticketsManager;
+        this.ticketsService = ticketsService;
     }
 
 
@@ -77,7 +77,7 @@ public class QrContentBuilder {
     }
 
     private String decryptData(String encryptedData, long ticketId) throws NoSuchPaddingException, NoSuchAlgorithmException, InvalidAlgorithmParameterException, InvalidKeyException, BadPaddingException, IllegalBlockSizeException, KeyStoreException, IOException {
-        String initializationVector = ticketsManager.getIv(ticketId);
+        String initializationVector = ticketsService.getIv(ticketId);
         return securityManager.decrypt(encryptedData, securityManager.convertIvStringToObject(initializationVector));
     }
 

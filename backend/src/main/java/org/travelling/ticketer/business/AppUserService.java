@@ -1,6 +1,7 @@
 package org.travelling.ticketer.business;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
 import org.travelling.ticketer.constants.RoleType;
 import org.travelling.ticketer.dao.AppUserDAO;
 import org.travelling.ticketer.dao.RoleDAO;
@@ -11,14 +12,13 @@ import org.travelling.ticketer.mapper.AppUserMapper;
 import org.travelling.ticketer.utility.ExceptionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
-public class AppUserManager {
+@Service
+public class AppUserService {
 
     private final AppUserDAO appUserDAO;
 
@@ -29,7 +29,7 @@ public class AppUserManager {
     private final RoleDAO roleDAO;
 
     @Autowired
-    public AppUserManager(RoleDAO roleDAO, AppUserDAO appUserDAO, AppUserMapper appUserMapper, PasswordEncoder passwordEncoder) {
+    public AppUserService(RoleDAO roleDAO, AppUserDAO appUserDAO, AppUserMapper appUserMapper, PasswordEncoder passwordEncoder) {
         this.appUserDAO = appUserDAO;
         this.appUserMapper = appUserMapper;
         this.passwordEncoder = passwordEncoder;

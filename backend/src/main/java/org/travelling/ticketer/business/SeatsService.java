@@ -1,5 +1,6 @@
 package org.travelling.ticketer.business;
 
+import org.springframework.stereotype.Service;
 import org.travelling.ticketer.dao.SeatsDAO;
 import org.travelling.ticketer.dto.SeatsDTO;
 import org.travelling.ticketer.entity.Connection;
@@ -7,29 +8,28 @@ import org.travelling.ticketer.entity.Seats;
 import org.travelling.ticketer.entity.Train;
 import org.travelling.ticketer.mapper.SeatsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-@Component
-public class SeatsManager {
+@Service
+public class SeatsService {
 
     private final SeatsDAO seatsDAO;
 
     private final SeatsMapper seatsMapper;
 
-    private final TrainsManager trainsManager;
+    private final TrainsService trainsService;
 
     @Autowired
-    public SeatsManager(SeatsDAO seatsDAO, SeatsMapper seatsMapper, TrainsManager trainsManager) {
+    public SeatsService(SeatsDAO seatsDAO, SeatsMapper seatsMapper, TrainsService trainsService) {
         this.seatsDAO = seatsDAO;
         this.seatsMapper = seatsMapper;
-        this.trainsManager = trainsManager;
+        this.trainsService = trainsService;
     }
 
     public SeatsDTO getSeat(LocalDateTime travelDateTime, Connection connection, String from, String to) {
-        Optional<Seats> seats = seatsDAO.findByConnection_IdAndAndDate(connection.getId(), travelDateTime.toLocalDate());
+        Optional<Seats> seats = seatsDAO.findByConnection_IdAndDate(connection.getId(), travelDateTime.toLocalDate());
         if (seats.isPresent()){
             if (seats.get().getFreeSeats()>0){
                 return seatsMapper.mapSeats(seats.get());
@@ -39,7 +39,7 @@ public class SeatsManager {
             }
         }
         else{
-            Train train = trainsManager.getTrainByConnection(connection);
+            Train train = trainsService.getTrainByConnection(connection);
             return seatsMapper.mapSeats(connection.getDepartureTime(), from, to, train.getMaxSeats(), connection.getId());
         }
     }

@@ -34,13 +34,13 @@ public class MainRestController {
 
     private final Gson gson;
 
-    private final SeatsManager seatsManager;
+    private final SeatsService seatsService;
 
-    private final TrainsManager trainsManager;
+    private final TrainsService trainsService;
 
-    private final TravelConnectionManager travelConnectionManager;
+    private final TravelConnectionService travelConnectionService;
 
-    private final TicketsManager ticketsManager;
+    private final TicketsService ticketsService;
 
     private final PdfExportManager pdfExportManager;
 
@@ -50,12 +50,12 @@ public class MainRestController {
 
 
     @Autowired
-    public MainRestController(QrCodeImageGenerator qrCodeImageGenerator, PdfExportManager pdfExportManager, Gson gson, SeatsManager seatsManager, TrainsManager trainsManager, TravelConnectionManager travelConnectionManager, TicketsManager ticketsManager, QrCodeValidator qrCodeValidator) {
+    public MainRestController(QrCodeImageGenerator qrCodeImageGenerator, PdfExportManager pdfExportManager, Gson gson, SeatsService seatsService, TrainsService trainsService, TravelConnectionService travelConnectionService, TicketsService ticketsService, QrCodeValidator qrCodeValidator) {
         this.gson = gson;
-        this.seatsManager = seatsManager;
-        this.trainsManager = trainsManager;
-        this.travelConnectionManager = travelConnectionManager;
-        this.ticketsManager = ticketsManager;
+        this.seatsService = seatsService;
+        this.trainsService = trainsService;
+        this.travelConnectionService = travelConnectionService;
+        this.ticketsService = ticketsService;
         this.pdfExportManager = pdfExportManager;
         this.qrCodeImageGenerator = qrCodeImageGenerator;
         this.qrCodeValidator = qrCodeValidator;
@@ -63,44 +63,44 @@ public class MainRestController {
 
     @GetMapping("/connection/{from}/to/{to}/sinceHour/{travelDateTime}")
     public String getConnectionsByStationAndTime(@PathVariable String from, @PathVariable String to, @PathVariable @DateTimeFormat(pattern = DateTimeFormats.DATE_TIME_FORMAT) LocalDateTime travelDateTime){
-        return gson.toJson(travelConnectionManager.getConnectionsWithFreeSeats(from,to, travelDateTime));
+        return gson.toJson(travelConnectionService.getConnectionsWithFreeSeats(from,to, travelDateTime));
     }
 
     @Transactional
     @GetMapping("/assignTicket/{connectionId}/user/{userId}/ticket_type/{ticketType}/travelDate/{travelDateTime}")
     public void assignTicketToUser(@PathVariable long connectionId, @PathVariable long userId, @PathVariable String ticketType, @PathVariable @DateTimeFormat(pattern = DateTimeFormats.DATE_TIME_FORMAT) LocalDateTime travelDateTime){
 
-        Connection connection = travelConnectionManager.getConnectionById(connectionId);
-        seatsManager.updateSeats(connection, travelDateTime, connectionId);
-        ticketsManager.assignTicketToUser(userId, ticketType,travelDateTime, connection);
+        Connection connection = travelConnectionService.getConnectionById(connectionId);
+        seatsService.updateSeats(connection, travelDateTime, connectionId);
+        ticketsService.assignTicketToUser(userId, ticketType,travelDateTime, connection);
     }
 
     @GetMapping("/tickets/{userId}")
     public String getTicketsOfUser(@PathVariable long userId){
-        return gson.toJson(ticketsManager.getTicketsOfUser(userId));
+        return gson.toJson(ticketsService.getTicketsOfUser(userId));
     }
 
     @PostMapping("connection/from/{from}/to/{to}/atTime/{time}/trainId/{trainId}")
     public void addConnection (@PathVariable String from, @PathVariable String to, @PathVariable String time,
                                @PathVariable long trainId ){
-        Train train = trainsManager.getTrainById(trainId);
-        travelConnectionManager.addNewConnection(from, to, time, train);
+        Train train = trainsService.getTrainById(trainId);
+        travelConnectionService.addNewConnection(from, to, time, train);
     }
 
     @GetMapping("trains")
     public String getTrains (){
-        return gson.toJson(trainsManager.getTrainsInformation());
+        return gson.toJson(trainsService.getTrainsInformation());
     }
 
     @GetMapping("ticket/{id}/pdf")
     public byte[] getTicketAsPdf (@PathVariable long id) throws JRException, IOException, InvalidAlgorithmParameterException, IllegalBlockSizeException, NoSuchPaddingException, BadPaddingException, NoSuchAlgorithmException, KeyStoreException, InvalidKeyException {
-        Ticket ticket = ticketsManager.getTicket(id);
+        Ticket ticket = ticketsService.getTicket(id);
         QrCodeContentDTO qrCodeContentDTO = new QrCodeContentDTO();
         qrCodeContentDTO.setConnectionId(ticket.getConnection().getId());
         qrCodeContentDTO.setUserId(ticket.getAppUser().getId());
         qrCodeContentDTO.setTicketId(ticket.getId());
         qrCodeImageGenerator.createQrCodeImage(qrCodeContentDTO, ticket.getInitializationVector());
-        return pdfExportManager.exportToPdf(ticketsManager.getTicketForPdf(ticket));
+        return pdfExportManager.exportToPdf(ticketsService.getTicketForPdf(ticket));
     }
 
     @PostMapping("decode")
@@ -113,7 +113,7 @@ public class MainRestController {
             ticketCheckDTO.setValid(false);
         }
         else{
-            ticketCheckDTO = ticketsManager.getTicketForChecking(qrCodeContentDTO.getTicketId());
+            ticketCheckDTO = ticketsService.getTicketForChecking(qrCodeContentDTO.getTicketId());
             ticketCheckDTO.setValid(true);
         }
         return gson.toJson(ticketCheckDTO);
@@ -122,7 +122,7 @@ public class MainRestController {
 
     @GetMapping("/trainsWithDelaysNow/{userId}")
     public String getCurrentDelaysForUserTickets (@PathVariable long userId){
-        Set<TicketWithDelayDTO> ticketsWithDelay = ticketsManager.getTicketsOfUserValidNow(userId);
+        Set<TicketWithDelayDTO> ticketsWithDelay = ticketsService.getTicketsOfUserValidNow(userId);
         return gson.toJson(ticketsWithDelay);
     }
 

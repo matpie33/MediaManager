@@ -1,5 +1,6 @@
 package org.travelling.ticketer.business;
 
+import org.springframework.stereotype.Service;
 import org.travelling.ticketer.dao.TrainDAO;
 import org.travelling.ticketer.dto.TrainDTO;
 import org.travelling.ticketer.entity.Connection;
@@ -7,21 +8,20 @@ import org.travelling.ticketer.entity.Train;
 import org.travelling.ticketer.mapper.TrainMapper;
 import org.travelling.ticketer.utility.ExceptionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Component
-public class TrainsManager {
+@Service
+public class TrainsService {
 
     private TrainDAO trainDAO;
 
     private TrainMapper trainMapper;
 
     @Autowired
-    public TrainsManager(TrainDAO trainDAO, TrainMapper trainMapper) {
+    public TrainsService(TrainDAO trainDAO, TrainMapper trainMapper) {
         this.trainDAO = trainDAO;
         this.trainMapper = trainMapper;
     }

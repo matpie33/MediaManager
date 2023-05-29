@@ -1,6 +1,7 @@
 package org.travelling.ticketer.dao;
 
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import org.travelling.ticketer.projections.TicketWithDelayView;
 import org.travelling.ticketer.entity.Ticket;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -8,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDate;
 import java.util.Set;
 
+@Repository
 public interface TicketDao extends JpaRepository<Ticket, Long> {
 
     Set<Ticket> findByAppUser_IdOrderByTravelDateAscConnection_departureTimeAsc(long userId);
