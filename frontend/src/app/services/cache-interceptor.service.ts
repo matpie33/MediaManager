@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
-import {Observable, of} from "rxjs";
+import {Observable, of, tap} from "rxjs";
 
 @Injectable()
 export class CacheInterceptorService implements HttpInterceptor{
@@ -16,15 +16,14 @@ export class CacheInterceptorService implements HttpInterceptor{
         return of(valueFromCache.clone());
       }
       else{
-        next.handle(request).subscribe(
+        return next.handle(request).pipe(tap(
           responseEvent=>{
             if (responseEvent instanceof HttpResponse){
               this.urlToResponseCache.set(request.url, responseEvent as HttpResponse<any>);
             }
-        });
+        }));
 
 
-        return next.handle(request);
       }
     }
   }

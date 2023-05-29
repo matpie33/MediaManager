@@ -27,7 +27,7 @@ export class RestClientService {
   }
 
   assignTicketToUser(userId: number, ticketData: TicketData) {
-    return this.httpClient.get<boolean>(`${this.restBaseAddress}/assignTicket/${ticketData.connectionId}/user/${userId}/ticket_type/${ticketData.ticketType}/travelDate/${ticketData.travelDate}`);
+    return this.httpClient.post<boolean>(`${this.restBaseAddress}/assignTicket/${ticketData.connectionId}/user/${userId}/ticket_type/${ticketData.ticketType}/travelDate/${ticketData.travelDate}`, "");
 
   }
 
