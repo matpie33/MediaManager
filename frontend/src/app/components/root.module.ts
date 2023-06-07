@@ -38,6 +38,7 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import { ProgressSpinnerComponent } from './progress-spinner/progress-spinner.component';
 import {CacheInterceptorService} from "../services/cache-interceptor.service";
 import { DelaysPresenterComponent } from './delays-presenter/delays-presenter.component';
+import { AddDelayComponent } from './add-delay/add-delay/add-delay.component';
 
 
 const appRoutes: Routes = [
@@ -49,6 +50,7 @@ const appRoutes: Routes = [
   {path: MenuItems.MANAGE_USERS.toString(), component: ManageUsersParentComponent, canActivate: [AuthenticationGuardAdmin]},
   {path: MenuItems.SCAN_QR_CODE.toString(), component: QrCodeScannerComponent, canActivate: [AuthenticationGuardAdmin]},
   {path: MenuItems.DELAYS.toString(), component: DelaysPresenterComponent, canActivate: [AuthenticationGuard]},
+  {path: MenuItems.ADD_DELAY.toString(), component: AddDelayComponent, canActivate: [AuthenticationGuardAdmin]},
   {path: LoginConstants.LOGIN_URL.toString(), component: LoginComponent},
   {path: LoginConstants.ACCESS_DENIED.toString(), component: AccessDeniedComponent},
   {path: '', redirectTo: MenuItems.NEWS, pathMatch: 'full'},
@@ -76,7 +78,8 @@ const appRoutes: Routes = [
     HeaderComponent,
     SidenavListComponent,
     ProgressSpinnerComponent,
-    DelaysPresenterComponent
+    DelaysPresenterComponent,
+    AddDelayComponent
   ],
   imports: [
     MatProgressSpinnerModule,

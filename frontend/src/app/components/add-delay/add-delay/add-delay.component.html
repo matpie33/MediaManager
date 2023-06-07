@@ -1,0 +1,19 @@
+
+<form class="bordered" [formGroup]= "delayForm" (ngSubmit)="onSubmit()">
+  <h2>Add delay</h2>
+  <div class="grid-parent">
+    <label>Delay(minutes):</label>
+    <input type="text" formControlName="delayValue">
+    <label>Date:</label>
+    <input type="date" formControlName="date">
+    <label>Connections:</label>
+    <select #selectElement formControlName="connectionId">
+        <option *ngFor="let connection of connections|keyvalue"  [value]="connection.value.id">{{connectionToString(connection.value)}}</option>
+    </select>
+    <label>Departure time: </label>
+    <label>{{getConnectionTime(selectElement.value)}}</label>
+  </div>
+
+  <button class="submit" type ="submit">Search</button>
+  <p *ngIf="showStatus" [class]="statusClass">{{statusMessage}}</p>
+</form>

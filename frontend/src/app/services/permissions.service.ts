@@ -20,6 +20,7 @@ export class PermissionsService {
     this.menuToPermissionMap.set(PermissionTypes.ADD_TRAVEL_CONNECTION,MenuItems.ADD_CONNECTION);
     this.menuToPermissionMap.set(PermissionTypes.CREATE_USER_WITH_ROLE, MenuItems.MANAGE_USERS);
     this.menuToPermissionMap.set(PermissionTypes.SCAN_QR_CODE, MenuItems.SCAN_QR_CODE);
+    this.menuToPermissionMap.set(PermissionTypes.ADD_DELAY, MenuItems.ADD_DELAY);
   }
 
   getUserMenus () : Observable<Set<MenuItems>>{

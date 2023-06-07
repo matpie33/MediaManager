@@ -8,6 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.travelling.ticketer.business.*;
 import org.travelling.ticketer.constants.DateTimeFormats;
+import org.travelling.ticketer.dto.ConnectionDTO;
 import org.travelling.ticketer.dto.QrCodeContentDTO;
 import org.travelling.ticketer.dto.TicketCheckDTO;
 import org.travelling.ticketer.dto.TicketWithDelayDTO;
@@ -26,7 +27,9 @@ import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Set;
 
 @RestController
@@ -48,9 +51,11 @@ public class MainRestController {
 
     private final QrCodeValidator qrCodeValidator;
 
+    private final DelayService delayService;
+
 
     @Autowired
-    public MainRestController(QrCodeImageGenerator qrCodeImageGenerator, PdfExportManager pdfExportManager, Gson gson, SeatsService seatsService, TrainsService trainsService, TravelConnectionService travelConnectionService, TicketsService ticketsService, QrCodeValidator qrCodeValidator) {
+    public MainRestController(QrCodeImageGenerator qrCodeImageGenerator, PdfExportManager pdfExportManager, Gson gson, SeatsService seatsService, TrainsService trainsService, TravelConnectionService travelConnectionService, TicketsService ticketsService, QrCodeValidator qrCodeValidator, DelayService delayService) {
         this.gson = gson;
         this.seatsService = seatsService;
         this.trainsService = trainsService;
@@ -59,6 +64,7 @@ public class MainRestController {
         this.pdfExportManager = pdfExportManager;
         this.qrCodeImageGenerator = qrCodeImageGenerator;
         this.qrCodeValidator = qrCodeValidator;
+        this.delayService = delayService;
     }
 
     @GetMapping("/connection/{from}/to/{to}/sinceHour/{travelDateTime}")
@@ -120,10 +126,21 @@ public class MainRestController {
 
     }
 
+    @GetMapping("/connections")
+    public String getAllConnections (){
+        Collection<ConnectionDTO> connections = travelConnectionService.getAllConnections();
+        return gson.toJson(connections);
+    }
+
     @GetMapping("/trainsWithDelaysNow/{userId}")
     public String getCurrentDelaysForUserTickets (@PathVariable long userId){
         Set<TicketWithDelayDTO> ticketsWithDelay = ticketsService.getTicketsOfUserValidNow(userId);
         return gson.toJson(ticketsWithDelay);
+    }
+
+    @PostMapping("/delay/{value}/connection/{connectionId}/date/{date}")
+    public void addDelay (@PathVariable int value, @PathVariable long connectionId, @PathVariable @DateTimeFormat(pattern = DateTimeFormats.DATE_FORMAT) LocalDate date){
+        delayService.addDelay(value, date, connectionId);
     }
 
 

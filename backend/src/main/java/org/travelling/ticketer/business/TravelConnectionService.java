@@ -2,6 +2,7 @@ package org.travelling.ticketer.business;
 
 import org.springframework.stereotype.Service;
 import org.travelling.ticketer.dao.TravelConnectionDAO;
+import org.travelling.ticketer.dto.ConnectionDTO;
 import org.travelling.ticketer.dto.SeatsDTO;
 import org.travelling.ticketer.entity.Connection;
 import org.travelling.ticketer.entity.Train;
@@ -10,6 +11,8 @@ import org.travelling.ticketer.utility.ExceptionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -37,6 +40,11 @@ public class TravelConnectionService {
 
     public Connection getConnectionById(long connectionId){
         return travelConnectionDAO.findById(connectionId).orElseThrow(ExceptionBuilder.createIllegalArgumentException("Travel connection does not exist"));
+    }
+
+    public Collection<ConnectionDTO> getAllConnections(){
+        List<Connection> connections = travelConnectionDAO.findAll();
+        return connections.stream().map(connectionMapper::mapConnection).collect(Collectors.toSet());
     }
 
     public void addNewConnection (String from,String to, String time,

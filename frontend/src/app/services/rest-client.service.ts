@@ -26,6 +26,11 @@ export class RestClientService {
 
   }
 
+  getAllConnections () : Observable<Array<ConnectionData>>{
+    return this.httpClient.get<Array<ConnectionData>>(`${this.restBaseAddress}/connections`);
+
+  }
+
   assignTicketToUser(userId: number, ticketData: TicketData) {
     return this.httpClient.post<boolean>(`${this.restBaseAddress}/assignTicket/${ticketData.connectionId}/user/${userId}/ticket_type/${ticketData.ticketType}/travelDate/${ticketData.travelDate}`, "");
 
@@ -83,6 +88,11 @@ export class RestClientService {
 
   getTrainsWithDelaysNow(userId: string ) {
     return this.httpClient.get<Set<TicketWithDelay>>(`${this.restBaseAddress}/trainsWithDelaysNow/${userId}`);
+
+  }
+
+  addDelay(connectionId: string, date: string, value: string ) {
+    return this.httpClient.post(`${this.restBaseAddress}/delay/${value}/connection/${connectionId}/date/${date}`, "");
 
   }
 }

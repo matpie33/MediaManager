@@ -21,6 +21,7 @@ export class MenuService {
     this.menuToIconMap.set(MenuItems.MANAGE_USERS, "contact_mail");
     this.menuToIconMap.set(MenuItems.TICKETS_MANAGEMENT, "list");
     this.menuToIconMap.set(MenuItems.DELAYS, "access_time");
+    this.menuToIconMap.set(MenuItems.ADD_DELAY, "alarm_add");
   }
 
   getIcon (menuItem: MenuItems){

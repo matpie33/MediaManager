@@ -39,4 +39,11 @@ public class Delay {
         return delayMinutes;
     }
 
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setDelayMinutes(int delayMinutes) {
+        this.delayMinutes = delayMinutes;
+    }
 }
