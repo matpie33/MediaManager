@@ -10,6 +10,25 @@ public class TicketWithDelayDTO {
 
     private int delayMinutes;
 
+    public String getFromStation() {
+        return fromStation;
+    }
+
+    public String getToStation() {
+        return toStation;
+    }
+
+    public String getDepartureTime() {
+        return departureTime;
+    }
+
+    public String getArrivalTime() {
+        return arrivalTime;
+    }
+
+    public int getDelayMinutes() {
+        return delayMinutes;
+    }
 
     public void setFromStation(String fromStation) {
         this.fromStation = fromStation;

@@ -8,10 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.travelling.ticketer.business.*;
 import org.travelling.ticketer.constants.DateTimeFormats;
-import org.travelling.ticketer.dto.ConnectionDTO;
-import org.travelling.ticketer.dto.QrCodeContentDTO;
-import org.travelling.ticketer.dto.TicketCheckDTO;
-import org.travelling.ticketer.dto.TicketWithDelayDTO;
+import org.travelling.ticketer.dto.*;
 import org.travelling.ticketer.entity.Connection;
 import org.travelling.ticketer.entity.Ticket;
 import org.travelling.ticketer.entity.Train;
@@ -52,6 +49,7 @@ public class MainRestController {
     private final QrCodeValidator qrCodeValidator;
 
     private final DelayService delayService;
+
 
 
     @Autowired
@@ -96,6 +94,11 @@ public class MainRestController {
     @GetMapping("trains")
     public String getTrains (){
         return gson.toJson(trainsService.getTrainsInformation());
+    }
+
+    @PostMapping("delayNotification")
+    public void sendEmailNotifications (@RequestBody ConnectionDelayAndUrlDTO connectionDelayAndUrlDTO){
+        delayService.createEmail(connectionDelayAndUrlDTO);
     }
 
     @GetMapping("ticket/{id}/pdf")

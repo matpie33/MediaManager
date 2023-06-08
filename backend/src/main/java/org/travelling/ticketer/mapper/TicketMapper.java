@@ -1,10 +1,8 @@
 package org.travelling.ticketer.mapper;
 
+import org.jfree.chart.axis.Tick;
 import org.travelling.ticketer.constants.DateTimeFormats;
-import org.travelling.ticketer.dto.TicketCheckDTO;
-import org.travelling.ticketer.dto.TicketDTO;
-import org.travelling.ticketer.dto.TicketPdfDTO;
-import org.travelling.ticketer.dto.TicketWithDelayDTO;
+import org.travelling.ticketer.dto.*;
 import org.travelling.ticketer.entity.AppUser;
 import org.travelling.ticketer.entity.Ticket;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +10,8 @@ import org.springframework.stereotype.Component;
 import org.travelling.ticketer.projections.TicketWithDelayView;
 
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Component
 public class TicketMapper {
@@ -71,5 +71,20 @@ public class TicketMapper {
         ticketCheckDTO.setTrain(ticket.getConnection().getTrain().getName());
         return ticketCheckDTO;
     }
+
+    public TicketForEmailDTO mapTicketForEmail (Ticket ticket, ConnectionDelayAndUrlDTO connectionDelayAndUrlDTO){
+        TicketForEmailDTO ticketForEmailDTO = new TicketForEmailDTO();
+        ticketForEmailDTO.setDelay(connectionDelayAndUrlDTO.getDelay());
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.DATE_FORMAT);
+        ticketForEmailDTO.setDate(dateTimeFormatter.format(ticket.getTravelDate()));
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(DateTimeFormats.TIME_FORMAT);
+        ticketForEmailDTO.setDepartureTime(timeFormatter.format(ticket.getConnection().getDepartureTime()));
+        ticketForEmailDTO.setFromStation(ticket.getConnection().getFromStation());
+        ticketForEmailDTO.setToStation(ticket.getConnection().getToStation());
+        ticketForEmailDTO.setUrlWithDelay(connectionDelayAndUrlDTO.getUrl());
+        ticketForEmailDTO.setRecipient(ticket.getAppUser().getEmail());
+        return ticketForEmailDTO;
+    }
+
 
 }

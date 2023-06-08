@@ -31,6 +31,12 @@ export class AddDelayComponent extends ViewWithStatus implements OnInit{
 
   onSubmit() {
     let date = new DatePipe("en").transform(this.delayForm.controls["date"].value!, DATE_FORMAT)!;
+    let connectionDelay = {
+      connectionId: Number.parseInt(this.delayForm.controls["connectionId"].value!),
+      delay: Number.parseInt(this.delayForm.controls["delayValue"].value!),
+      url: "www.google.pl/tobedone"
+    }
+    this.httpService.sendDelayNotification(connectionDelay).subscribe(()=>console.log("sent notification"));
     this.showInfoMessage("Adding delay...");
     this.httpService.addDelay(this.delayForm.controls["connectionId"].value!, date,
       this.delayForm.controls["delayValue"].value!).subscribe(()=> {

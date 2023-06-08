@@ -18,5 +18,7 @@ public interface TicketDao extends JpaRepository<Ticket, Long> {
             "and t.travelDate = d.date where t.appUser.id = :userId and t.travelDate = :today")
     Set<TicketWithDelayView> findTicketsWithDelaysForUser(long userId, LocalDate today);
 
+    Set<Ticket> findByConnection_IdAndTravelDate(long connectionId, LocalDate travelDate);
+
 
 }

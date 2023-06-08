@@ -10,6 +10,7 @@ import {TrainData} from "../components/add-connection/data/train-data";
 import {Roles, UserRoles} from "../components/manage-users/data/user-roles";
 import {QrCodeData} from "../components/qr-code-scanner/data/qr-code-data";
 import {TicketWithDelay} from "../components/delays-presenter/data/TicketWithDelay";
+import {ConnectionDelayAndUrl} from "../components/add-delay/add-delay/data/ConnectionDelayAndUrl";
 
 @Injectable({
   providedIn: 'root'
@@ -93,6 +94,11 @@ export class RestClientService {
 
   addDelay(connectionId: string, date: string, value: string ) {
     return this.httpClient.post(`${this.restBaseAddress}/delay/${value}/connection/${connectionId}/date/${date}`, "");
+
+  }
+
+  sendDelayNotification(delayData: ConnectionDelayAndUrl ) {
+    return this.httpClient.post(`${this.restBaseAddress}/delayNotification`, delayData);
 
   }
 }
