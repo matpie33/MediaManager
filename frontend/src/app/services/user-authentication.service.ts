@@ -18,6 +18,7 @@ export class UserAuthenticationService {
     firstName: "",
     lastName: "",
     email: "",
+    phoneNumber: "",
   });
 
   loginForm: FormGroup = new FormGroup<any>({
@@ -39,7 +40,8 @@ export class UserAuthenticationService {
       personalData: {
         firstName: this.registerForm.controls["firstName"].value,
         lastName: this.registerForm.controls["lastName"].value,
-        email: this.registerForm.controls["email"].value
+        email: this.registerForm.controls["email"].value,
+        phoneNumber: this.registerForm.controls["phoneNumber"].value
       }
     })
   }
@@ -55,7 +57,7 @@ export class UserAuthenticationService {
     return this.loginForm.value["username"];
   }
 
-  passwordsMatch (){
+  passwordsNotMatching (){
     return this.registerForm.value["password"] !== this.registerForm.value["passwordConfirm"];
   }
 

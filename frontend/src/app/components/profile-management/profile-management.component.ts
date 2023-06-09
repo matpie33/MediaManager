@@ -16,6 +16,7 @@ export class ProfileManagementComponent extends ViewWithStatus implements OnInit
     firstName: "",
     lastName: "",
     email: "",
+    phoneNumber: "",
   });
   loadingData = true;
 
@@ -31,6 +32,7 @@ export class ProfileManagementComponent extends ViewWithStatus implements OnInit
         this.profileForm.controls["firstName"].setValue(result.firstName);
         this.profileForm.controls["lastName"].setValue(result.lastName);
         this.profileForm.controls["email"].setValue(result.email);
+        this.profileForm.controls["phoneNumber"].setValue(result.phoneNumber);
         this.loadingData = false;
       }
     );
@@ -41,6 +43,7 @@ export class ProfileManagementComponent extends ViewWithStatus implements OnInit
       firstName: this.profileForm.controls["firstName"].value,
       lastName: this.profileForm.controls["lastName"].value,
       email: this.profileForm.controls["email"].value,
+      phoneNumber: this.profileForm.controls["phoneNumber"].value,
     }
     this.showInfoMessage("Saving data...");
     this.restHandler.editUser(profileData, Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe({

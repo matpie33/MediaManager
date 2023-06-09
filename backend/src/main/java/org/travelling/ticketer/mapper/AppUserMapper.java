@@ -12,7 +12,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -34,15 +33,17 @@ public class AppUserMapper {
         appUser.setFirstName(appUserDTO.getPersonalData().getFirstName());
         appUser.setLastName(appUserDTO.getPersonalData().getLastName());
         appUser.setEmail(appUserDTO.getPersonalData().getEmail());
+        appUser.setPhoneNumber(appUserDTO.getPersonalData().getPhoneNumber());
         appUser.setRoles(roleEntities);
         return appUser;
     }
 
-    public UserPersonalDTO getUserPersonalData(AppUser appUser){
+    public UserPersonalDTO mapUserPersonalData(AppUser appUser){
         UserPersonalDTO userPersonalDTO = new UserPersonalDTO();
         userPersonalDTO.setEmail(appUser.getEmail());
         userPersonalDTO.setFirstName(appUser.getFirstName());
         userPersonalDTO.setLastName(appUser.getLastName());
+        userPersonalDTO.setPhoneNumber(appUser.getPhoneNumber());
         return userPersonalDTO;
     }
 
@@ -50,6 +51,7 @@ public class AppUserMapper {
         appUser.setEmail(userPersonalDTO.getEmail());
         appUser.setFirstName(userPersonalDTO.getFirstName());
         appUser.setLastName(userPersonalDTO.getLastName());
+        appUser.setPhoneNumber(userPersonalDTO.getPhoneNumber());
     }
 
     public UserPrivilegesDTO mapPrivileges (AppUser appUser){

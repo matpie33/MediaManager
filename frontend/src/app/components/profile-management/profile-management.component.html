@@ -9,6 +9,8 @@
     <input type="text" formControlName="lastName">
     <label>Email: </label>
     <input type="text" formControlName="email">
+    <label>Phone number: (start with +48) </label>
+    <input type="text" formControlName="phoneNumber">
   </div>
   <app-progress-spinner [shouldDisplay]="loadingData"></app-progress-spinner>
   <button class="submit" type ="submit" [disabled]="profileForm.pristine">Submit</button>

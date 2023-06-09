@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 import org.travelling.ticketer.business.*;
+import org.travelling.ticketer.business.notifications.NotificationService;
 import org.travelling.ticketer.constants.DateTimeFormats;
 import org.travelling.ticketer.dto.*;
 import org.travelling.ticketer.entity.Connection;
@@ -50,10 +51,10 @@ public class MainRestController {
 
     private final DelayService delayService;
 
-
+    private final NotificationService notificationService;
 
     @Autowired
-    public MainRestController(QrCodeImageGenerator qrCodeImageGenerator, PdfExportManager pdfExportManager, Gson gson, SeatsService seatsService, TrainsService trainsService, TravelConnectionService travelConnectionService, TicketsService ticketsService, QrCodeValidator qrCodeValidator, DelayService delayService) {
+    public MainRestController(QrCodeImageGenerator qrCodeImageGenerator, PdfExportManager pdfExportManager, Gson gson, SeatsService seatsService, TrainsService trainsService, TravelConnectionService travelConnectionService, TicketsService ticketsService, QrCodeValidator qrCodeValidator, DelayService delayService, NotificationService notificationService) {
         this.gson = gson;
         this.seatsService = seatsService;
         this.trainsService = trainsService;
@@ -63,6 +64,7 @@ public class MainRestController {
         this.qrCodeImageGenerator = qrCodeImageGenerator;
         this.qrCodeValidator = qrCodeValidator;
         this.delayService = delayService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/connection/{from}/to/{to}/sinceHour/{travelDateTime}")
@@ -97,8 +99,8 @@ public class MainRestController {
     }
 
     @PostMapping("delayNotification")
-    public void sendEmailNotifications (@RequestBody ConnectionDelayAndUrlDTO connectionDelayAndUrlDTO){
-        delayService.createEmail(connectionDelayAndUrlDTO);
+    public void sendNotifications(@RequestBody ConnectionDelayAndUrlDTO connectionDelayAndUrlDTO){
+        notificationService.sendNotifications(connectionDelayAndUrlDTO);
     }
 
     @GetMapping("ticket/{id}/pdf")

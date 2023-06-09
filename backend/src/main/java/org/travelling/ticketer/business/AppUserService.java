@@ -64,7 +64,7 @@ public class AppUserService {
 
     public UserPersonalDTO getUserPersonalData(long userId){
         AppUser appUser = appUserDAO.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        return appUserMapper.getUserPersonalData(appUser);
+        return appUserMapper.mapUserPersonalData(appUser);
     }
 
     public UserPrivilegesDTO getUserPermissions(long userId){

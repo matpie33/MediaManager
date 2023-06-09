@@ -1,6 +1,10 @@
 package org.travelling.ticketer.dto;
 
-public class TicketForEmailDTO {
+import org.travelling.ticketer.constants.NotificationType;
+
+import java.util.Set;
+
+public class TicketForNotificationDTO {
 
     private String urlWithDelay;
 
@@ -14,8 +18,27 @@ public class TicketForEmailDTO {
 
     private int delay;
 
-    private String recipient;
+    private String recipientEmail;
 
+    private String recipientPhoneNumber;
+
+    private Set<NotificationType> acceptedNotificationTypes;
+
+    public Set<NotificationType> getAcceptedNotificationTypes() {
+        return acceptedNotificationTypes;
+    }
+
+    public void setRecipientPhoneNumber(String recipientPhoneNumber) {
+        this.recipientPhoneNumber = recipientPhoneNumber;
+    }
+
+    public void setAcceptedNotificationTypes(Set<NotificationType> acceptedNotificationTypes) {
+        this.acceptedNotificationTypes = acceptedNotificationTypes;
+    }
+
+    public String getRecipientPhoneNumber() {
+        return recipientPhoneNumber;
+    }
 
     public String getDepartureTime() {
         return departureTime;
@@ -25,12 +48,12 @@ public class TicketForEmailDTO {
         this.departureTime = departureTime;
     }
 
-    public String getRecipient() {
-        return recipient;
+    public String getRecipientEmail() {
+        return recipientEmail;
     }
 
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
+    public void setRecipientEmail(String recipientEmail) {
+        this.recipientEmail = recipientEmail;
     }
 
     public String getUrlWithDelay() {

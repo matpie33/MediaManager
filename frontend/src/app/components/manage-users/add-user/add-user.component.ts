@@ -20,7 +20,7 @@ export class AddUserComponent extends ViewWithStatus{
   }
 
   onSubmit() {
-    if (this.passwordService.passwordsMatch()){
+    if (this.passwordService.passwordsNotMatching()){
       this.showErrorMessage("Passwords do not match");
     }
     else{

@@ -5,6 +5,15 @@ public class UserPersonalDTO {
     private String firstName;
     private String lastName;
     private String email;
+    private String phoneNumber;
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
     public String getFirstName() {
         return firstName;

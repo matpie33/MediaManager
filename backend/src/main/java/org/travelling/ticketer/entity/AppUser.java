@@ -24,8 +24,27 @@ public class AppUser {
     @Column(nullable = false)
     private String email;
 
+    @Column()
+    private String phoneNumber;
+
     @ManyToMany
     private Set<Role> roles;
+
+    @ManyToMany
+    private Set<Notification> acceptedNotificationTypes;
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public Set<Notification> getAcceptedNotificationTypes() {
+
+        return acceptedNotificationTypes;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
 
     public Set<Role> getRoles() {
         return roles;
