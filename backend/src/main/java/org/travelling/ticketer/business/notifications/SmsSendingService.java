@@ -13,16 +13,20 @@ import javax.annotation.PostConstruct;
 @Service
 public class SmsSendingService implements NotificationSender {
 
-    @Value("${twilio.sid}")
     private String sid;
 
-    @Value("${twilio.auth.token}")
     private String token;
 
     @Value("${twilio.phone.number.sender}")
     private String senderPhone;
 
     private final DelayMessageProvider delayMessageProvider;
+
+    @PostConstruct
+    public void initialize (){
+        sid = System.getenv("twilio_sid");
+        token = System.getenv("twilio_token");
+    }
 
     public SmsSendingService(DelayMessageProvider delayMessageProvider) {
         this.delayMessageProvider = delayMessageProvider;
