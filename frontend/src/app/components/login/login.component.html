@@ -29,9 +29,9 @@
     <input type="text" formControlName = "phoneNumber">
     <label>Accepted notification types</label>
     <div>
-      <ng-container *ngFor="let notificationType of registerForm.get('notificationTypes')?.value|keyvalue" formGroupName="notificationTypes">
-        <label>{{getNotificationTypeForDisplay(notificationType) |lowercase}}</label>
-        <input type="checkbox" [value]="notificationType.value" [formControlName]="getNotificationTypeForDisplay(notificationType) ">
+      <ng-container *ngFor="let notificationType of notificationTypes|keyvalue" formGroupName="notificationTypes">
+        <label>{{notificationType.value}}</label>
+        <input type="checkbox" [formControlName]="notificationType.key ">
       </ng-container>
     </div>
 

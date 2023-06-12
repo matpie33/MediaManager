@@ -20,6 +20,7 @@ export class LoginComponent extends ViewWithStatus{
   actionDelay = 3;
   registerForm = this.userAuthenticationService.registerForm;
   loginForm = this.userAuthenticationService.loginForm;
+  notificationTypes = NotificationType;
 
   constructor(private router:Router, private route:ActivatedRoute, private userAuthenticationService: UserAuthenticationService) {
     super();
@@ -80,7 +81,4 @@ export class LoginComponent extends ViewWithStatus{
     this.showStatus = false;
   }
 
-  getNotificationTypeForDisplay(notif: KeyValue<unknown, unknown>) {
-    return notif.key as string;
-  }
 }

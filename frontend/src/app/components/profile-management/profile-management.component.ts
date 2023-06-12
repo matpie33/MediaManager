@@ -4,7 +4,8 @@ import {FormBuilder} from "@angular/forms";
 import {RestClientService} from "../../services/rest-client.service";
 import {LoginConstants} from "../login/data/login-enums";
 import {ViewWithStatus} from "../common/view-with-status";
-import {KeyValue} from "@angular/common";
+import {NotificationType} from "../../constants/notification-type";
+import {NotificationsService} from "../../services/notifications-service";
 
 @Component({
   selector: 'app-profile-management',
@@ -25,11 +26,9 @@ export class ProfileManagementComponent extends ViewWithStatus implements OnInit
   });
   loadingData = true;
 
-  getNotificationTypeForDisplay(notif: KeyValue<unknown, unknown>) {
-    return notif.key as string;
-  }
+  notificationTypes = NotificationType;
 
-  constructor(private formBuilder:FormBuilder, private restHandler: RestClientService) {
+  constructor(private formBuilder:FormBuilder, private restHandler: RestClientService, private notificationService: NotificationsService) {
     super();
 
   }
@@ -50,16 +49,6 @@ export class ProfileManagementComponent extends ViewWithStatus implements OnInit
     );
     }
 
-    private getSelectedNotifications() {
-        let controls = this.profileForm.get("notificationTypes")!.value;
-        let selectedNotifications = [];
-        for (let controlName in controls){
-          if (controls[controlName] == true){
-            selectedNotifications.push(controlName);
-          }
-        }
-        return selectedNotifications;
-      }
 
   onSubmitProfile() {
     let profileData = {
@@ -67,7 +56,7 @@ export class ProfileManagementComponent extends ViewWithStatus implements OnInit
       lastName: this.profileForm.controls["lastName"].value,
       email: this.profileForm.controls["email"].value,
       phoneNumber: this.profileForm.controls["phoneNumber"].value,
-      acceptedNotificationTypes: this.getSelectedNotifications()
+      acceptedNotificationTypes: this.notificationService.getSelectedNotifications(this.profileForm)
     }
     this.showInfoMessage("Saving data...");
     this.restHandler.editUser(profileData, Number.parseInt(sessionStorage.getItem(LoginConstants.USER_ID)!)).subscribe({

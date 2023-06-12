@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import * as crypto from "crypto-js";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {RestClientService} from "./rest-client.service";
-import {EMPTY, empty} from "rxjs";
+import {NotificationsService} from "./notifications-service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserAuthenticationService {
 
-  constructor(private formBuilder: FormBuilder, private restService: RestClientService) {
+  constructor(private formBuilder: FormBuilder, private restService: RestClientService, private notificationService: NotificationsService) {
   }
 
   registerForm: FormGroup = this.formBuilder.group({
@@ -48,7 +48,7 @@ export class UserAuthenticationService {
         lastName: this.registerForm.controls["lastName"].value,
         email: this.registerForm.controls["email"].value,
         phoneNumber: this.registerForm.controls["phoneNumber"].value,
-        acceptedNotificationTypes: this.getSelectedNotifications()
+        acceptedNotificationTypes: this.notificationService.getSelectedNotifications(this.registerForm)
       }
     })
   }
@@ -68,15 +68,4 @@ export class UserAuthenticationService {
     return this.registerForm.value["password"] !== this.registerForm.value["passwordConfirm"];
   }
 
-
-  private getSelectedNotifications() {
-    let controls = this.registerForm.get("notificationTypes")!.value;
-    let selectedNotifications = [];
-    for (let controlName in controls){
-      if (controls[controlName] == true){
-        selectedNotifications.push(controlName);
-      }
-    }
-    return selectedNotifications;
-  }
 }
