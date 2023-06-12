@@ -27,6 +27,14 @@
     <input type="text" formControlName = "email">
     <label>Phone number (start with+48):</label>
     <input type="text" formControlName = "phoneNumber">
+    <label>Accepted notification types</label>
+    <div>
+      <ng-container *ngFor="let notificationType of registerForm.get('notificationTypes')?.value|keyvalue" formGroupName="notificationTypes">
+        <label>{{getNotificationTypeForDisplay(notificationType) |lowercase}}</label>
+        <input type="checkbox" [value]="notificationType.value" [formControlName]="getNotificationTypeForDisplay(notificationType) ">
+      </ng-container>
+    </div>
+
   </div>
   <button class="submit btn-main" type="submit">Register</button>
   <button class="submit btn-secondary" (click)="goToLogin()">Go to login</button>

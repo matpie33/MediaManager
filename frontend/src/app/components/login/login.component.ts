@@ -1,14 +1,13 @@
 import {Component} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
-import {FormBuilder} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {LoginConstants} from "./data/login-enums";
-import * as crypto from 'crypto-js'
-import {RestClientService} from "../../services/rest-client.service";
 import {LoginResponse} from "./data/login-data";
 import {ViewWithStatus} from "../common/view-with-status";
 import {Role} from "../../constants/role";
 import {UserAuthenticationService} from "../../services/user-authentication.service";
+import {NotificationType} from "../../constants/notification-type";
+import {resetParseTemplateAsSourceFileForTest} from "@angular/compiler-cli/src/ngtsc/typecheck/diagnostics";
+import {KeyValue} from "@angular/common";
 
 @Component({
   selector: 'app-login',
@@ -79,5 +78,9 @@ export class LoginComponent extends ViewWithStatus{
   goToLogin() {
     this.showRegisterForm = false;
     this.showStatus = false;
+  }
+
+  getNotificationTypeForDisplay(notif: KeyValue<unknown, unknown>) {
+    return notif.key as string;
   }
 }

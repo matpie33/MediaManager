@@ -33,6 +33,10 @@ public class AppUser {
     @ManyToMany
     private Set<Notification> acceptedNotificationTypes;
 
+    public void setAcceptedNotificationTypes(Set<Notification> acceptedNotificationTypes) {
+        this.acceptedNotificationTypes = acceptedNotificationTypes;
+    }
+
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }

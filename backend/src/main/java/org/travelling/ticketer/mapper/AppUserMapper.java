@@ -5,6 +5,7 @@ import org.travelling.ticketer.dto.UserPersonalDTO;
 import org.travelling.ticketer.dto.UserPrivilegesDTO;
 import org.travelling.ticketer.dto.UserRolesDTO;
 import org.travelling.ticketer.entity.AppUser;
+import org.travelling.ticketer.entity.Notification;
 import org.travelling.ticketer.entity.Permission;
 import org.travelling.ticketer.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class AppUserMapper {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public AppUser mapUser(AppUserDTO appUserDTO, Set<Role> roleEntities){
+    public AppUser mapUser(AppUserDTO appUserDTO, Set<Role> roleEntities, Set<Notification> notifications){
         AppUser appUser = new AppUser();
         appUser.setUsername(appUserDTO.getUserCredentials().getUserName());
         appUser.setPassword(passwordEncoder.encode(appUserDTO.getUserCredentials().getPassword()));
@@ -35,6 +36,7 @@ public class AppUserMapper {
         appUser.setEmail(appUserDTO.getPersonalData().getEmail());
         appUser.setPhoneNumber(appUserDTO.getPersonalData().getPhoneNumber());
         appUser.setRoles(roleEntities);
+        appUser.setAcceptedNotificationTypes(notifications);
         return appUser;
     }
 

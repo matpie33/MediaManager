@@ -2,17 +2,21 @@ package org.travelling.ticketer.business;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.travelling.ticketer.constants.NotificationType;
 import org.travelling.ticketer.constants.RoleType;
 import org.travelling.ticketer.dao.AppUserDAO;
+import org.travelling.ticketer.dao.NotificationDAO;
 import org.travelling.ticketer.dao.RoleDAO;
 import org.travelling.ticketer.dto.*;
 import org.travelling.ticketer.entity.AppUser;
+import org.travelling.ticketer.entity.Notification;
 import org.travelling.ticketer.entity.Role;
 import org.travelling.ticketer.mapper.AppUserMapper;
 import org.travelling.ticketer.utility.ExceptionBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -28,12 +32,15 @@ public class AppUserService {
 
     private final RoleDAO roleDAO;
 
+    private final NotificationDAO notificationDAO;
+
     @Autowired
-    public AppUserService(RoleDAO roleDAO, AppUserDAO appUserDAO, AppUserMapper appUserMapper, PasswordEncoder passwordEncoder) {
+    public AppUserService(RoleDAO roleDAO, AppUserDAO appUserDAO, AppUserMapper appUserMapper, PasswordEncoder passwordEncoder, NotificationDAO notificationDAO) {
         this.appUserDAO = appUserDAO;
         this.appUserMapper = appUserMapper;
         this.passwordEncoder = passwordEncoder;
         this.roleDAO = roleDAO;
+        this.notificationDAO = notificationDAO;
     }
 
     public UserPrivilegesDTO getUserPrivileges(UserCredentialsDTO userFromFrontend){
@@ -52,7 +59,9 @@ public class AppUserService {
     public void addUser(AppUserDTO appUserDTO){
         Set<RoleType> roles = appUserDTO.getRoles().stream().map(role -> Enum.valueOf(RoleType.class, role)).collect(Collectors.toSet());
         Set<Role> roleEntities = roleDAO.findByRoleTypeIn(roles);
-        AppUser appUser = appUserMapper.mapUser(appUserDTO, roleEntities);
+        Set<NotificationType> notificationTypes = appUserDTO.getAcceptedNotificationTypes().stream().map(NotificationType::valueOf).collect(Collectors.toSet());
+        Set<Notification> notifications = notificationDAO.findByNotificationTypeIn(notificationTypes);
+        AppUser appUser = appUserMapper.mapUser(appUserDTO, roleEntities, notifications);
         appUserDAO.save(appUser);
     }
 

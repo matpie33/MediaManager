@@ -7,7 +7,8 @@ export interface RegisterData {
 
   roles: Array<String>,
   personalData: PersonalData,
-  userCredentials: LoginData
+  userCredentials: LoginData,
+  acceptedNotificationTypes: Array<String>
 }
 
 export interface PersonalData {

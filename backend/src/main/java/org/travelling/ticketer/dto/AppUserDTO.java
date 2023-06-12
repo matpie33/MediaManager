@@ -10,6 +10,12 @@ public class AppUserDTO {
     private UserPersonalDTO personalData;
     private UserCredentialsDTO userCredentials;
 
+    private Set<String> acceptedNotificationTypes;
+
+    public Set<String> getAcceptedNotificationTypes() {
+        return acceptedNotificationTypes;
+    }
+
     public void setRoles(Set<String> roles) {
         this.roles = roles;
     }

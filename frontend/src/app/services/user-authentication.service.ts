@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import * as crypto from "crypto-js";
 import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {RestClientService} from "./rest-client.service";
+import {EMPTY, empty} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -19,12 +20,17 @@ export class UserAuthenticationService {
     lastName: "",
     email: "",
     phoneNumber: "",
+    notificationTypes: this.formBuilder.group({
+      SMS: true,
+      EMAIL: true
+    })
   });
 
   loginForm: FormGroup = new FormGroup<any>({
     username: new FormControl(""),
     password: new FormControl("")
   });
+
 
   private generateHash(text: string){
     return crypto.SHA512(text).toString();
@@ -42,7 +48,8 @@ export class UserAuthenticationService {
         lastName: this.registerForm.controls["lastName"].value,
         email: this.registerForm.controls["email"].value,
         phoneNumber: this.registerForm.controls["phoneNumber"].value
-      }
+      },
+      acceptedNotificationTypes: this.getSelectedNotifications()
     })
   }
 
@@ -62,4 +69,14 @@ export class UserAuthenticationService {
   }
 
 
+  private getSelectedNotifications() {
+    let controls = this.registerForm.get("notificationTypes")!.value;
+    let selectedNotifications = [];
+    for (let controlName in controls){
+      if (controls[controlName] == true){
+        selectedNotifications.push(controlName);
+      }
+    }
+    return selectedNotifications;
+  }
 }
