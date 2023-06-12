@@ -46,14 +46,16 @@ public class AppUserMapper {
         userPersonalDTO.setFirstName(appUser.getFirstName());
         userPersonalDTO.setLastName(appUser.getLastName());
         userPersonalDTO.setPhoneNumber(appUser.getPhoneNumber());
+        userPersonalDTO.setAcceptedNotificationTypes(appUser.getAcceptedNotificationTypes().stream().map(notification -> notification.getNotificationType().toString()).collect(Collectors.toSet()));
         return userPersonalDTO;
     }
 
-    public void mapUserPersonalData(AppUser appUser, UserPersonalDTO userPersonalDTO) {
+    public void mapUserPersonalData(AppUser appUser, UserPersonalDTO userPersonalDTO, Set<Notification> notifications) {
         appUser.setEmail(userPersonalDTO.getEmail());
         appUser.setFirstName(userPersonalDTO.getFirstName());
         appUser.setLastName(userPersonalDTO.getLastName());
         appUser.setPhoneNumber(userPersonalDTO.getPhoneNumber());
+        appUser.setAcceptedNotificationTypes(notifications);
     }
 
     public UserPrivilegesDTO mapPrivileges (AppUser appUser){

@@ -11,6 +11,13 @@
     <input type="text" formControlName="email">
     <label>Phone number: (start with +48) </label>
     <input type="text" formControlName="phoneNumber">
+    <label>Accepted notification types</label>
+    <div>
+      <ng-container *ngFor="let notificationType of profileForm.get('notificationTypes')?.value|keyvalue" formGroupName="notificationTypes">
+        <label>{{getNotificationTypeForDisplay(notificationType) |lowercase}}</label>
+        <input type="checkbox" [value]="notificationType.value" [formControlName]="getNotificationTypeForDisplay(notificationType) ">
+      </ng-container>
+    </div>
   </div>
   <app-progress-spinner [shouldDisplay]="loadingData"></app-progress-spinner>
   <button class="submit" type ="submit" [disabled]="profileForm.pristine">Submit</button>

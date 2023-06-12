@@ -8,7 +8,6 @@ export interface RegisterData {
   roles: Array<String>,
   personalData: PersonalData,
   userCredentials: LoginData,
-  acceptedNotificationTypes: Array<String>
 }
 
 export interface PersonalData {
@@ -16,6 +15,7 @@ export interface PersonalData {
   lastName: string;
   email: string;
   phoneNumber: string;
+  acceptedNotificationTypes: string[]
 }
 
 

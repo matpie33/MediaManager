@@ -47,9 +47,9 @@ export class UserAuthenticationService {
         firstName: this.registerForm.controls["firstName"].value,
         lastName: this.registerForm.controls["lastName"].value,
         email: this.registerForm.controls["email"].value,
-        phoneNumber: this.registerForm.controls["phoneNumber"].value
-      },
-      acceptedNotificationTypes: this.getSelectedNotifications()
+        phoneNumber: this.registerForm.controls["phoneNumber"].value,
+        acceptedNotificationTypes: this.getSelectedNotifications()
+      }
     })
   }
 
